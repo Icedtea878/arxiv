@@ -932,6 +932,7 @@ function parseJsonlData(jsonlText, date) {
         details: paper.summary || '',
         date: date,
         id: paper.id,
+        AI_status: paper.AI_status || '',
         research_boards: paper.research_boards || [],
         research_board_ranks: paper.research_board_ranks || {},
         research_method_score: paper.research_method_score || 0,
@@ -1456,6 +1457,12 @@ function renderPapers() {
       </div>
     `;
     
+    if (paper.AI_status === 'failed') {
+      const warning = document.createElement('p');
+      warning.style.cssText = 'font-size:12px; color:#b45309; margin:8px 0;';
+      warning.textContent = 'AI 摘要暂未生成，当前显示英文原始摘要。';
+      paperCard.querySelector('.paper-card-body').prepend(warning);
+    }
     if (paper.research_rank) {
       const rankInfo = document.createElement('p');
       rankInfo.style.cssText = 'font-size:12px; margin-top:8px; color:var(--text-secondary);';

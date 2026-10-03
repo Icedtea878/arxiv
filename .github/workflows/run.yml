@@ -131,7 +131,17 @@ jobs:
           data/*_candidates.jsonl
         retention-days: 14
 
+    - name: Restore successful AI summaries
+      if: steps.selection.outputs.has_selected == 'true'
+      uses: actions/cache/restore@v4
+      with:
+        path: .ai-cache
+        key: ai-summaries-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+        restore-keys: |
+          ai-summaries-${{ github.repository_id }}-
+
     - name: AI Enhancement Processing
+      id: ai
       if: steps.selection.outputs.has_selected == 'true'
       run: |
         source .venv/bin/activate
@@ -152,7 +162,25 @@ jobs:
             exit 1
         fi
         echo "AI增强处理完成 / AI enhancement processing completed"
-        
+
+    - name: Preserve successful summary checkpoints
+      if: always() && steps.selection.outputs.has_selected == 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: .ai-cache
+        key: ai-summaries-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+    - name: Save AI progress for recovery
+      if: always() && steps.selection.outputs.has_selected == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ai-progress-${{ github.run_id }}-${{ github.run_attempt }}
+        path: |
+          .ai-cache/summaries.jsonl
+          data/*_AI_enhanced_*.jsonl
+        include-hidden-files: true
+        retention-days: 14
+
     - name: Convert to Markdown
       if: steps.selection.outputs.has_selected == 'true'
       run: |

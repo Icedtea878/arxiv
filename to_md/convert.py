@@ -42,6 +42,13 @@ if __name__ == "__main__":
             if item["categories"][0] == cate:
                 # Safely access AI fields with default values
                 ai_data = item.get('AI', {})
+                if item.get('AI_status') == 'failed':
+                    papers.append(
+                        f"## {item['title']}\n\n"
+                        f"**AI 摘要暂未生成，以下为英文原始摘要。**\n\n"
+                        f"{item['summary']}\n\n[arXiv]({item['abs']})\n\n"
+                    )
+                    continue
                 if not ai_data or not isinstance(ai_data, dict):
                     print(f"Skipping item '{item.get('title', 'Unknown')}' due to missing or invalid AI data")
                     continue

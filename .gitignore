@@ -17,3 +17,5 @@ package-lock.json
 yarn.lock
 .DS_Store
 package.json
+# Local provider summary checkpoints (persisted only as Actions caches/artifacts)
+.ai-cache/

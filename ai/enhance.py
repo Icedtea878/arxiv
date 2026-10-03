@@ -20,7 +20,8 @@ from langchain.prompts import (
 )
 from structure import Structure
 from content_filter import is_sensitive
-from runtime import build_chat_openai_kwargs, raise_if_processing_failed
+from runtime import build_chat_openai_kwargs
+from resilient import invoke_summary, fatal_provider_error, cache_key, load_cache, save_cache
 
 if os.path.exists('.env'):
     dotenv.load_dotenv()
@@ -34,7 +35,7 @@ def parse_args():
     parser.add_argument("--max_workers", type=int, default=1, help="Maximum number of parallel workers")
     return parser.parse_args()
 
-def process_single_item(chain, item: Dict, language: str) -> Dict:
+def process_single_item(chain, item: Dict, language: str, fallback_chain=None) -> Dict:
     def check_github_code(content: str) -> Dict:
         """提取并验证 GitHub 链接"""
         code_info = {}
@@ -92,61 +93,11 @@ def process_single_item(chain, item: Dict, language: str) -> Dict:
         item.update(code_info)
 
     """处理单个数据项"""
-    # Default structure with meaningful fallback values
-    default_ai_fields = {
-        "tldr": "Summary generation failed",
-        "motivation": "Motivation analysis unavailable",
-        "method": "Method extraction failed",
-        "result": "Result analysis unavailable",
-        "conclusion": "Conclusion extraction failed"
-    }
-    
-    try:
-        response = None
-        last_error = None
-        for attempt in range(3):
-            try:
-                response = chain.invoke({
-                    "language": language,
-                    "content": item['summary']
-                })
-                if response is None:
-                    raise ValueError("provider returned an empty structured response")
-                break
-            except Exception as error:
-                last_error = error
-                if attempt < 2:
-                    time.sleep(2 ** attempt)
-        if response is None:
-            raise RuntimeError(f"provider request failed after retries: {last_error}")
-        item['AI'] = response.model_dump()
-    except langchain_core.exceptions.OutputParserException as e:
-        # 尝试从错误信息中提取 JSON 字符串并修复
-        error_msg = str(e)
-        partial_data = {}
-        
-        if "Function Structure arguments:" in error_msg:
-            try:
-                # 提取 JSON 字符串
-                json_str = error_msg.split("Function Structure arguments:", 1)[1].strip().split('are not valid JSON')[0].strip()
-                # 预处理 LaTeX 数学符号 - 使用四个反斜杠来确保正确转义
-                json_str = json_str.replace('\\', '\\\\')
-                # 尝试解析修复后的 JSON
-                partial_data = json.loads(json_str)
-            except Exception as json_e:
-                print(f"Failed to parse JSON for {item.get('id', 'unknown')}: {json_e}", file=sys.stderr)
-        
-        # Merge partial data with defaults to ensure all fields exist
-        item['AI'] = {**default_ai_fields, **partial_data}
-        print(f"Using partial AI data for {item.get('id', 'unknown')}: {list(partial_data.keys())}", file=sys.stderr)
-    except Exception as e:
-        print(f"Unexpected error for {item.get('id', 'unknown')}: {e}", file=sys.stderr)
-        raise RuntimeError(f"AI request failed for {item.get('id', 'unknown')}") from e
-    
-    # Final validation to ensure all required fields exist
-    for field in default_ai_fields.keys():
-        if field not in item['AI']:
-            item['AI'][field] = default_ai_fields[field]
+    response = invoke_summary(chain, fallback_chain, {
+        "language": language, "content": item["summary"]
+    })
+    item["AI"] = response.model_dump()
+    item["AI_status"] = "success"
 
     # Check the generated result once. Checking every field separately caused
     # six filter requests per paper and quickly hit the filter service limit.
@@ -155,15 +106,16 @@ def process_single_item(chain, item: Dict, language: str) -> Dict:
         return None
     return item
 
-def process_all_items(data: List[Dict], model_name: str, language: str, max_workers: int) -> List[Dict]:
+def process_all_items(data: List[Dict], model_name: str, language: str, max_workers: int, checkpoint_path=None) -> List[Dict]:
     """并行处理所有数据项"""
     llm = ChatOpenAI(
+        timeout=90, max_retries=1,
         **build_chat_openai_kwargs(
             model_name=model_name,
             base_url=os.environ.get("OPENAI_BASE_URL", "https://api.minimax.cn/v1"),
             api_key=os.environ.get("OPENAI_API_KEY", ""),
         )
-    ).with_structured_output(Structure, method="function_calling")
+    )
 
     print('Connect to:', model_name, file=sys.stderr)
     
@@ -172,34 +124,54 @@ def process_all_items(data: List[Dict], model_name: str, language: str, max_work
         HumanMessagePromptTemplate.from_template(template=template)
     ])
 
-    chain = prompt_template | llm
+    chain = prompt_template | llm.with_structured_output(Structure, method="function_calling", include_raw=True)
+    fallback_prompt = ChatPromptTemplate.from_messages([
+        SystemMessagePromptTemplate.from_template(system),
+        HumanMessagePromptTemplate.from_template(template + "\nReturn only one JSON object with exactly these five nonempty string fields: tldr, motivation, method, result, conclusion. Do not use tools or add commentary.")
+    ])
+    fallback_chain = fallback_prompt | llm
     
-    # 使用线程池并行处理
-    processed_data = [None] * len(data)  # 预分配结果列表
+    processed_data = [None] * len(data)
     processing_errors = []
+    cache = load_cache(checkpoint_path)
+    pending = []
+    successes = 0
+    for idx, item in enumerate(data):
+        key = cache_key(item, model_name, language, os.environ.get("OPENAI_BASE_URL", ""), system + template + "resilient-v1")
+        if key in cache:
+            processed_data[idx] = {**item, "AI": cache[key], "AI_status": "success"}
+            successes += 1
+        else:
+            pending.append((idx, item, key))
+    print(f"Reusing {successes} cached summaries; {len(pending)} provider requests pending", file=sys.stderr)
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        # 提交所有任务
-        future_to_idx = {
-            executor.submit(process_single_item, chain, item, language): idx
-            for idx, item in enumerate(data)
-        }
-        
-        # 使用tqdm显示进度
-        for future in tqdm(
-            as_completed(future_to_idx),
-            total=len(data),
-            desc="Processing items"
-        ):
-            idx = future_to_idx[future]
+        futures = {executor.submit(process_single_item, chain, item, language, fallback_chain): (idx, item, key)
+                   for idx, item, key in pending}
+        for future in tqdm(as_completed(futures), total=len(futures), desc="Processing items"):
+            idx, item, key = futures[future]
             try:
                 result = future.result()
                 processed_data[idx] = result
-            except Exception as e:
-                print(f"Item at index {idx} generated an exception: {e}", file=sys.stderr)
-                processing_errors.append(str(e))
-
-    raise_if_processing_failed(processing_errors)
-    
+                if result is not None:
+                    successes += 1
+                    save_cache(checkpoint_path, key, result["AI"])
+            except Exception as error:
+                print(f"AI summary failed for {item['id']}: {error}", file=sys.stderr)
+                if fatal_provider_error(error):
+                    for queued in futures:
+                        queued.cancel()
+                    raise RuntimeError("AI provider authentication or balance failure; successful checkpoints were preserved") from error
+                processing_errors.append(item["id"])
+                fallback = {k: v for k, v in item.items() if k != "AI"}
+                fallback.update(AI_status="failed", AI_error="摘要生成失败，已保留英文原始摘要")
+                processed_data[idx] = fallback
+    if processing_errors:
+        if successes == 0 or len(processing_errors) > max(1, len(data) // 10):
+            raise RuntimeError(f"{len(processing_errors)} paper summaries failed; successful checkpoints were preserved")
+        print(f"WARNING: {len(processing_errors)} summaries unavailable; preserving their original abstracts", file=sys.stderr)
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as report:
+            report.write(f"\n## AI 摘要处理\n成功或复用：{successes} 篇；摘要失败但保留原文：{len(processing_errors)} 篇。\n")
     return processed_data
 
 def main():
@@ -207,11 +179,7 @@ def main():
     model_name = os.environ.get("MODEL_NAME", "MiniMax-M2.7")
     language = os.environ.get("LANGUAGE", 'Chinese')
 
-    # 检查并删除目标文件
     target_file = args.data.replace('.jsonl', f'_AI_enhanced_{language}.jsonl')
-    if os.path.exists(target_file):
-        os.remove(target_file)
-        print(f'Removed existing file: {target_file}', file=sys.stderr)
 
     # 读取数据
     data = []
@@ -235,14 +203,17 @@ def main():
         data,
         model_name,
         language,
-        args.max_workers
+        args.max_workers,
+        checkpoint_path=os.environ.get("AI_CHECKPOINT_PATH", "../.ai-cache/summaries.jsonl")
     )
     
     # 保存结果
-    with open(target_file, "w") as f:
+    temporary_file = target_file + ".tmp"
+    with open(temporary_file, "w") as f:
         for item in processed_data:
             if item is not None:
                 f.write(json.dumps(item) + "\n")
+    os.replace(temporary_file, target_file)
 
 if __name__ == "__main__":
     main()
