@@ -42,8 +42,9 @@ else
     
     # 设置默认值 / Set default values
     export LANGUAGE="${LANGUAGE:-Chinese}"
-export CATEGORIES="${CATEGORIES:-cs.CV, cs.CL}"
-export MAX_PAPERS_PER_CATEGORY="${MAX_PAPERS_PER_CATEGORY:-50}"
+    export CATEGORIES="${CATEGORIES:-cs.AI,cs.CL,cs.LG,cs.MA,cs.HC,cs.SI,cs.CY,cs.CV}"
+    export MAX_PAPERS_PER_CATEGORY="${MAX_PAPERS_PER_CATEGORY:-100}"
+    export MAX_PAPERS_PER_DAY="${MAX_PAPERS_PER_DAY:-200}"
     export MODEL_NAME="${MODEL_NAME:-MiniMax-M2.7}"
     export OPENAI_BASE_URL="${OPENAI_BASE_URL:-https://api.minimax.cn/v1}"
     
@@ -107,6 +108,8 @@ case $dedup_exit_code in
 esac
 
 cd ..
+
+python daily_arxiv/select_papers.py --data data/${today}.jsonl || exit 1
 
 # 第三步：AI处理 / Step 3: AI processing
 if [ "$PARTIAL_MODE" = "false" ]; then

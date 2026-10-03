@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据集搜索 · Social World Model</title>
+    <meta name="description" content="查找 Social World Model、心智理论、社会推理和社会模拟相关的公开数据集与论文。">
+    <link rel="icon" href="assets/logo2-removebg-preview.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/datasets.css">
+    <script src="js/auth-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script>Auth.requireAuth();</script>
+    <script src="js/datasets.js" defer></script>
+</head>
+<body>
+    <main class="dataset-page">
+        <nav class="dataset-nav" aria-label="页面导航"><a href="index.html">← 每日论文</a><a href="settings.html">偏好设置</a></nav>
+        <section class="dataset-intro">
+            <p class="eyebrow">SOCIAL WORLD MODEL</p>
+            <h1>找到可用的数据集</h1>
+            <p>搜索 Hugging Face 上的公开数据集，查看数据卡、许可和相关论文。</p>
+        </section>
+        <form id="datasetSearch" class="dataset-search" role="search">
+            <label for="datasetQuery">数据集名称或英文关键词</label>
+            <div class="search-row">
+                <input id="datasetQuery" type="search" value="social" placeholder="例如 social、SOTOPIA、ToM、persona" maxlength="120" required>
+                <button id="searchButton" type="submit">搜索</button>
+            </div>
+            <p class="search-help">按仓库名称匹配，不是语义检索。宽泛英文词通常更容易找到结果；每次显示最多 30 条。</p>
+            <div class="dataset-topics" aria-label="研究方向快捷搜索">
+                <button type="button" data-query="social">社会推理 · social</button>
+                <button type="button" data-query="sotopia">社会交互 · SOTOPIA</button>
+                <button type="button" data-query="ToM">心智理论 · ToM</button>
+                <button type="button" data-query="persona">人物与个性 · persona</button>
+                <button type="button" data-query="social_i_qa">社会常识 · SocialIQA</button>
+                <button type="button" data-query="agent">多智能体 · agent</button>
+            </div>
+        </form>
+        <section class="source-links" aria-label="更多检索来源">
+            <span>继续检索：</span>
+            <a id="hfSearchLink" target="_blank" rel="noopener noreferrer">Hugging Face 完整结果 ↗</a>
+            <a id="paperSearchLink" target="_blank" rel="noopener noreferrer">arXiv 相关数据集论文 ↗</a>
+            <a id="googleDatasetLink" target="_blank" rel="noopener noreferrer">Google Dataset Search ↗</a>
+        </section>
+        <p id="datasetStatus" role="status" aria-live="polite"></p>
+        <section id="datasetResults" class="dataset-grid" aria-label="数据集搜索结果" aria-busy="false"></section>
+        <p class="dataset-note">搜索覆盖 Hugging Face 仓库，并提供其他来源的检索入口，不代表覆盖所有公开数据集。下载量和许可来自数据卡；适用性与访问条件请查看原始页面。搜索结果不随每日论文数量限制。</p>
+    </main>
+</body>
+</html>

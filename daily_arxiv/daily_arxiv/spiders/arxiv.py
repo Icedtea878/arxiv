@@ -7,13 +7,15 @@ import arxiv
 class ArxivSpider(scrapy.Spider):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        categories = os.environ.get("CATEGORIES", "cs.CV")
+        categories = os.environ.get("CATEGORIES", "cs.AI,cs.CL,cs.LG,cs.MA,cs.HC,cs.SI,cs.CY,cs.CV")
         categories = categories.split(",")
-        self.max_papers_per_category = int(os.environ.get("MAX_PAPERS_PER_CATEGORY", "50"))
+        self.max_papers_per_category = max(1, int(os.environ.get("MAX_PAPERS_PER_CATEGORY", "100")))
+        self.metadata_client = arxiv.Client(page_size=100, delay_seconds=5, num_retries=2)
+        self.seen_ids = set()
         # 保存目标分类列表，用于后续验证
         self.target_categories = set(map(str.strip, categories))
         self.start_urls = [
-            f"https://arxiv.org/list/{cat}/new" for cat in self.target_categories
+            f"https://arxiv.org/list/{cat.strip()}/new" for cat in categories if cat.strip()
         ]  # 起始URL（计算机科学领域的最新论文）
 
     name = "arxiv"  # 爬虫名称
@@ -74,10 +76,11 @@ class ArxivSpider(scrapy.Spider):
         # Fetch metadata in one arXiv API request per category instead of one
         # request per paper. This keeps the daily crawl below arXiv's limits.
         matched_ids = matched_ids[: self.max_papers_per_category]
+        matched_ids = [paper_id for paper_id in matched_ids if paper_id not in self.seen_ids]
         if not matched_ids:
             return
-        client = arxiv.Client(page_size=100, delay_seconds=5, num_retries=2)
-        for paper in client.results(arxiv.Search(id_list=matched_ids)):
+        for paper in self.metadata_client.results(arxiv.Search(id_list=matched_ids)):
+            self.seen_ids.add(re.sub(r"v\d+$", "", paper.get_short_id()))
             yield {
                 "id": paper.get_short_id(),
                 "pdf": paper.pdf_url,

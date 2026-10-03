@@ -11,6 +11,9 @@ on:
     - cron: "30 17 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: arxiv-daily
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -19,6 +22,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Load historical data for deduplication
+      run: |
+        if git ls-remote --exit-code --heads origin data >/dev/null; then
+          git fetch origin data
+          git archive FETCH_HEAD data | tar -x
+        fi
     - name: Install dependencies
       run: |
         curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -46,9 +55,9 @@ jobs:
         export OPENAI_BASE_URL="${{ secrets.OPENAI_BASE_URL || 'https://api.minimax.cn/v1' }}"
         export TOKEN_GITHUB=${{ secrets.TOKEN_GITHUB }}
         export LANGUAGE="${{ vars.LANGUAGE || 'Chinese' }}"
-        export CATEGORIES="${{ vars.CATEGORIES || 'cs.CV, cs.CL' }}"
+        export CATEGORIES="${{ vars.CATEGORIES || 'cs.AI,cs.CL,cs.LG,cs.MA,cs.HC,cs.SI,cs.CY,cs.CV' }}"
         export MODEL_NAME="${{ vars.MODEL_NAME || 'MiniMax-M2.7' }}"
-        export MAX_PAPERS_PER_CATEGORY="${{ vars.MAX_PAPERS_PER_CATEGORY || '50' }}"
+        export MAX_PAPERS_PER_CATEGORY="${{ vars.MAX_PAPERS_PER_CATEGORY || '100' }}"
         
         # 使用Scrapy爬取
         # Use Scrapy to crawl
@@ -102,6 +111,14 @@ jobs:
                 ;;
         esac
         
+    - name: Prioritize Social World Model papers
+      if: steps.dedup_check.outputs.has_new_content == 'true'
+      env:
+        MAX_PAPERS_PER_DAY: ${{ vars.MAX_PAPERS_PER_DAY || '200' }}
+      run: |
+        source .venv/bin/activate
+        python daily_arxiv/select_papers.py --data data/${{ steps.crawl_step.outputs.crawl_date }}.jsonl
+
     - name: AI Enhancement Processing
       if: steps.dedup_check.outputs.has_new_content == 'true'
       run: |
@@ -340,7 +357,8 @@ jobs:
         # 确保目录存在 / Ensure directories exist
         mkdir -p data assets
         cp -r /tmp/data_files/data/* data/ 2>/dev/null || true
-        cp /tmp/data_files/assets/file-list.txt assets/ 2>/dev/null || true
+        # Regenerate after merging historical and new data so old dates remain visible.
+        ls data/*.jsonl | sed 's|data/||' > assets/file-list.txt
         
         # 只添加数据文件 / Only add data files
         git add data/* 2>/dev/null || true
