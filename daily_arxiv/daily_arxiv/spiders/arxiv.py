@@ -1,6 +1,7 @@
 import scrapy
 import os
 import re
+import arxiv
 
 
 class ArxivSpider(scrapy.Spider):
@@ -8,6 +9,7 @@ class ArxivSpider(scrapy.Spider):
         super().__init__(*args, **kwargs)
         categories = os.environ.get("CATEGORIES", "cs.CV")
         categories = categories.split(",")
+        self.max_papers_per_category = int(os.environ.get("MAX_PAPERS_PER_CATEGORY", "50"))
         # 保存目标分类列表，用于后续验证
         self.target_categories = set(map(str.strip, categories))
         self.start_urls = [
@@ -25,7 +27,7 @@ class ArxivSpider(scrapy.Spider):
             if href and "item" in href:
                 anchors.append(int(href.split("item")[-1]))
 
-        # 遍历每篇论文的详细信息
+        matched_ids = []
         for paper in response.css("dl dt"):
             paper_anchor = paper.css("a[name^='item']::attr(name)").get()
             if not paper_anchor:
@@ -61,17 +63,28 @@ class ArxivSpider(scrapy.Spider):
                 # 检查论文分类是否与目标分类有交集
                 paper_categories = set(categories_in_paper)
                 if paper_categories.intersection(self.target_categories):
-                    yield {
-                        "id": arxiv_id,
-                        "categories": list(paper_categories),  # 添加分类信息用于调试
-                    }
-                    self.logger.info(f"Found paper {arxiv_id} with categories {paper_categories}")
+                    matched_ids.append(arxiv_id)
                 else:
                     self.logger.debug(f"Skipped paper {arxiv_id} with categories {paper_categories} (not in target {self.target_categories})")
             else:
                 # 如果无法获取分类信息，记录警告但仍然返回论文（保持向后兼容）
                 self.logger.warning(f"Could not extract categories for paper {arxiv_id}, including anyway")
-                yield {
-                    "id": arxiv_id,
-                    "categories": [],
-                }
+                matched_ids.append(arxiv_id)
+
+        # Fetch metadata in one arXiv API request per category instead of one
+        # request per paper. This keeps the daily crawl below arXiv's limits.
+        matched_ids = matched_ids[: self.max_papers_per_category]
+        if not matched_ids:
+            return
+        client = arxiv.Client(page_size=100, delay_seconds=5, num_retries=2)
+        for paper in client.results(arxiv.Search(id_list=matched_ids)):
+            yield {
+                "id": paper.get_short_id(),
+                "pdf": paper.pdf_url,
+                "abs": paper.entry_id,
+                "authors": [author.name for author in paper.authors],
+                "title": paper.title,
+                "categories": paper.categories,
+                "comment": paper.comment,
+                "summary": paper.summary,
+            }

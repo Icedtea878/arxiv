@@ -2,6 +2,7 @@ import os
 import json
 import sys
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Dict
 from queue import Queue
@@ -101,10 +102,23 @@ def process_single_item(chain, item: Dict, language: str) -> Dict:
     }
     
     try:
-        response: Structure = chain.invoke({
-            "language": language,
-            "content": item['summary']
-        })
+        response = None
+        last_error = None
+        for attempt in range(3):
+            try:
+                response = chain.invoke({
+                    "language": language,
+                    "content": item['summary']
+                })
+                if response is None:
+                    raise ValueError("provider returned an empty structured response")
+                break
+            except Exception as error:
+                last_error = error
+                if attempt < 2:
+                    time.sleep(2 ** attempt)
+        if response is None:
+            raise RuntimeError(f"provider request failed after retries: {last_error}")
         item['AI'] = response.model_dump()
     except langchain_core.exceptions.OutputParserException as e:
         # 尝试从错误信息中提取 JSON 字符串并修复
@@ -134,10 +148,11 @@ def process_single_item(chain, item: Dict, language: str) -> Dict:
         if field not in item['AI']:
             item['AI'][field] = default_ai_fields[field]
 
-    # 检查 AI 生成的所有字段
-    for v in item.get("AI", {}).values():
-        if is_sensitive(str(v)):
-            return None
+    # Check the generated result once. Checking every field separately caused
+    # six filter requests per paper and quickly hit the filter service limit.
+    generated_text = "\n".join(str(value) for value in item.get("AI", {}).values())
+    if is_sensitive(generated_text):
+        return None
     return item
 
 def process_all_items(data: List[Dict], model_name: str, language: str, max_workers: int) -> List[Dict]:

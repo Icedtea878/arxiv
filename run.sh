@@ -42,7 +42,8 @@ else
     
     # 设置默认值 / Set default values
     export LANGUAGE="${LANGUAGE:-Chinese}"
-    export CATEGORIES="${CATEGORIES:-cs.CV, cs.CL}"
+export CATEGORIES="${CATEGORIES:-cs.CV, cs.CL}"
+export MAX_PAPERS_PER_CATEGORY="${MAX_PAPERS_PER_CATEGORY:-50}"
     export MODEL_NAME="${MODEL_NAME:-MiniMax-M2.7}"
     export OPENAI_BASE_URL="${OPENAI_BASE_URL:-https://api.minimax.cn/v1}"
     

@@ -48,6 +48,7 @@ jobs:
         export LANGUAGE="${{ vars.LANGUAGE || 'Chinese' }}"
         export CATEGORIES="${{ vars.CATEGORIES || 'cs.CV, cs.CL' }}"
         export MODEL_NAME="${{ vars.MODEL_NAME || 'MiniMax-M2.7' }}"
+        export MAX_PAPERS_PER_CATEGORY="${{ vars.MAX_PAPERS_PER_CATEGORY || '50' }}"
         
         # 使用Scrapy爬取
         # Use Scrapy to crawl
