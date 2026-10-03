@@ -2,6 +2,7 @@ let currentDate = '';
 let availableDates = [];
 let currentView = 'grid'; // 'grid' 或 'list'
 let currentCategory = 'all';
+let currentPaperBoard = 'all';
 let urlCategoryParam = null; // 从URL参数中获取的category
 let urlJsonParam = null; // 从URL参数中获取的json（API模式）
 let urlAuthorParam = null; // 从URL参数中获取的author
@@ -293,13 +294,13 @@ function matchPapersByKeywords(papers, keywords) {
 
   return papers.map(paper => {
     const matches = keywords.some(keyword => {
-      const searchText = `${paper.title} ${paper.summary}`.toLowerCase();
+      const searchText = `${paper.title} ${paper.summary} ${paper.details || ''}`.toLowerCase();
       return searchText.includes(keyword.toLowerCase());
     });
 
     if (matches) {
       const matchedKeywords = keywords.filter(keyword => {
-        const searchText = `${paper.title} ${paper.summary}`.toLowerCase();
+        const searchText = `${paper.title} ${paper.summary} ${paper.details || ''}`.toLowerCase();
         return searchText.includes(keyword.toLowerCase());
       });
       return {
@@ -368,6 +369,11 @@ function matchPapersByKeywordsOrAuthor(papers, keywords, author) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const boardSelect = document.getElementById('paperBoard');
+  if (boardSelect) boardSelect.addEventListener('change', () => {
+    currentPaperBoard = boardSelect.value;
+    renderPapers();
+  });
   initEventListeners();
 
   fetchGitHubStats();
@@ -926,6 +932,16 @@ function parseJsonlData(jsonlText, date) {
         details: paper.summary || '',
         date: date,
         id: paper.id,
+        research_boards: paper.research_boards || [],
+        research_board_ranks: paper.research_board_ranks || {},
+        research_method_score: paper.research_method_score || 0,
+        research_score: paper.research_score || 0,
+        research_rank: paper.research_rank || null,
+        research_dataset_score: paper.research_dataset_score || 0,
+        research_matches: paper.research_matches || [],
+        dataset_combination: paper.dataset_combination || null,
+        tracked_datasets: paper.tracked_datasets || [],
+        dataset_manual_checks: paper.dataset_manual_checks || [],
         motivation: paper.AI && paper.AI.motivation ? paper.AI.motivation : '',
         method: paper.AI && paper.AI.method ? paper.AI.method : '',
         result: paper.AI && paper.AI.result ? paper.AI.result : '',
@@ -1111,6 +1127,26 @@ function renderPapers() {
     papers = paperData[currentCategory];
   }
   
+  const ranked = papers.some(p => p.research_rank);
+  const boardSelect = document.getElementById('paperBoard');
+  const boardStatus = document.getElementById('boardStatus');
+  if (!ranked) currentPaperBoard = 'all';
+  if (boardSelect) {
+    boardSelect.value = currentPaperBoard;
+    boardSelect.disabled = !ranked;
+  }
+  if (boardStatus) {
+    const methods = papers.filter(p => (p.research_boards || []).includes('methods')).length;
+    const datasets = papers.filter(p => (p.research_boards || []).includes('datasets')).length;
+    boardStatus.textContent = ranked ? `方法 ${methods} 篇 · 数据集 ${datasets} 篇（可能重叠）` : '旧数据未生成研究榜单；新规则在下一次运行后生效。';
+  }
+  if (currentPaperBoard !== 'all') {
+    papers = papers.filter(p => (p.research_boards || []).includes(currentPaperBoard));
+    papers.sort((a, b) => a.research_board_ranks[currentPaperBoard] - b.research_board_ranks[currentPaperBoard]);
+  } else if (ranked) {
+    papers.sort((a, b) => (a.research_rank || Infinity) - (b.research_rank || Infinity));
+  }
+
   // 创建匹配论文的集合
   let filteredPapers = [...papers];
 
@@ -1180,7 +1216,7 @@ function renderPapers() {
         const aMatchesKeyword = activeKeywords.length > 0 ? 
           activeKeywords.some(keyword => {
             // 仅在标题和摘要中搜索关键词
-            const searchText = `${a.title} ${a.summary}`.toLowerCase();
+            const searchText = `${a.title} ${a.summary} ${a.details || ''}`.toLowerCase();
             return searchText.includes(keyword.toLowerCase());
           }) : false;
           
@@ -1193,7 +1229,7 @@ function renderPapers() {
         const bMatchesKeyword = activeKeywords.length > 0 ?
           activeKeywords.some(keyword => {
             // 仅在标题和摘要中搜索关键词
-            const searchText = `${b.title} ${b.summary}`.toLowerCase();
+            const searchText = `${b.title} ${b.summary} ${b.details || ''}`.toLowerCase();
             return searchText.includes(keyword.toLowerCase());
           }) : false;
           
@@ -1216,7 +1252,7 @@ function renderPapers() {
       filteredPapers.forEach(paper => {
         const matchesKeyword = activeKeywords.length > 0 ?
           activeKeywords.some(keyword => {
-            const searchText = `${paper.title} ${paper.summary}`.toLowerCase();
+            const searchText = `${paper.title} ${paper.summary} ${paper.details || ''}`.toLowerCase();
             return searchText.includes(keyword.toLowerCase());
           }) : false;
           
@@ -1233,7 +1269,7 @@ function renderPapers() {
           paper.matchReason = [];
           if (matchesKeyword) {
             const matchedKeywords = activeKeywords.filter(keyword => 
-              `${paper.title} ${paper.summary}`.toLowerCase().includes(keyword.toLowerCase())
+              `${paper.title} ${paper.summary} ${paper.details || ''}`.toLowerCase().includes(keyword.toLowerCase())
             );
             if (matchedKeywords.length > 0) {
               paper.matchReason.push(`关键词: ${matchedKeywords.join(', ')}`);
@@ -1259,7 +1295,7 @@ function renderPapers() {
       const aMatchesKeyword = activeKeywords.length > 0 ? 
         activeKeywords.some(keyword => {
           // 仅在标题和摘要中搜索关键词
-          const searchText = `${a.title} ${a.summary}`.toLowerCase();
+          const searchText = `${a.title} ${a.summary} ${a.details || ''}`.toLowerCase();
           return searchText.includes(keyword.toLowerCase());
         }) : false;
         
@@ -1272,7 +1308,7 @@ function renderPapers() {
       const bMatchesKeyword = activeKeywords.length > 0 ?
         activeKeywords.some(keyword => {
           // 仅在标题和摘要中搜索关键词
-          const searchText = `${b.title} ${b.summary}`.toLowerCase();
+          const searchText = `${b.title} ${b.summary} ${b.details || ''}`.toLowerCase();
           return searchText.includes(keyword.toLowerCase());
         }) : false;
         
@@ -1295,7 +1331,7 @@ function renderPapers() {
     filteredPapers.forEach(paper => {
       const matchesKeyword = activeKeywords.length > 0 ?
         activeKeywords.some(keyword => {
-          const searchText = `${paper.title} ${paper.summary}`.toLowerCase();
+          const searchText = `${paper.title} ${paper.summary} ${paper.details || ''}`.toLowerCase();
           return searchText.includes(keyword.toLowerCase());
         }) : false;
         
@@ -1312,7 +1348,7 @@ function renderPapers() {
         paper.matchReason = [];
         if (matchesKeyword) {
           const matchedKeywords = activeKeywords.filter(keyword => 
-            `${paper.title} ${paper.summary}`.toLowerCase().includes(keyword.toLowerCase())
+            `${paper.title} ${paper.summary} ${paper.details || ''}`.toLowerCase().includes(keyword.toLowerCase())
           );
           if (matchedKeywords.length > 0) {
             paper.matchReason.push(`关键词: ${matchedKeywords.join(', ')}`);
@@ -1420,6 +1456,33 @@ function renderPapers() {
       </div>
     `;
     
+    if (paper.research_rank) {
+      const rankInfo = document.createElement('p');
+      rankInfo.style.cssText = 'font-size:12px; margin-top:8px; color:var(--text-secondary);';
+      rankInfo.textContent = `研究排序 #${paper.research_rank} · 总分 ${paper.research_score}` +
+        (paper.research_boards.length ? ' ｜ ' : '') + paper.research_boards.map(board =>
+        `${board === 'methods' ? '方法榜' : '数据集榜'} #${paper.research_board_ranks[board]} · 得分 ${board === 'methods' ? paper.research_method_score : paper.research_dataset_score}`
+      ).join(' ｜ ');
+      rankInfo.title = '命中关键词：' + paper.research_matches.join(', ') +
+        (paper.dataset_combination ? '\n数据组合：' + paper.dataset_combination.label : '') +
+        (paper.tracked_datasets.length ? '\n追踪名称：' + paper.tracked_datasets.join(', ') : '');
+      paperCard.querySelector('.paper-card-header').append(rankInfo);
+      if (paper.research_boards.includes('datasets')) {
+        const review = document.createElement('details');
+        review.style.cssText = 'font-size:12px; margin:8px 0; color:var(--text-secondary);';
+        review.addEventListener('click', event => event.stopPropagation());
+        const heading = document.createElement('summary');
+        heading.textContent = '数据集人工核验：真人 / 个体 ID / 时间 / 行为标签';
+        review.append(heading);
+        for (const check of paper.dataset_manual_checks) {
+          const line = document.createElement('p');
+          line.textContent = `${check.question}：待人工核验；摘要提示：${check.abstract_hints.join(', ') || '无明确关键词提示'}`;
+          review.append(line);
+        }
+        paperCard.querySelector('.paper-card-body').append(review);
+      }
+    }
+
     paperCard.addEventListener('click', () => {
       currentPaperIndex = index; // 记录当前点击的论文索引
       showPaperDetails(paper, index + 1);

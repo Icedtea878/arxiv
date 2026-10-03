@@ -110,6 +110,10 @@ esac
 cd ..
 
 python daily_arxiv/select_papers.py --data data/${today}.jsonl || exit 1
+if [ ! -s "data/${today}.jsonl" ]; then
+    echo "没有符合研究规则的论文；已输出榜单报告，跳过 AI 摘要。"
+    exit 0
+fi
 
 # 第三步：AI处理 / Step 3: AI processing
 if [ "$PARTIAL_MODE" = "false" ]; then

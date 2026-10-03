@@ -125,7 +125,16 @@
                 </div>
             </div>
             <div class="category-nav">
-                <p style="padding: 8px 20px; color: var(--text-secondary); font-size: 13px;">Social World Model · 覆盖 AI、语言、机器学习、多智能体、人机交互、社会网络、计算机与社会、视觉；每天最多 200 篇摘要，优先选择主题关键词匹配论文。<a href="datasets.html">查找公开数据集 →</a></p>
+                <p style="padding: 8px 20px; color: var(--text-secondary); font-size: 13px;">Social World Model · 最多抓取 800 篇候选，按研究关键词与数据集组合规则排序，收录前 200 篇；再用网页关键词匹配与高亮。<a href="datasets.html">查找公开数据集 →</a></p>
+                <div style="padding: 4px 20px 8px; font-size: 13px;">
+                    <label for="paperBoard">研究榜单：</label>
+                    <select id="paperBoard" aria-label="选择研究榜单">
+                        <option value="all">全部收录</option>
+                        <option value="methods">方法论文榜</option>
+                        <option value="datasets">数据集论文榜</option>
+                    </select>
+                    <span id="boardStatus" style="color: var(--text-secondary);"></span>
+                </div>
                 <div class="category-label-container">
                     <span class="category-nav-label">Category</span>
                     <div class="category-scroll">
@@ -244,6 +253,6 @@
         </svg>
     </button>
 
-    <script src="js/app.js?v=1.0.1"></script>
+    <script src="js/app.js?v=1.1.0"></script>
 </body>
 </html> 
