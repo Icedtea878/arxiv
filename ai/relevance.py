@@ -108,6 +108,7 @@ def process(papers, llm, model, base_url, threshold, cache_path, report_path):
             if fatal_provider_error(error):
                 break
     retained = [p for p in results if p['relevance']['score'] > threshold]
+    retained.sort(key=lambda p: (-p['relevance']['score'], p.get('research_rank') or float('inf'), str(p.get('id', ''))))
     report = {'candidate_count': len(papers), 'scored_count': len(results), 'retained_count': len(retained),
               'threshold': threshold, 'comparison': '>', 'cached_count': cached, 'model': model,
               'usage_this_run': usage, 'failed': failed,

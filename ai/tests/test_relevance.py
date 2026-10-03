@@ -25,7 +25,7 @@ class RelevanceTests(unittest.TestCase):
             cache, report = Path(directory)/'cache', Path(directory)/'report.json'
             with patch('relevance.score_paper', side_effect=[(result(s), {}) for s in [80, 81, 100]]) as score:
                 kept, _ = process(papers, Mock(), 'model', 'url', 80, cache, report)
-                self.assertEqual([p['id'] for p in kept], ['81', '100'])
+                self.assertEqual([p['id'] for p in kept], ['100', '81'])
                 kept, stats = process(papers, Mock(), 'model', 'url', 90, cache, report)
                 self.assertEqual([p['id'] for p in kept], ['100'])
                 self.assertEqual(stats['cached_count'], 3)

@@ -1118,6 +1118,14 @@ function formatAuthorsForCard(authorsString, authorTerms = []) {
   return result.join(', ');
 }
 
+function compareRelevanceScores(a, b) {
+  const scoreA = Number.isInteger(a.relevance?.score) ? a.relevance.score : -1;
+  const scoreB = Number.isInteger(b.relevance?.score) ? b.relevance.score : -1;
+  return scoreB - scoreA ||
+    (a.research_rank || Infinity) - (b.research_rank || Infinity) ||
+    String(a.id || '').localeCompare(String(b.id || ''));
+}
+
 function renderPapers() {
   const container = document.getElementById('paperContainer');
   container.innerHTML = '';
@@ -1374,6 +1382,11 @@ function renderPapers() {
     });
   }
   
+  // Relevance remains the final ordering even when keyword matches are highlighted.
+  if (filteredPapers.some(p => Number.isInteger(p.relevance?.score))) {
+    filteredPapers.sort(compareRelevanceScores);
+  }
+
   // 存储当前过滤后的论文列表，用于箭头键导航
   currentFilteredPapers = [...filteredPapers];
   
