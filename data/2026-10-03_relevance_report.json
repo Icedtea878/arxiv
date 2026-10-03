@@ -4,11 +4,11 @@
   "retained_count": 16,
   "threshold": 80,
   "comparison": ">",
-  "cached_count": 0,
+  "cached_count": 200,
   "model": "MiniMax-M2.7",
   "usage_this_run": {
-    "input_tokens": 137773,
-    "output_tokens": 96416
+    "input_tokens": 0,
+    "output_tokens": 0
   },
   "failed": [],
   "scores": [
