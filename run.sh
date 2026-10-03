@@ -117,45 +117,19 @@ fi
 
 # 第三步：AI处理 / Step 3: AI processing
 if [ "$PARTIAL_MODE" = "false" ]; then
-    echo "步骤3：AI增强处理... / Step 3: AI enhancement processing..."
+    echo "步骤3：相关性评分处理... / Step 3: AI enhancement processing..."
     cd ai
-    python enhance.py --data ../data/${today}.jsonl
+    python relevance.py --data ../data/${today}.jsonl
     
     if [ $? -ne 0 ]; then
         echo "❌ AI处理失败 / AI processing failed"
         exit 1
     fi
-    echo "✅ AI增强处理完成 / AI enhancement processing completed"
+    echo "✅ 相关性评分处理完成 / AI enhancement processing completed"
     cd ..
 else
     echo "⏭️  跳过AI处理（部分模式）/ Skipping AI processing (partial mode)"
 fi
-
-# 第四步：转换为Markdown / Step 4: Convert to Markdown
-echo "步骤4：转换为Markdown... / Step 4: Converting to Markdown..."
-cd to_md
-
-if [ "$PARTIAL_MODE" = "false" ] && [ -f "../data/${today}_AI_enhanced_${LANGUAGE}.jsonl" ]; then
-    echo "📄 使用AI增强后的数据进行转换... / Using AI enhanced data for conversion..."
-    python convert.py --data ../data/${today}_AI_enhanced_${LANGUAGE}.jsonl
-    
-    if [ $? -ne 0 ]; then
-        echo "❌ Markdown转换失败 / Markdown conversion failed"
-        exit 1
-    fi
-    echo "✅ AI增强版Markdown转换完成 / AI enhanced Markdown conversion completed"
-    
-else
-    if [ "$PARTIAL_MODE" = "true" ]; then
-        echo "⏭️  跳过Markdown转换（部分模式，需要AI增强数据）/ Skipping Markdown conversion (partial mode, requires AI enhanced data)"
-    else
-        echo "❌ 错误：未找到AI增强文件 / Error: AI enhanced file not found"
-        echo "AI文件: ../data/${today}_AI_enhanced_${LANGUAGE}.jsonl"
-        exit 1
-    fi
-fi
-
-cd ..
 
 # 第五步：更新文件列表 / Step 5: Update file list
 echo "步骤5：更新文件列表... / Step 5: Updating file list..."
@@ -169,14 +143,13 @@ if [ "$PARTIAL_MODE" = "false" ]; then
     echo "🎉 完整流程已完成 / Complete workflow finished:"
     echo "   ✅ 数据爬取 / Data crawling"
     echo "   ✅ 去重检查 / Smart duplicate check"
-    echo "   ✅ AI增强处理 / AI enhancement"
-    echo "   ✅ Markdown转换 / Markdown conversion"
+    echo "   ✅ 相关性评分处理 / AI enhancement"
     echo "   ✅ 文件列表更新 / File list update"
 else
     echo "🔄 部分流程已完成 / Partial workflow finished:"
     echo "   ✅ 数据爬取 / Data crawling"
     echo "   ✅ 去重检查 / Smart duplicate check"
-    echo "   ⏭️  跳过AI增强和Markdown转换 / Skipped AI enhancement and Markdown conversion"
+    echo "   ⏭️  跳过相关性评分和Markdown转换 / Skipped AI enhancement and Markdown conversion"
     echo "   ✅ 文件列表更新 / File list update"
     echo ""
     echo "💡 提示：设置OPENAI_API_KEY可启用完整功能 / Tip: Set OPENAI_API_KEY to enable full functionality"

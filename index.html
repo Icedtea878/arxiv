@@ -125,7 +125,7 @@
                 </div>
             </div>
             <div class="category-nav">
-                <p style="padding: 8px 20px; color: var(--text-secondary); font-size: 13px;">Social World Model · 最多抓取 800 篇候选，按研究关键词与数据集组合规则排序，收录前 200 篇；再用网页关键词匹配与高亮。<a href="datasets.html">查找公开数据集 →</a></p>
+                <p style="padding: 8px 20px; color: var(--text-secondary); font-size: 13px;">Social World Model · 最多抓取 800 篇候选，关键词排序取前 200 篇，再由 LLM 评估个体、交互、群体、社会研究相关性，仅展示超过阈值的论文（默认 >80/100）。历史论文会标注未评分。<a href="datasets.html">查找公开数据集 →</a></p>
                 <div style="padding: 4px 20px 8px; font-size: 13px;">
                     <label for="paperBoard">研究榜单：</label>
                     <select id="paperBoard" aria-label="选择研究榜单">
@@ -253,6 +253,6 @@
         </svg>
     </button>
 
-    <script src="js/app.js?v=1.1.0"></script>
+    <script src="js/app.js?v=1.2.0"></script>
 </body>
 </html> 

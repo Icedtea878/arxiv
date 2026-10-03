@@ -131,22 +131,24 @@ jobs:
           data/*_candidates.jsonl
         retention-days: 14
 
-    - name: Restore successful AI summaries
+    - name: Restore relevance checkpoints
       if: steps.selection.outputs.has_selected == 'true'
       uses: actions/cache/restore@v4
       with:
         path: .ai-cache
-        key: ai-summaries-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+        key: ai-relevance-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
         restore-keys: |
-          ai-summaries-${{ github.repository_id }}-
+          ai-relevance-${{ github.repository_id }}-
 
-    - name: AI Enhancement Processing
+    - name: Score research relevance
       id: ai
+      env:
+        RELEVANCE_THRESHOLD: ${{ vars.RELEVANCE_THRESHOLD || '80' }}
       if: steps.selection.outputs.has_selected == 'true'
       run: |
         source .venv/bin/activate
         today=${{ steps.crawl_step.outputs.crawl_date }}
-        echo "开始AI增强处理... / Starting AI enhancement processing..."
+        echo "开始相关性评分..."
         
         cd ai
         export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
@@ -154,21 +156,21 @@ jobs:
         export LANGUAGE="${{ vars.LANGUAGE || 'Chinese' }}"
         export MODEL_NAME="${{ vars.MODEL_NAME || 'MiniMax-M2.7' }}"
         
-        python enhance.py --data ../data/${today}.jsonl
+        python relevance.py --data ../data/${today}.jsonl
         
         # 检查AI处理是否成功 / Check if AI processing was successful
         if [ $? -ne 0 ]; then
             echo "AI处理失败 / AI processing failed"
             exit 1
         fi
-        echo "AI增强处理完成 / AI enhancement processing completed"
+        echo "相关性评分完成"
 
-    - name: Preserve successful summary checkpoints
+    - name: Preserve relevance checkpoints
       if: always() && steps.selection.outputs.has_selected == 'true'
       uses: actions/cache/save@v4
       with:
         path: .ai-cache
-        key: ai-summaries-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+        key: ai-relevance-${{ github.repository_id }}-${{ github.run_id }}-${{ github.run_attempt }}
 
     - name: Save AI progress for recovery
       if: always() && steps.selection.outputs.has_selected == 'true'
@@ -176,42 +178,11 @@ jobs:
       with:
         name: ai-progress-${{ github.run_id }}-${{ github.run_attempt }}
         path: |
-          .ai-cache/summaries.jsonl
-          data/*_AI_enhanced_*.jsonl
+          .ai-cache/relevance.jsonl
+          data/*_relevance*
         include-hidden-files: true
         retention-days: 14
 
-    - name: Convert to Markdown
-      if: steps.selection.outputs.has_selected == 'true'
-      run: |
-        source .venv/bin/activate
-        today=${{ steps.crawl_step.outputs.crawl_date }}
-        echo "转换为Markdown格式... / Converting to Markdown format..."
-        
-        # 设置环境变量 / Set environment variables
-        export LANGUAGE="${{ vars.LANGUAGE || 'Chinese' }}"
-        
-        cd to_md
-        
-        # 使用AI增强文件进行转换 / Use AI enhanced file for conversion
-        AI_FILE="../data/${today}_AI_enhanced_${LANGUAGE}.jsonl"
-        
-        if [ -f "$AI_FILE" ]; then
-            echo "使用AI增强文件进行转换... / Using AI enhanced file for conversion..."
-            python convert.py --data "$AI_FILE"
-        else
-            echo "错误：未找到AI增强文件 / Error: AI enhanced file not found"
-            echo "AI文件: $AI_FILE"
-            exit 1
-        fi
-        
-        # 检查转换是否成功 / Check if conversion was successful
-        if [ $? -ne 0 ]; then
-            echo "Markdown转换失败 / Markdown conversion failed"
-            exit 1
-        fi
-        echo "Markdown转换完成 / Markdown conversion completed"
-        
     - name: Update file list
       if: steps.selection.outputs.has_selected == 'true'
       run: |
@@ -256,7 +227,7 @@ jobs:
     - name: Summary
       run: |
         if [ "${{ steps.selection.outputs.has_selected }}" = "true" ]; then
-          echo "✅ 研究双榜处理完成：${{ steps.selection.outputs.selected_count }} 篇去重论文"
+          echo "✅ 相关性评分完成：${{ steps.selection.outputs.selected_count }} 篇候选；保留数量见评分步骤摘要"
         else
           case "${{ steps.dedup_check.outputs.skip_reason }}" in
             "no_new_content")

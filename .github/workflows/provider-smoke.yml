@@ -12,9 +12,9 @@ jobs:
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           uv sync --frozen
-      - name: Check structured summary
+      - name: Check relevance scoring
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || 'https://api.minimax.cn/v1' }}
           MODEL_NAME: ${{ vars.MODEL_NAME || 'MiniMax-M2.7' }}
-        run: uv run python ai/smoke_provider.py
+        run: uv run python ai/smoke_relevance.py

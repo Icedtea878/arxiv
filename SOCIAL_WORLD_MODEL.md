@@ -1,30 +1,34 @@
 # Social World Model 配置
 
-每日从 8 个 arXiv 分类读取最新公告：cs.AI（人工智能）、cs.CL（自然语言处理）、cs.LG（机器学习）、cs.MA（多智能体）、cs.HC（人机交互）、cs.SI（社会与信息网络）、cs.CY（计算机与社会）、cs.CV（计算机视觉）。分类含义见 https://arxiv.org/category_taxonomy 。
+每日北京时间 01:30（UTC 17:30）触发 GitHub Actions；实际开始时间可能延迟。也可在 Actions → arXiv-daily-ai-enhanced → Run workflow 手动运行。
+
+当前流程：抓取最多 800 篇候选 → 跨分类及七日历史去重 → 按关键词和数据集组合规则排序，取最多 200 篇 → MiniMax 只阅读标题和原始英文摘要，逐篇评估相关性 → 严格大于 80 分的论文发布到网页。不凑满 200 篇；80 分不保留，全部未达标则发布空结果。筛选后仍按关键词排名展示，网页关键词可继续匹配、高亮和置顶。
+
+LLM 范围包含个体建模/模拟、个体交互、群体模拟、社会模拟，任意方向直接相关即可，不要求必须研究心理状态转移。完整评分标准在 ai/relevance_prompt.txt：91–100 核心直接相关、81–90 清楚相关且可借鉴、61–80 邻近但直接用途或证据不足、31–60 弱相关、0–30 无关。分数是模型判断，不是经过校准的概率；只依据摘要，可能误判，也不能核实全文中的数据集属性。输出 score、directions 和一句中文 reason。
+
+工作流暂不生成长总结，也不让 LLM 阅读全文。评分会消耗 MiniMax 输入/输出 token；串行请求并缓存成功结果。短理由不保证推理模型的总 token 消耗一定很低，实际费用以 MiniMax 账单为准。缓存按标题、摘要、模型、接口、评分提示词计算；仅改变阈值或关键词排名可以复用评分。GitHub 可能清理缓存。
+
+API/格式失败不记作零分：保存成功检查点及失败报告，停止当次发布，重跑复用成功结果。有效评分全部低于阈值与请求失败是两种不同状态。旧日期未评分论文保留浏览入口并明确标注“历史论文：尚未进行 LLM 相关性评分”；新数据优先加载日期_relevance.jsonl。
 
 仓库 Settings → Secrets and variables → Actions → Variables：
 
 | 变量 | 默认值 | 含义 |
 | --- | --- | --- |
-| CATEGORIES | cs.AI,cs.CL,cs.LG,cs.MA,cs.HC,cs.SI,cs.CY,cs.CV | 公告分类 |
-| MAX_PAPERS_PER_CATEGORY | 100 | 每个分类最多获取的候选论文数 |
-| MAX_PAPERS_PER_DAY | 200 | 从全部候选统一排序后收录的上限，也是 AI 摘要上限 |
-| RESEARCH_PROFILE | 与 research_profile.json 相同的 JSON | 关键词、权重、分组、组合规则及数据集名称追踪 |
+| CATEGORIES | cs.AI,cs.CL,cs.LG,cs.MA,cs.HC,cs.SI,cs.CY,cs.CV | 8 个公告分类 |
+| MAX_PAPERS_PER_CATEGORY | 100 | 每类最多抓取篇数 |
+| MAX_PAPERS_PER_DAY | 200 | 关键词预选及 LLM 评分篇数上限 |
+| RELEVANCE_THRESHOLD | 80 | 仅保留严格大于此分数的论文 |
+| RESEARCH_PROFILE | research_profile.json 对应 JSON | 关键词、权重、组合及追踪词；变量优先于文件 |
+| MODEL_NAME | MiniMax-M2.7 | 评分模型 |
 
-候选论文先跨分类去重，与过去七天已收录记录去重。每类候选最多 100 篇，8 类最多 800 篇；分类间重叠或历史去重会减少候选。全部候选按“方法关键词得分 + 数据集规则得分”的总分从高到低统一排序，取前 200 篇生成 AI 摘要并展示。不设置每种论文的独立名额；不足 200 篇就展示实际数量，相关论文少时会包含低分或零分论文。纯关键词规则计算不调用 AI，不消耗模型 token。
+Secrets 使用现有 OPENAI_API_KEY（MiniMax 中国站）和 OPENAI_BASE_URL；不需要 Jev。网页 Settings 关键词只影响本地匹配，不改变后台 RESEARCH_PROFILE 或 LLM 标准。
 
-方法关键词得分：标题、英文摘要匹配 method_keywords 后累加得分，同一个词不因重复出现而加分；标题命中乘 title_multiplier（默认 2）。human simulation、user simulation、persona graph、mental state transition、individual behavior prediction 等用户研究词已经加入。method_min_score=4 仅决定是否打上方法论文标签，不决定是否进入总排名前 200。
+关键词标题命中默认乘 2；同词重复不累加。已覆盖 individual/user/human modeling、interpersonal interaction、group/crowd/population simulation、collective behavior、opinion dynamics、social influence、societal simulation 等四个方向，以及原有人格、心理状态、行为预测关键词。预选仍可能漏掉没有这些词的相关论文。
 
-数据集榜：数据发布词与领域词组合匹配，三档组合分 +6/+7/+8 只取最高一档。所有通用数据发布词合计最多额外 +1；dataset/benchmark 单独出现不入榜。有效追踪名称合计 +4，不按名称个数累加；研究领域词或有效名称出现在标题再加 +2，通用数据发布词不享受此标题加分。名称匹配不区分大小写，兼容空格、连字符、E²/E2。OPeRA、REALTALK 需要同时出现数据发布词，且英文摘要包含领域背景词才计入名称追踪。这仍是文本规则，不是 AI 语义判定，也不能仅凭标题摘要确认论文发布了新数据集。
+数据集规则仍为三档组合取最高值：数据发布词 + 人格/模拟词 +6；数据发布词 + 个体/历史词 + 行为/预测词 +7；数据发布词 + 纵向观测词 + 人格/状态词 +8。通用发布词合计最多 +1，有效追踪名称合计 +4，领域/有效名称标题命中再 +2。兼容大小写、空格、连字符、E²/E2；OPeRA 和 REALTALK 需要摘要领域背景及发布词。方法榜、数据集榜只是通过筛选论文的标签视图，不是额外名额，不代表已核实数据集属性。
 
-**修改关键词的位置**：GitHub Settings → Secrets and variables → Actions → Variables → RESEARCH_PROFILE。这里保存完整 JSON；method_keywords 是方法词权重，groups 是数据类型词组，combination_rules 是组合规则，dataset_names 是名称追踪表。变量未设置时，脚本回退使用仓库 research_profile.json。文件和变量的值是两份配置，设置变量后以变量为准。JSON 不合法会明确报错，避免静默使用错误配置。网页 Settings 里的个人关键词只控制浏览器匹配与高亮，不会写入此变量。
+结果入口：https://icedtea878.github.io/arxiv/ 。Actions 运行 Summary 显示评估数、保留数和缓存数。Artifacts 中 research-rankings 保存预选排名和候选；ai-progress 保存评分报告和检查点（14 天）。data 分支日期_relevance_report.json 包含每篇分数、理由和运行 token 统计（仅已成功解析响应的供应商 usage，不是完整账单）。日期_relevance.jsonl 只包含保留论文；日期_rankings.* 是筛选前的关键词排名。
 
-同分按 arXiv ID 排序。网页默认显示全部前 200 篇，卡片显示研究总排名、总分；方法论文/数据集论文选项只是进一步查看前 200 篇内相应标签的论文，不占独立名额。鼠标悬停得分可查看命中关键词与组合规则。你可以再添加网页关键词，在这 200 篇中匹配、高亮并把命中项置顶；不会改变卡片标注的后台排名。网页匹配现在包含英文原始摘要。
+最多 800 篇是上限，跨分类重叠、历史去重和公告数量会使实际更少。arXiv 抓取串行，元数据请求间隔至少五秒；工作流不并发。最新公告不等于该日历日发布的所有论文。
 
-每天生成 data/日期_rankings.json 和 data/日期_rankings.md，保存总排名、标签榜单、命中词、组合分与核验提示；候选保存 data/日期_candidates.jsonl。Actions 运行详情的 Summary 可直接看排名，Artifacts 可下载报告和候选。选中论文的 AI 摘要成功后，报告也提交到 data 分支；没有新候选时跳过付费摘要。数据集四项人工核验（真人、稳定个体 ID、时间信息、可留出的行为标签）全部初始标注“待人工核验”，只附摘要中的文字提示，不宣称已核实。
-
-上限不是每天的固定篇数，也不代表全站或历史论文的数量。繁忙分类超出候选上限的论文可能未覆盖。增加上限会增加 MiniMax 费用与运行时间。arXiv 抓取串行执行，元数据批量获取，每次至少间隔五秒；AI 同样串行处理。工作流不并发执行。最新公告不等于按日历日期筛选的所有论文。
-
-AI 摘要优先解析结构化工具结果；若模型直接返回合法 JSON，也能解析。结构化重试后仍为空时，额外尝试一次普通 JSON 输出。少量失败论文保留原始英文摘要，并在网页明确标注；没有成功摘要、失败过多或密钥/余额错误时仍让工作流失败。成功摘要逐篇写入 .ai-cache，通过 Actions Cache 和 ai-progress Artifacts 保存，重跑优先复用。缓存只保存成功结果，按摘要内容、模型、接口、语言和提示词计算指纹；研究排名变化仍使用新排名。缓存可被 GitHub 清理，无法保证永久复用。内容检查服务返回429后暂停请求五分钟，避免持续触发限流。
-
-首页“数据集”进入 `datasets.html`：按 Hugging Face 仓库名称查找公开数据集，提供数据卡、许可、下载量和仓库标注的 arXiv 论文链接。搜索心智理论时使用 `theory-of-mind`；缩写 `ToM` 太短，会匹配到无关仓库。未标注论文时提供同名论文检索入口，不保证搜出的论文就是原始数据集论文。Google Dataset Search 与 arXiv 是外部检索入口。此功能不消耗 MiniMax 配额，也不下载数据集。单次最多 30 条结果，10 分钟内重复搜索使用缓存；遇到 HTTP 429 暂停一分钟。
+独立“数据集”页面仍查找 Hugging Face 公开数据集，并提供数据卡、许可、论文链接等；不消耗 MiniMax token，不下载数据集。论文里的数据集标签与此搜索入口独立。

@@ -2,34 +2,177 @@
   "title_multiplier": 2,
   "method_min_score": 4,
   "method_keywords": {
-    "social world model": 12, "human simulation": 8, "user simulation": 8,
-    "persona simulation": 9, "persona graph": 9, "mental state modeling": 9,
-    "mental state modelling": 9, "mental state transition": 10,
-    "individual behavior prediction": 9, "individual behaviour prediction": 9,
-    "personality dynamics": 8, "cognitive appraisal": 8, "person situation": 7,
-    "experience sampling": 7, "behavioral fidelity": 8, "behavioural fidelity": 8,
-    "agent state": 8, "social simulation": 8, "social reasoning": 6,
-    "theory of mind": 8, "mental state": 6, "social interaction": 5,
-    "personality states": 7, "personality traits": 5, "emotion dynamics": 7,
-    "belief tracking": 5, "belief transition": 5, "human behavior": 5,
-    "human behaviour": 5, "agent based simulation": 4, "multi agent": 2,
-    "persona": 3, "personality": 3
+    "social world model": 12,
+    "human simulation": 8,
+    "user simulation": 8,
+    "persona simulation": 9,
+    "persona graph": 9,
+    "mental state modeling": 9,
+    "mental state modelling": 9,
+    "mental state transition": 10,
+    "individual behavior prediction": 9,
+    "individual behaviour prediction": 9,
+    "personality dynamics": 8,
+    "cognitive appraisal": 8,
+    "person situation": 7,
+    "experience sampling": 7,
+    "behavioral fidelity": 8,
+    "behavioural fidelity": 8,
+    "agent state": 8,
+    "social simulation": 8,
+    "social reasoning": 6,
+    "theory of mind": 8,
+    "mental state": 6,
+    "social interaction": 5,
+    "personality states": 7,
+    "personality traits": 5,
+    "emotion dynamics": 7,
+    "belief tracking": 5,
+    "belief transition": 5,
+    "human behavior": 5,
+    "human behaviour": 5,
+    "agent based simulation": 4,
+    "multi agent": 2,
+    "persona": 3,
+    "personality": 3,
+    "individual modeling": 8,
+    "individual modelling": 8,
+    "individual simulation": 8,
+    "user modeling": 8,
+    "user modelling": 8,
+    "human behavior modeling": 8,
+    "human behaviour modelling": 8,
+    "human digital twin": 8,
+    "interpersonal interaction": 8,
+    "human agent interaction": 8,
+    "human human interaction": 8,
+    "social agent": 8,
+    "social agents": 8,
+    "group simulation": 8,
+    "crowd simulation": 8,
+    "population simulation": 8,
+    "collective behavior": 8,
+    "collective behaviour": 8,
+    "group dynamics": 8,
+    "opinion dynamics": 8,
+    "social influence": 8,
+    "social dynamics": 8,
+    "societal simulation": 8,
+    "society simulation": 8,
+    "agent based social simulation": 8,
+    "computational social science": 8
   },
   "groups": {
-    "release": ["dataset", "benchmark", "corpus", "corpora", "data collection", "open data"],
-    "simulation": ["human simulation", "user simulation", "persona simulation", "persona graph", "social simulation", "social world model", "personality", "persona", "individual simulation", "digital twin"],
-    "individual_history": ["individual-level", "person-level", "participant-level", "user history", "interaction history", "real-world conversations", "human-human dialogue"],
-    "longitudinal": ["longitudinal", "intensive longitudinal", "repeated measures", "experience sampling", "ecological momentary assessment", "daily diary", "multi-session dialogue"],
-    "personality_state": ["personality traits", "Big Five", "personality states", "emotion dynamics", "situational assessment", "mental state", "mental state modeling", "mental state modelling", "mental state transition", "cognitive appraisal", "person-situation", "personality dynamics"],
-    "behavior_prediction": ["behavioral traces", "human choices", "decision-making", "next-action prediction", "response prediction", "individual behavior prediction", "individual behaviour prediction", "preference prediction", "user simulation"]
+    "release": [
+      "dataset",
+      "benchmark",
+      "corpus",
+      "corpora",
+      "data collection",
+      "open data"
+    ],
+    "simulation": [
+      "human simulation",
+      "user simulation",
+      "persona simulation",
+      "persona graph",
+      "social simulation",
+      "social world model",
+      "personality",
+      "persona",
+      "individual simulation",
+      "digital twin"
+    ],
+    "individual_history": [
+      "individual-level",
+      "person-level",
+      "participant-level",
+      "user history",
+      "interaction history",
+      "real-world conversations",
+      "human-human dialogue"
+    ],
+    "longitudinal": [
+      "longitudinal",
+      "intensive longitudinal",
+      "repeated measures",
+      "experience sampling",
+      "ecological momentary assessment",
+      "daily diary",
+      "multi-session dialogue"
+    ],
+    "personality_state": [
+      "personality traits",
+      "Big Five",
+      "personality states",
+      "emotion dynamics",
+      "situational assessment",
+      "mental state",
+      "mental state modeling",
+      "mental state modelling",
+      "mental state transition",
+      "cognitive appraisal",
+      "person-situation",
+      "personality dynamics"
+    ],
+    "behavior_prediction": [
+      "behavioral traces",
+      "human choices",
+      "decision-making",
+      "next-action prediction",
+      "response prediction",
+      "individual behavior prediction",
+      "individual behaviour prediction",
+      "preference prediction",
+      "user simulation"
+    ]
   },
   "combination_rules": [
-    {"groups": ["release", "simulation"], "score": 6, "label": "数据发布 + 人格/个体模拟"},
-    {"groups": ["release", "individual_history", "behavior_prediction"], "score": 7, "label": "数据发布 + 真实个体/历史 + 行为/预测"},
-    {"groups": ["release", "longitudinal", "personality_state"], "score": 8, "label": "数据发布 + 纵向观测 + 人格/心理状态"}
+    {
+      "groups": [
+        "release",
+        "simulation"
+      ],
+      "score": 6,
+      "label": "数据发布 + 人格/个体模拟"
+    },
+    {
+      "groups": [
+        "release",
+        "individual_history",
+        "behavior_prediction"
+      ],
+      "score": 7,
+      "label": "数据发布 + 真实个体/历史 + 行为/预测"
+    },
+    {
+      "groups": [
+        "release",
+        "longitudinal",
+        "personality_state"
+      ],
+      "score": 8,
+      "label": "数据发布 + 纵向观测 + 人格/心理状态"
+    }
   ],
-  "dataset_names": ["HUMANUAL", "PersonaConvBench", "REALTALK", "Twin-2K-500", "OPeRA", "Persona-E2", "BIG5-CHAT", "CoSER", "Psych-101", "PersonaMem", "openESM", "Smartphone Sensing Panel Study"],
-  "ambiguous_names": ["OPeRA", "REALTALK"],
+  "dataset_names": [
+    "HUMANUAL",
+    "PersonaConvBench",
+    "REALTALK",
+    "Twin-2K-500",
+    "OPeRA",
+    "Persona-E2",
+    "BIG5-CHAT",
+    "CoSER",
+    "Psych-101",
+    "PersonaMem",
+    "openESM",
+    "Smartphone Sensing Panel Study"
+  ],
+  "ambiguous_names": [
+    "OPeRA",
+    "REALTALK"
+  ],
   "dataset_name_score": 4,
   "dataset_title_bonus": 2
 }

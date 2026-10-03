@@ -713,6 +713,7 @@ async function fetchAvailableDates() {
     const text = await response.text();
     const files = text.trim().split('\n');
 
+    window.relevanceDates = new Set(files.map(file => file.match(/^(\d{4}-\d{2}-\d{2})_relevance\.jsonl$/)?.[1]).filter(Boolean));
     const dateRegex = /(\d{4}-\d{2}-\d{2})_AI_enhanced_(English|Chinese)\.jsonl/;
     const dateLanguageMap = new Map(); // Store date -> available languages
     const dates = [];
@@ -731,6 +732,9 @@ async function fetchAvailableDates() {
       }
     });
     
+    window.relevanceDates.forEach(date => {
+      if (!dateLanguageMap.has(date)) { dateLanguageMap.set(date, ['Chinese']); dates.push(date); }
+    });
     // Store the language mapping globally for later use
     window.dateLanguageMap = dateLanguageMap;
     availableDates = [...new Set(dates)];
@@ -834,14 +838,14 @@ async function loadPapersByDate(date) {
   try {
     const selectedLanguage = selectLanguageForDate(date);
     // 从 data 分支获取数据文件
-    const dataUrl = DATA_CONFIG.getDataUrl(`data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
+    const dataUrl = DATA_CONFIG.getDataUrl(window.relevanceDates?.has(date) ? `data/${date}_relevance.jsonl` : `data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
     const response = await fetch(dataUrl);
     // 如果文件不存在（例如返回 404），在论文展示区域提示没有论文
     if (!response.ok) {
       if (response.status === 404) {
         container.innerHTML = `
           <div class="loading-container">
-            <p>No papers found for this date.</p>
+            <p>${window.relevanceDates?.has(date) ? '当日没有论文通过相关性阈值筛选。' : 'No papers found for this date.'}</p>
           </div>
         `;
         paperData = {};
@@ -855,7 +859,7 @@ async function loadPapersByDate(date) {
     if (!text || text.trim() === '') {
       container.innerHTML = `
         <div class="loading-container">
-          <p>No papers found for this date.</p>
+          <p>${window.relevanceDates?.has(date) ? '当日没有论文通过相关性阈值筛选。' : 'No papers found for this date.'}</p>
         </div>
       `;
       paperData = {};
@@ -906,8 +910,10 @@ function parseJsonlData(jsonlText, date) {
   const lines = jsonlText.trim().split('\n');
   
   lines.forEach(line => {
+    if (!line.trim()) return;
     try {
       const paper = JSON.parse(line);
+      if (window.relevanceDates?.has(date) && (!Number.isInteger(paper.relevance?.score) || paper.relevance.score <= (paper.relevance_threshold ?? 80))) return;
       
       if (!paper.categories) {
         return;
@@ -933,6 +939,7 @@ function parseJsonlData(jsonlText, date) {
         date: date,
         id: paper.id,
         AI_status: paper.AI_status || '',
+        relevance: paper.relevance || null,
         research_boards: paper.research_boards || [],
         research_board_ranks: paper.research_board_ranks || {},
         research_method_score: paper.research_method_score || 0,
@@ -1457,6 +1464,13 @@ function renderPapers() {
       </div>
     `;
     
+    const relevanceInfo = document.createElement('p');
+    relevanceInfo.style.cssText = 'font-size:13px; margin:8px 0; color:var(--text-secondary);';
+    const directions = {individual:'个体建模/模拟', interaction:'个体交互', group:'群体模拟', society:'社会模拟'};
+    relevanceInfo.textContent = paper.relevance
+      ? `LLM 相关性 ${paper.relevance.score}/100 · ${paper.relevance.directions.map(d => directions[d] || d).join(' / ')}：${paper.relevance.reason}`
+      : '历史论文：尚未进行 LLM 相关性评分';
+    paperCard.querySelector('.paper-card-body').prepend(relevanceInfo);
     if (paper.AI_status === 'failed') {
       const warning = document.createElement('p');
       warning.style.cssText = 'font-size:12px; color:#b45309; margin:8px 0;';
@@ -1466,7 +1480,7 @@ function renderPapers() {
     if (paper.research_rank) {
       const rankInfo = document.createElement('p');
       rankInfo.style.cssText = 'font-size:12px; margin-top:8px; color:var(--text-secondary);';
-      rankInfo.textContent = `研究排序 #${paper.research_rank} · 总分 ${paper.research_score}` +
+      rankInfo.textContent = `关键词排序 #${paper.research_rank} · 关键词分 ${paper.research_score}` +
         (paper.research_boards.length ? ' ｜ ' : '') + paper.research_boards.map(board =>
         `${board === 'methods' ? '方法榜' : '数据集榜'} #${paper.research_board_ranks[board]} · 得分 ${board === 'methods' ? paper.research_method_score : paper.research_dataset_score}`
       ).join(' ｜ ');
@@ -1576,8 +1590,7 @@ function showPaperDetails(paper, paperIndex) {
       <p><strong>Date: </strong>${formatDate(paper.date)}</p>
       
       
-      <h3>TL;DR</h3>
-      <p>${highlightedSummary}</p>
+      ${paper.relevance ? '' : `<h3>TL;DR</h3><p>${highlightedSummary}</p>`}
       
       <div class="paper-sections">
         ${paper.motivation ? `<div class="paper-section"><h4>Motivation</h4><p>${highlightedMotivation}</p></div>` : ''}
@@ -1782,8 +1795,9 @@ async function loadPapersByDateRange(startDate, endDate) {
     for (const date of validDatesInRange) {
       const selectedLanguage = selectLanguageForDate(date);
       // 从 data 分支获取数据文件
-      const dataUrl = DATA_CONFIG.getDataUrl(`data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
+      const dataUrl = DATA_CONFIG.getDataUrl(window.relevanceDates?.has(date) ? `data/${date}_relevance.jsonl` : `data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
       const response = await fetch(dataUrl);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const text = await response.text();
       const dataPapers = parseJsonlData(text, date);
       
