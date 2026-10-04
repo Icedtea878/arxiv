@@ -6,6 +6,7 @@
   const status = document.getElementById('datasetStatus');
   const results = document.getElementById('datasetResults');
   const cache = new Map();
+  const discovery = window.DatasetDiscovery;
   let activeRequest;
   let requestId = 0;
   let cooldownUntil = 0;
@@ -65,61 +66,96 @@
       const paperIds = (dataset.tags || []).filter(tag => /^arxiv:\d{4}\.\d{4,5}(v\d+)?$/.test(tag)).slice(0, 3);
       for (const tag of paperIds) links.append(link('关联论文 ' + tag.slice(6), 'https://arxiv.org/abs/' + tag.slice(6)));
       if (!paperIds.length) links.append(link('检索同名论文 ↗', paperUrl(dataset.id.split('/').pop())));
-      card.append(title, description, meta, links);
+      const relevance = document.createElement('p');
+      relevance.className = 'dataset-relevance';
+      relevance.textContent = dataset.directions.length
+        ? '相关线索：' + dataset.directions.map(d => `${d.label}（${d.matches.join('、')}）`).join('；')
+        : '相关性待确认：由检索词召回，简介中的领域线索不足，仍保留供你查看。';
+      const uses = document.createElement('p');
+      uses.className = 'dataset-description';
+      uses.textContent = dataset.directions.length
+        ? '可能用途（按公开简介推测）：' + dataset.directions.map(d => d.use).join('；') + '。具体是否支持，需要核对数据字段。'
+        : '可能用途：公开信息不足，请打开数据卡判断。';
+      const provenance = document.createElement('p');
+      provenance.className = 'dataset-description';
+      provenance.textContent = '来源：Hugging Face · 检索词：' + dataset.retrievalTerms.join('、') + '。真人/合成、稳定个体 ID、时间字段：尚未核验，不作为排除条件。';
+      card.append(title, description, relevance, uses, meta, provenance, links);
       results.append(card);
+    }
+  }
+
+  async function fetchTerm(term, signal) {
+    const cached = cache.get(term.toLowerCase());
+    if (cached && Date.now() - cached.time < 10 * 60 * 1000) return cached.data;
+    if (signal.aborted) throw new DOMException('Cancelled', 'AbortError');
+    const controller = new AbortController();
+    const cancel = () => controller.abort();
+    signal.addEventListener('abort', cancel, {once: true});
+    const timeout = setTimeout(cancel, 15000);
+    try {
+      const params = new URLSearchParams({search: term, limit: '30', full: 'true', sort: 'downloads', direction: '-1'});
+      const response = await fetch('https://huggingface.co/api/datasets?' + params, {signal: controller.signal});
+      if (response.status === 429) {
+        cooldownUntil = Date.now() + 60000;
+        throw new Error('服务限流，已暂停后续查询；一分钟后可重试。');
+      }
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error('返回格式异常');
+      cache.set(term.toLowerCase(), {data, time: Date.now()});
+      return data;
+    } finally {
+      clearTimeout(timeout);
+      signal.removeEventListener('abort', cancel);
     }
   }
 
   async function search() {
     const query = input.value.trim();
     if (!query) { input.focus(); return; }
-    updateLinks(query);
     activeRequest?.abort();
     const id = ++requestId;
-    const cached = cache.get(query.toLowerCase());
-    if (cached && Date.now() - cached.time < 10 * 60 * 1000) {
-      render(cached.data);
-      status.textContent = `“${query}”：${cached.data.length} 条结果（最近搜索缓存）。`;
-      results.setAttribute('aria-busy', 'false');
-      button.disabled = false;
-      return;
-    }
-    if (Date.now() < cooldownUntil) {
-      status.textContent = '搜索服务限流中，请一分钟后重试，或使用上方的外部检索入口。';
-      results.setAttribute('aria-busy', 'false');
-      button.disabled = false;
-      return;
-    }
     activeRequest = new AbortController();
-    const controller = activeRequest;
-    const timeout = setTimeout(() => controller.abort(), 20000);
-    button.disabled = true;
+    const signal = activeRequest.signal;
+    button.disabled = false; // A new query can replace an in-flight search.
+    if (Date.now() < cooldownUntil) {
+      status.textContent = '搜索服务限流中，请一分钟后重试；已有结果保留。';
+      results.setAttribute('aria-busy', 'false');
+      return;
+    }
+    const terms = discovery.plan(query);
+    updateLinks(terms[0]);
     results.replaceChildren();
     results.setAttribute('aria-busy', 'true');
-    status.textContent = `正在查找“${query}”…`;
+    const rows = [], failures = [];
+    let completed = 0;
+    let ranked = [];
     try {
-      const params = new URLSearchParams({search: query, limit: '30', full: 'true', sort: 'downloads', direction: '-1'});
-      const response = await fetch('https://huggingface.co/api/datasets?' + params, {signal: controller.signal});
-      if (response.status === 429) {
-        cooldownUntil = Date.now() + 60000;
-        throw new Error('搜索服务暂时限流，请一分钟后重试。');
+      for (const term of terms) {
+        if (signal.aborted) return;
+        status.textContent = `正在查找“${query}”：${completed}/${terms.length} 个检索词，当前“${term}”；已找到 ${ranked.length} 条候选。`;
+        try {
+          const data = await fetchTerm(term, signal);
+          if (id !== requestId) return;
+          rows.push(...data.map(row => ({...row, retrievalTerms: [term]})));
+        } catch (error) {
+          if (id !== requestId) return;
+          failures.push(term + '：' + (error.name === 'AbortError' ? '请求超时' : error.message));
+        }
+        completed++;
+        ranked = discovery.rank(rows, query);
+        render(ranked);
+        if (Date.now() < cooldownUntil) break;
+        // Serial calls with spacing; cache repeated terms between topic searches.
+        if (completed < terms.length) await new Promise(resolve => setTimeout(resolve, 400));
       }
-      if (!response.ok) throw new Error(`搜索服务返回 HTTP ${response.status}。`);
-      const data = await response.json();
-      if (!Array.isArray(data)) throw new Error('搜索服务返回的数据格式异常。');
       if (id !== requestId) return;
-      cache.set(query.toLowerCase(), {data, time: Date.now()});
-      render(data);
-      status.textContent = data.length ? `“${query}”：显示 ${data.length} 条结果，按下载量排列。` : `没有找到“${query}”。试试更短的英文关键词，或使用上方的其他检索入口。`;
-    } catch (error) {
-      if (id !== requestId) return;
-      status.textContent = error.name === 'AbortError' ? '请求超时，请重试或打开上方的外部检索入口。' : error.message + ' 可使用上方的外部检索入口继续查找。';
+      const incomplete = failures.length || completed < terms.length;
+      status.textContent = `“${query}”：${ranked.length} 条去重候选，按相关线索排序；已查询 ${completed}/${terms.length} 个词。` +
+        (incomplete ? ' 部分检索未完成，当前结果不完整：' + failures.join('；') : ' 不设分数门槛，弱匹配也保留。') +
+        (!ranked.length && !incomplete ? ' 可换用具体数据集名，或打开其他来源继续检索。' : '');
     } finally {
-      clearTimeout(timeout);
-      if (id === requestId) {
-        button.disabled = false;
-        results.setAttribute('aria-busy', 'false');
-      }
+      if (id === requestId) results.setAttribute('aria-busy', 'false');
     }
   }
 

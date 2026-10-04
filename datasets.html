@@ -11,30 +11,31 @@
     <script src="js/auth-config.js"></script>
     <script src="js/auth.js"></script>
     <script>Auth.requireAuth();</script>
-    <script src="js/datasets.js" defer></script>
+    <script src="js/dataset-discovery.js?v=2.0.0" defer></script>
+    <script src="js/datasets.js?v=2.0.0" defer></script>
 </head>
 <body>
     <main class="dataset-page">
         <nav class="dataset-nav" aria-label="页面导航"><a href="index.html">← 每日论文</a><a href="settings.html">偏好设置</a></nav>
         <section class="dataset-intro">
             <p class="eyebrow">SOCIAL WORLD MODEL</p>
-            <h1>找到可用的数据集</h1>
-            <p>搜索 Hugging Face 上的公开数据集，查看数据卡、许可和相关论文。</p>
+            <h1>发现相关研究数据</h1>
+            <p>个体、交互、群体、社会：任一方向有关就可以考虑。真人或合成、静态或纵向数据都可进入候选。</p>
         </section>
         <form id="datasetSearch" class="dataset-search" role="search">
-            <label for="datasetQuery">数据集名称或英文关键词</label>
+            <label for="datasetQuery">研究方向、数据集名称或英文关键词</label>
             <div class="search-row">
-                <input id="datasetQuery" type="search" value="social" placeholder="例如 social、SOTOPIA、theory-of-mind、persona" maxlength="120" required>
+                <input id="datasetQuery" type="search" value="相关数据" placeholder="例如 个体、交互、群体、社会、PersonaMem" maxlength="120" required>
                 <button id="searchButton" type="submit">搜索</button>
             </div>
-            <p class="search-help">按仓库名称匹配，不是语义检索。宽泛英文词通常更容易找到结果；每次显示最多 30 条。</p>
+            <p class="search-help">方向搜索会扩展多个英文词，合并去重并按名称、简介和标签的相关线索排序。无最低分限制；每个词最多召回 30 条。不调用 LLM，用途提示供初筛参考。</p>
             <div class="dataset-topics" aria-label="研究方向快捷搜索">
-                <button type="button" data-query="social">社会推理 · social</button>
-                <button type="button" data-query="sotopia">社会交互 · SOTOPIA</button>
-                <button type="button" data-query="theory-of-mind">心智理论 · theory of mind</button>
-                <button type="button" data-query="persona">人物与个性 · persona</button>
-                <button type="button" data-query="social_i_qa">社会常识 · SocialIQA</button>
-                <button type="button" data-query="agent">多智能体 · agent</button>
+                <button type="button" data-query="相关数据">全部方向</button>
+                <button type="button" data-query="个体">个体 · 人格 / 偏好 / 情绪</button>
+                <button type="button" data-query="交互">交互 · 对话 / 协商 / 意图</button>
+                <button type="button" data-query="群体">群体 · 协作 / 博弈 / 决策</button>
+                <button type="button" data-query="社会">社会 · 网络 / 观点 / 规范</button>
+                <button type="button" data-query="已有数据集">已有数据集名称追踪</button>
             </div>
         </form>
         <section class="source-links" aria-label="更多检索来源">
@@ -45,7 +46,7 @@
         </section>
         <p id="datasetStatus" role="status" aria-live="polite"></p>
         <section id="datasetResults" class="dataset-grid" aria-label="数据集搜索结果" aria-busy="false"></section>
-        <p class="dataset-note">搜索覆盖 Hugging Face 仓库，并提供其他来源的检索入口，不代表覆盖所有公开数据集。下载量和许可来自数据卡；适用性与访问条件请查看原始页面。搜索结果不随每日论文数量限制。</p>
+        <p class="dataset-note">当前列表来自 Hugging Face；arXiv 和 Google Dataset Search 提供额外检索入口。名称召回和简介匹配可能漏检或误收；未对数据内容做完整核验。缺少个体 ID、时间或许可信息只做提示，不直接排除。结果独立于每日论文及其 80 分阈值。</p>
     </main>
 </body>
 </html>
