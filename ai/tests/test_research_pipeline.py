@@ -38,6 +38,9 @@ class ResearchPipelineTests(unittest.TestCase):
         draft=analysis();draft['evidence']=[{'source_id':'s1','quote':'We simulate human cooperation.'}]
         result=validate_result(draft,self.config,{'s1':{'text':TEXT}})
         self.assertEqual(result['evidence'][0]['quote'],'We simulate human cooperation')
+    def test_typographic_hyphen_and_minus_are_equivalent(self):
+        draft=analysis();draft['evidence']=[{'source_id':'s1','quote':'cue-trigger pairs achieve p=1.7×10-7'}]
+        validate_result(draft,self.config,{'s1':{'text':'The cue–trigger pairs achieve p=1.7×10−7 in this test.'}})
     def test_excerpt_internal_words_and_numbers_stay_exact(self):
         for quote in ['We simulate animal cooperation.', 'We evaluate 99% accuracy.']:
             draft=analysis();draft['evidence']=[{'source_id':'s1','quote':quote}]

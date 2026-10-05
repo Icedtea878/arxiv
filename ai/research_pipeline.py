@@ -50,6 +50,7 @@ class Notes(Strict):
 
 def norm(value):
     value=unicodedata.normalize('NFKC',value).replace('\u00ad','').replace('’', "'").replace('‘', "'").replace('“', '"').replace('”', '"')
+    value=value.translate(str.maketrans({c:'-' for c in '‐‑‒–—−'}))
     return ' '.join(value.split()).casefold()
 def digest(value): return hashlib.sha256(json.dumps(value,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
 def write_json(path,value):
