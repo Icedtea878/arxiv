@@ -37,3 +37,5 @@
 `Check AI provider` 手动工作流会用一篇真实论文测试全文获取、阅读、裁判和两份文档；样本在 Artifact 中，不覆盖每日论文。正常每日工作流会在下一次运行使用新流程。旧报告不会因部署代码自动生成新的阅读报告。
 
 本地运行：`uv sync` 后 `uv run python ai/research_config.py` 校验配置；`uv run python ai/research_pipeline.py --data data/日期.jsonl` 处理已有候选。全流程可用 `uv run bash run.sh`。
+
+证据接口使用原文段落编号。程序保存对应段落的开头片段并标记 `context_excerpt`，用于定位；该片段本身不表示它支持全部结论。裁判读取对应完整原文及上下文，检查结论是否有依据。模型不负责逐字复制引文。

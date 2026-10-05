@@ -23,7 +23,8 @@ class Strict(BaseModel):
     model_config=ConfigDict(extra='forbid')
 class Evidence(Strict):
     source_id:str=Field(min_length=1)
-    quote:str=Field(min_length=8,max_length=250)
+    quote:str=Field(default='',max_length=250)
+    quote_kind:Literal['exact','context_excerpt']='exact'
 class Triage(Strict):
     grade:Grade
     directions:list[str]
@@ -75,6 +76,12 @@ def validate_result(value, config, sources):
     evidence=value.get('evidence',[])
     evidence_errors=[]
     for item in evidence:
+        if not item.get('quote'):
+            source=sources.get(item['source_id'])
+            if not source:
+                evidence_errors.append(f"Unknown evidence source {item['source_id']}");continue
+            item['quote']=source['text'][:200]
+            item['quote_kind']='context_excerpt'
         # A model may punctuate an excerpt that ends mid-sentence. Strip only
         # terminal punctuation; all words and internal punctuation stay exact.
         quote=item['quote'].rstrip(' .,:;!?。；，！？”')
@@ -113,7 +120,7 @@ class Engine:
         return self.models[role]
     def call(self,stage,schema,payload,sources):
         role='reader' if stage in ['chunk','reader'] else stage
-        key=digest(['research-v1',stage,PROMPTS[stage],self.config,payload,schema.model_json_schema(),os.getenv('OPENAI_BASE_URL'),os.getenv('JUDGE_BASE_URL')])
+        key=digest(['research-v2-source-references',stage,PROMPTS[stage],self.config,payload,schema.model_json_schema(),os.getenv('OPENAI_BASE_URL'),os.getenv('JUDGE_BASE_URL')])
         path=self.cache_dir/'calls'/f'{key}.json'
         if path.exists():
             try:
@@ -122,7 +129,9 @@ class Engine:
             except (ValueError,TypeError): pass
         shape=schema.model_json_schema()
         if 'Evidence' in shape.get('$defs',{}):
-            shape['$defs']['Evidence']['properties']['source_id']['enum']=list(sources)
+            evidence_shape=shape['$defs']['Evidence']
+            evidence_shape['properties']={'source_id':{'type':'string','enum':list(sources)}}
+            evidence_shape['required']=['source_id']
         messages=[('system',PROMPTS[stage]+'\n只输出符合以下Schema的JSON：'+json.dumps(shape,ensure_ascii=False)),
                   ('human',json.dumps({'research_profile':self.context,**payload},ensure_ascii=False))]
         for attempt in range(3):
@@ -160,7 +169,7 @@ def review_paper(engine,paper,triage,document):
     payload={'title':paper['title'],'abstract':paper['summary'],'coverage':document['notes'],
              'reading_material':notes if notes else document['sections']}
     if notes:
-        # Original short quotations anchor every chunk note used in the final analysis.
+        # Programmatically copied source excerpts anchor chunk notes; the judge checks original paragraphs.
         payload['source_evidence']=[e for note in notes for e in note['evidence']]
     analysis=engine.call('reader',Analysis,payload,sources)
     history=[]
