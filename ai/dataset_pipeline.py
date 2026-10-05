@@ -97,7 +97,7 @@ class Hub:
     def evidence(self,row,config):
         identifier=row['id'];encoded=quote(identifier,safe='/')
         if not valid_id(identifier):raise ValueError('Invalid dataset ID')
-        info=self.json('https://huggingface.co/api/datasets/'+encoded)
+        info=self.json('https://huggingface.co/api/datasets/'+encoded,{'expand':['cardData','description','tags','gated','sha']})
         card_url='https://huggingface.co/datasets/'+encoded+'/resolve/main/README.md'
         sources={'metadata':{'url':'https://huggingface.co/datasets/'+encoded,'text':json.dumps(slim(info),ensure_ascii=False)}}
         warnings=[];card=''
@@ -142,8 +142,10 @@ def validate_review(value,config,sources):
     for name in ['origin','individual_id','time_info','labels']:
         fact=value[name];ids.update(fact['evidence'])
         if fact['status']=='known' and not fact['evidence']:raise ValueError(name+' requires a source; otherwise mark unknown')
+        if name in ['individual_id','time_info'] and fact['status']=='known' and 'card' not in fact['evidence'] and re.search(r'不存在|没有|无个体|无时间|not present|absent|no .*id|no .*timestamp',fact['value'],re.I):
+            raise ValueError(name+': a limited preview cannot prove absence in the entire dataset; mark unknown or state only what the preview shows')
         if fact['status']=='unknown':fact['value']='unknown';fact['evidence']=[]
-    if not ids<=set(sources):raise ValueError('Only provided source IDs may be cited')
+    if not ids<=set(sources):raise ValueError('Unknown source IDs: '+str(sorted(ids-set(sources)))+'. Allowed: '+', '.join(sources))
     if value['origin']['value'] not in ['real','synthetic','mixed','unknown']:raise ValueError('Invalid origin value')
     if value['grade'] in 'ABC' and (not value['directions'] or not value['evidence']):raise ValueError('Relevant datasets require a direction and source evidence')
     return value
@@ -164,7 +166,11 @@ class Reviewer:
         unknown={'status':'unknown','value':'unknown','evidence':[]}
         example={'grade':'C','directions':[next(iter(c['directions']))],'suitability':'unknown','overview':'填写数据内容','application':'填写具体可尝试任务及条件','reason':'填写判断依据',
                  **{name:unknown for name in ['origin','individual_id','time_info','labels']},'constraints':['填写实际限制'],'evidence':['card']}
-        messages=[('system',PROMPT+'\n字段校验规则（不输出规则本身）：'+json.dumps(Review.model_json_schema(),ensure_ascii=False)+'\n填好的数据实例示例（所有值需依据实际材料替换）：'+json.dumps(example,ensure_ascii=False)),
+        shape=Review.model_json_schema()
+        shape['properties']['evidence']['items']['enum']=list(sources)
+        shape['$defs']['Fact']['properties']['evidence']['items']['enum']=list(sources)
+        example['evidence']=[next(iter(sources))]
+        messages=[('system',PROMPT+'\n字段校验规则（不输出规则本身）：'+json.dumps(shape,ensure_ascii=False)+'\n填好的数据实例示例（所有值需依据实际材料替换）：'+json.dumps(example,ensure_ascii=False)),
                   ('human',json.dumps({'profile':profile,'language':c['output']['language'],'dataset':row['id'],'sources':sources,'coverage':document['warnings']},ensure_ascii=False))]
         for attempt in range(2):
             try:
@@ -178,6 +184,7 @@ class Reviewer:
 
 def pick(candidates,state,config,feedback):
     profile=digest([config['research_goal'],config['directions'],config['datasets']['model'],PROMPT])
+    interest=digest([config['research_goal'],config['directions']])
     ready=[];aliases=config['datasets']['aliases']
     preference=Counter()
     for identifier,label in feedback.items():
@@ -187,7 +194,7 @@ def pick(candidates,state,config,feedback):
         if not review or row.get('review_profile')!=profile or review['grade'] not in 'ABC':continue
         if feedback.get(identifier) in ['seen','not_relevant'] or feedback.get(aliases.get(identifier,'')) in ['seen','not_relevant']:continue
         canonical=aliases.get(identifier) or ('mirror:'+row['mirror'] if row.get('mirror') else identifier)
-        rec_key=digest([canonical,row.get('mirror') or row['fingerprint'],profile])
+        rec_key=digest([canonical,row.get('mirror') or row['fingerprint'],interest])
         if rec_key in state['recommended']:continue
         ready.append({**row,'canonical':canonical,'recommendation_key':rec_key})
     selected=[];counts=Counter();families=set()
@@ -201,6 +208,7 @@ def pick(candidates,state,config,feedback):
 
 def run(config,state,today,hub,reviewer,feedback=None):
     state=copy.deepcopy(state or {'version':1,'candidates':{},'recommended':{},'query_cursor':0})
+    migrate_history(state,config)
     settings=config['datasets'];warnings=[];all_terms=terms(config);cursor=state['query_cursor'];success=0
     plan=[all_terms[(cursor+i)%len(all_terms)] for i in range(min(settings['queries_per_day'],len(all_terms)))]
     for term in plan:
@@ -246,7 +254,7 @@ def run(config,state,today,hub,reviewer,feedback=None):
         previous=any(v['canonical']==row['canonical'] for v in state['recommended'].values())
         item={k:row[k] for k in ['id','review','source_links','coverage_notes','papers','fingerprint']}
         item.update(url='https://huggingface.co/datasets/'+row['id'],reason_type='实质更新或研究档案变更' if previous else '首次推荐（可为历史数据集）',last_modified=row.get('lastModified'),license=(row.get('info',{}).get('cardData') or {}).get('license') or '未知',gated=row.get('info',{}).get('gated',False))
-        rows.append(item);state['recommended'][row['recommendation_key']]={'id':row['id'],'canonical':row['canonical'],'date':today}
+        rows.append(item);state['recommended'][row['recommendation_key']]={'id':row['id'],'canonical':row['canonical'],'date':today,'fingerprint':row.get('mirror') or row['fingerprint'],'interest':digest([config['research_goal'],config['directions']])}
     # Bound the backlog while recommendation history continues to prevent repeats.
     ranked=sorted(state['candidates'].values(),key=lambda r:(r.get('last_seen',''),r.get('rank',0)),reverse=True)[:settings['candidate_limit']]
     state['candidates']={r['id']:r for r in ranked}
@@ -255,11 +263,48 @@ def run(config,state,today,hub,reviewer,feedback=None):
             'limits':{'review':settings['review_limit'],'recommend':settings['daily_limit']},'model_calls':reviewer.calls,'cache_hits':reviewer.hits,'usage':dict(reviewer.usage)}
     return state,report
 
+def migrate_history(state,config):
+    """Prompt/model edits alone must not cause duplicate recommendations."""
+    for old_key,entry in list(state['recommended'].items()):
+        if 'interest' in entry:continue
+        row=state['candidates'].get(entry['id'])
+        if not row:continue
+        entry.update(interest=digest([config['research_goal'],config['directions']]),fingerprint=row.get('mirror') or row['fingerprint'])
+        state['recommended'][digest([entry['canonical'],entry['fingerprint'],entry['interest']])]=entry
+        del state['recommended'][old_key]
+
+def refresh_existing(config,state,report,hub,reviewer):
+    """Fix evidence reviews for the same daily IDs; do not reroll the daily list."""
+    migrate_history(state,config);updated=[];warnings=[];failures=0;completed=0
+    profile=digest([config['research_goal'],config['directions'],config['datasets']['model'],PROMPT])
+    for item in report['datasets']:
+        row=state['candidates'][item['id']]
+        try:
+            doc=hub.evidence(row,config);value=reviewer.review(row,doc)
+            completed+=1
+            row.update(review=value,review_profile=profile,fingerprint=doc['fingerprint'],mirror=doc['mirror'],info=doc['info'],checked_at=report['date'],review_sha=row.get('sha'),
+                       source_links={k:v['url'] for k,v in doc['sources'].items()},coverage_notes=doc['warnings'],papers=doc['papers'])
+            if value['grade'] in 'ABC':
+                updated.append({**item,'review':value,'fingerprint':doc['fingerprint'],'source_links':row['source_links'],'coverage_notes':row['coverage_notes'],'papers':row['papers']})
+            print('刷新已推荐数据集',item['id'],value['grade'],flush=True)
+        except Exception as error:
+            if fatal_provider_error(error):raise
+            failures+=1;updated.append(item);warnings.append('未完成刷新：'+item['id'])
+    if report['datasets'] and failures==len(report['datasets']):raise RuntimeError('No existing dataset review could be refreshed')
+    report.update(datasets=updated,generated_at=datetime.now(timezone.utc).isoformat(),reviewed_this_run=completed,review_failures=failures,
+                  warnings=list(dict.fromkeys(report['warnings']+warnings)),model_calls=reviewer.calls,cache_hits=reviewer.hits,usage=dict(reviewer.usage))
+    # Register refreshed evidence for already shown IDs without presenting them again tomorrow.
+    interest=digest([config['research_goal'],config['directions']])
+    for item in updated:
+        row=state['candidates'][item['id']];canonical=config['datasets']['aliases'].get(row['id']) or ('mirror:'+row['mirror'] if row.get('mirror') else row['id'])
+        fp=row.get('mirror') or row['fingerprint'];state['recommended'][digest([canonical,fp,interest])]={'id':row['id'],'canonical':canonical,'date':report['date'],'fingerprint':fp,'interest':interest}
+    return state,report
+
 def markdown(report):
     text=[f"# {report['date']} · 每日数据集精选\n\n推荐 {len(report['datasets'])} 个；本次评审 {report['reviewed_this_run']} 个。用途是研究迁移建议，未查清的属性标为未知。\n"]
     for row in report['datasets']:
         r=row['review'];text.append(f"\n## [{row['id']}]({row['url']}) · {r['grade']}\n\n{r['overview']}\n\n用途（推断）：{r['application']}\n\n依据：{r['reason']}\n\n")
-        for key,label in [('origin','来源'),('individual_id','个体ID'),('time_info','时间'),('labels','标签')]:text.append(f"- {label}：{r[key]['value']}\n")
+        for key,label in [('origin','来源'),('individual_id','个体ID'),('time_info','时间'),('labels','标签')]:text.append(f"- {label}：{ {'unknown':'未知','real':'真实观测','synthetic':'合成','mixed':'混合'}.get(r[key]['value'],r[key]['value']) }\n")
         text.append('- 许可：'+str(row['license'])+'\n')
         text.extend('- 限制：'+v+'\n' for v in r['constraints']+row['coverage_notes'])
         text.extend(f"- [证据 {sid}]({row['source_links'][sid]})\n" for sid in r['evidence'])
@@ -267,15 +312,17 @@ def markdown(report):
     return ''.join(text)
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--date',default=datetime.now(timezone.utc).date().isoformat());parser.add_argument('--output',type=Path,default=ROOT/'data/datasets');parser.add_argument('--review-limit',type=int)
+    parser=argparse.ArgumentParser();parser.add_argument('--date',default=datetime.now(timezone.utc).date().isoformat());parser.add_argument('--output',type=Path,default=ROOT/'data/datasets');parser.add_argument('--review-limit',type=int);parser.add_argument('--refresh-existing',action='store_true')
     args=parser.parse_args();config=load_config()
     if not config['datasets']['enabled']:print('Dataset selection disabled');return
     if args.review_limit:config['datasets']['review_limit']=min(args.review_limit,config['datasets']['review_limit'])
     output=args.output;output.mkdir(parents=True,exist_ok=True);target=output/(args.date+'.json')
-    if target.exists():print('Daily dataset selection already published; keeping the same recommendations');return
+    if target.exists() and not args.refresh_existing:print('Daily dataset selection already published; keeping the same recommendations');return
     state=json.loads((output/'state.json').read_text()) if (output/'state.json').exists() else None
     feedback=json.loads((ROOT/'dataset_feedback.json').read_text()).get('feedback',{}) if (ROOT/'dataset_feedback.json').exists() else {}
-    state,report=run(config,state,args.date,Hub(),Reviewer(config,ROOT/'.ai-cache/datasets/reviews'),feedback)
+    reviewer=Reviewer(config,ROOT/'.ai-cache/datasets/reviews')
+    if target.exists():state,report=refresh_existing(config,state,json.loads(target.read_text()),Hub(),reviewer)
+    else:state,report=run(config,state,args.date,Hub(),reviewer,feedback)
     write_json(target,report);write_json(output/'state.json',state)
     index=json.loads((output/'index.json').read_text()) if (output/'index.json').exists() else {'dates':[]}
     index['dates']=sorted(set(index['dates']+[args.date]),reverse=True);write_json(output/'index.json',index)

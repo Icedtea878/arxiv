@@ -2,7 +2,7 @@ import copy
 import tempfile
 import unittest
 from collections import Counter
-from dataset_pipeline import run,validate_review,digest,markdown,RateLimited
+from dataset_pipeline import run,validate_review,digest,markdown,refresh_existing,RateLimited
 from research_config import load_config
 
 def review(grade='A',direction='individual'):
@@ -50,6 +50,14 @@ class DatasetTests(unittest.TestCase):
     def test_facts_cannot_claim_known_without_sources(self):
         r=review();r['individual_id']={'status':'known','value':'stable person ID','evidence':[]}
         with self.assertRaises(ValueError):validate_review(r,self.config,{'card':{}})
+    def test_limited_preview_cannot_prove_no_individual_id(self):
+        r=review();r['individual_id']={'status':'known','value':'不存在个体ID','evidence':['fields']}
+        with self.assertRaises(ValueError):validate_review(r,self.config,{'card':{},'fields':{}})
+    def test_refresh_rechecks_same_ids_without_new_recommendations(self):
+        state,first=run(self.config,None,'2026-10-05',FakeHub(8),FakeReviewer())
+        hub=FakeHub(8);state,refreshed=refresh_existing(self.config,state,first,hub,FakeReviewer())
+        self.assertEqual(set(hub.read),set(r['id'] for r in first['datasets']))
+        self.assertEqual(len(hub.read),3);self.assertEqual(refreshed['reviewed_this_run'],3)
         r=review();r['evidence']=['invented']
         with self.assertRaises(ValueError):validate_review(r,self.config,{'card':{}})
     def test_all_failed_reviews_do_not_publish_empty_day(self):

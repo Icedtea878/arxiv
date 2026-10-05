@@ -8,6 +8,10 @@ on:
         description: '可选：本次最多评审数量（默认使用研究配置，不超过配置上限）'
         required: false
         default: ''
+      refresh_existing:
+        description: '仅修订当天已推荐条目的评审，不重新抽取推荐名单'
+        type: boolean
+        default: false
 permissions:
   contents: write
 concurrency:
@@ -43,12 +47,15 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
           REVIEW_LIMIT: ${{ inputs.review_limit }}
+          REFRESH_EXISTING: ${{ inputs.refresh_existing }}
         run: |
+          args=()
+          if [[ "$REFRESH_EXISTING" == "true" ]]; then args+=(--refresh-existing); fi
           if [[ -n "$REVIEW_LIMIT" ]]; then
             [[ "$REVIEW_LIMIT" =~ ^[1-9][0-9]?$ ]] || exit 1
-            uv run python ai/dataset_pipeline.py --review-limit "$REVIEW_LIMIT"
+            uv run python ai/dataset_pipeline.py "${args[@]}" --review-limit "$REVIEW_LIMIT"
           else
-            uv run python ai/dataset_pipeline.py
+            uv run python ai/dataset_pipeline.py "${args[@]}"
           fi
       - uses: actions/cache/save@v4
         if: always()

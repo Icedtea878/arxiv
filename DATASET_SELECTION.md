@@ -31,3 +31,5 @@
 GitHub Actions → **Daily dataset selections** → **Run workflow**。首次可以将可选 `review_limit` 填为 `3`，验证小批量流程；留空使用研究配置。工作流成功后，网站直接读取 data 分支中的结果，不需要重新部署网页。下载报告链接在数据集页面。
 
 来源接口参考：[Hub API](https://huggingface.co/docs/huggingface_hub/package_reference/hf_api)、[小量行预览](https://huggingface.co/docs/dataset-viewer/rows)。
+
+工作流的 `refresh_existing` 可仅重新核查当天已经展示的条目，保持相同候选范围，不抽取新的推荐；用于修正资料或评审问题。模型/提示词调整本身不会触发重复推荐，研究目标或方向变化才视为档案变化。

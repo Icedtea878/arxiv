@@ -4,3 +4,5 @@
 使用可行性单独评价：usable公开信息足以开展尝试；conditional需要申请、补充处理或验证；unknown信息不足。许可、真人/合成、ID、时间、标签均不能猜测。fact.status=known必须附实际原文source_id；未查清用unknown，不将未提及当成不存在。origin.value只能是real/synthetic/mixed/unknown。
 overview用一句话说明数据是什么；application明确写研究用途（推断）；reason说明分级的实际依据；constraints用短句列出最重要限制。每个已知事实引用sources中真实编号，evidence列出支撑相关性判断的编号，不生成引文或URL。明确区别原始数据的属性和研究迁移建议。
 只输出填好的JSON数据实例，禁止返回JSON Schema或思考过程。使用研究档案的输出语言。
+
+仅从字段列表或三条样例未见ID/时间，不能断言整份数据不存在这些信息；应写未知，或明确说当前预览未见该字段。有顺序的对话文本也能分析交互变化，缺少时间戳不等于不能分析对话过程。evidence只使用提供的顶层编号（如metadata/card/fields/sample/paper），不使用字段路径或句子作为编号。
