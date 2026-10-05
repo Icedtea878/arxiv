@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "date": "2026-10-05",
+  "generated_at": "2026-10-05T13:10:01.985904+00:00",
+  "profile": "Social World Model",
+  "directions": {
+    "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
+    "interaction": "人际、人机或社会代理的对话、协商、关系、相互影响与合作。",
+    "group": "多人协作、博弈、群体决策、集体行为与观点演化。",
+    "society": "社会网络、规范、制度、社区、文化与传播的建模或模拟。"
+  },
+  "datasets": [
+    {
+      "id": "linkpipi/personality-structure-alignment",
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "suitability": "usable",
+        "overview": "385×385人格特质结构矩阵，对比人类对虚构人物的BAP评分与Qwen2.5-7B-Instruct模型层20激活的隐含人格几何结构，包含Mantel对齐指标和逐特质对齐数据。",
+        "application": "可用于研究LLM如何表征人格特质间关系，为构建个性化人格模拟提供参照基准。具体可分析哪些特质对齐程度高、哪些存在偏差，进而设计改进模型人格结构的方法。需验证发现对其他模型/层的迁移性。",
+        "reason": "数据直接提供人格特质间关系的结构矩阵及其人类-模型对齐度量，支持理解隐含人格理论在人-模型间的差异。人格特质结构本身属于个体差异研究范畴。但数据仅含结构矩阵，缺少个体行为/对话记录，结构对齐不等同于人格行为模拟能力；且仅限单一模型层，需额外验证跨模型迁移。",
+        "origin": {
+          "status": "known",
+          "value": "mixed",
+          "evidence": [
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "385个双极人格特质标签(pole_A/pole_B)及2000个虚构人物ID",
+          "evidence": [
+            "card"
+          ]
+        },
+        "constraints": [
+          "模型结构仅来自Qwen2.5-7B-Instruct第20层，其他模型/层结果可能不同",
+          "人类与模型表示的列空间不同(人物 vs 隐藏单元)，仅结构矩阵可直接比较",
+          "人物数据为虚构角色非真实个体，2000个人物来源于BAP评分聚合",
+          "特质来源为OpenPsychometrics SWCPQ数据，需遵守其许可条款",
+          "Mantel对齐指标因框架模板而异(char_trait/trait/char)",
+          "仅公开结构矩阵，原始逐对-模板向量需访问linkpipi/personality-concept-vectors"
+        ],
+        "evidence": [
+          "card"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/linkpipi/personality-structure-alignment",
+        "card": "https://huggingface.co/datasets/linkpipi/personality-structure-alignment/blob/main/README.md"
+      },
+      "coverage_notes": [
+        "字段预览未获取（可能需申请或不支持预览）；未确认的属性标为未知。"
+      ],
+      "papers": [],
+      "fingerprint": "af9c852d397e3515199b2283523a9586c580efa3917f76d5eb3d3a142e8358dc",
+      "url": "https://huggingface.co/datasets/linkpipi/personality-structure-alignment",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-06-24T05:21:12.000Z",
+      "license": "other",
+      "gated": false
+    },
+    {
+      "id": "BothBosu/multi-agent-scam-conversation",
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "conditional",
+        "overview": "包含诈骗与非诈骗电话对话的合成数据集，记录两个AI代理间的多轮交互，每条对话标注接收者人格类型（8种）和对话类型。",
+        "application": "可尝试的任务：(1)基于人格字段(personality)研究不同人格类型对对话策略的影响，模拟个体行为差异；(2)分析对话文本(dialogue)中的交互模式，提取协商、说服、防御策略用于交互行为建模；(3)构建诈骗检测模型时，将接收者人格作为变量，分析其对欺骗成功率的影响。需要验证合成对话能否反映真实交互特征，并确保人格变量的操作化定义与研究需求一致。",
+        "reason": "数据包含8种人格类型(personality)和具体对话内容(dialogue)，可用于研究人格如何影响对话行为(individual)以及交互过程中的策略变化(interaction)。原始设计用于诈骗检测(text-classification)，但对话结构和人格局部设计可迁移用于行为研究。然而，合成数据可能无法完全反映真实交互特征，且数据以对话为基本单位，无个体ID追踪和纵向时间信息，需在方法论上做调整。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "不存在（以对话为单位，无个体追踪ID）",
+          "evidence": [
+            "fields"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "不存在（静态对话数据，无时间戳或对话阶段标记）",
+          "evidence": [
+            "fields"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "labels字段为二进制标签(0/1)；personality字段为分类标签(8种)；type字段为诈骗/非诈骗类型细分(8种)",
+          "evidence": [
+            "card",
+            "fields"
+          ]
+        },
+        "constraints": [
+          "合成数据可能无法完全反映真实电话交互的复杂性和自然性",
+          "以对话为单位组织，无个体ID，不支持纵向行为追踪",
+          "无时间信息，无法分析对话动态演变过程",
+          "对话生成依赖特定prompt设计，可能存在系统性偏差",
+          "接收者人格为预设标签，非真实人格测量结果"
+        ],
+        "evidence": [
+          "card",
+          "fields",
+          "metadata"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation",
+        "card": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation",
+        "sample": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "5272ee20c8f40701fdb2a4a0a4b76d065287c89c9b74bd6636feccfdb1f9d149",
+      "url": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2024-06-30T13:08:57.000Z",
+      "license": "apache-2.0",
+      "gated": false
+    }
+  ],
+  "candidate_count": 177,
+  "reviewed_this_run": 3,
+  "review_failures": 2,
+  "warnings": [],
+  "limits": {
+    "review": 5,
+    "recommend": 5
+  },
+  "model_calls": 6,
+  "cache_hits": 0,
+  "usage": {
+    "input_tokens": 21446,
+    "output_tokens": 6563,
+    "total_tokens": 28009
+  }
+}
