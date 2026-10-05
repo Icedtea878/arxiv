@@ -73,19 +73,27 @@ class ResearchPipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             kept,report=run([self.paper],self.config,d,lambda *_:document(),engine)
         self.assertEqual(kept,[]);self.assertEqual(report['decisions'][0]['review']['grade'],'D')
-    def test_borderline_evidence_reaches_fulltext_judge(self):
-        engine=FakeEngine(['C'])
-        original=engine.call
-        def call(stage,*args):
-            value=original(stage,*args)
-            if stage=='triage': value['grade']='D'
-            return value
-        engine.call=call
+    def test_rejected_or_uncertain_d_papers_never_fetch_fulltext(self):
+        for grade in ['D','E']:
+            engine=FakeEngine();original=engine.call
+            def call(stage,*args):
+                value=original(stage,*args)
+                if stage=='triage':value.update(grade=grade,uncertain=True)
+                return value
+            engine.call=call
+            def forbidden(*args):raise AssertionError('Rejected abstract must not fetch full text')
+            with tempfile.TemporaryDirectory() as d:
+                kept,report=run([self.paper],self.config,d,forbidden,engine)
+            self.assertEqual(kept,[]);self.assertEqual(engine.stages,['triage'])
+    def test_fulltext_budget_caps_selected_papers(self):
+        engine=FakeEngine(['A']*3);engine.config['reading']['max_fulltext_papers']=3
+        papers=[{**self.paper,'id':f'1234.1234{i}v1'} for i in range(5)]
+        fetched=[]
+        def fetch(p,*args):fetched.append(p['id']);return document()
         with tempfile.TemporaryDirectory() as d:
-            kept,report=run([self.paper],self.config,d,lambda *_:document(),engine)
-        self.assertEqual(kept[0]['triage']['grade'],'D')
-        self.assertEqual(kept[0]['research_review']['grade'],'C')
-        self.assertIn('judge',engine.stages)
+            kept,report=run(papers,engine.config,d,fetch,engine)
+        self.assertEqual(len(fetched),3);self.assertEqual(report['pending'],2)
+        self.assertEqual(sum(p['research_review']['status']=='deferred' for p in kept),2)
     def test_judge_can_resolve_reader_uncertainty(self):
         engine=FakeEngine(['C']);original=engine.call
         def call(stage,*args):

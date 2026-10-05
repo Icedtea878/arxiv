@@ -251,7 +251,7 @@
     "judge_base_url": ""
   },
   "reading": {
-    "max_fulltext_papers": null,
+    "max_fulltext_papers": 20,
     "chunk_chars": 24000,
     "max_revisions": 1
   },

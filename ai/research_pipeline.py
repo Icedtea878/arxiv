@@ -226,10 +226,8 @@ def run(papers,config,cache_dir,fulltext_loader=fetch_fulltext,engine=None):
             triage=engine.call('triage',Triage,{'title':paper['title'],'abstract':paper['summary']},source)
             row['triage']=triage
             row['research_review']={'grade':triage['grade'],'directions':triage['directions'],'reason':triage['reason'],'status':'abstract_excluded'}
-            borderline = triage['grade']=='D' and bool(triage['directions']) and bool(triage['evidence'])
-            if borderline:
-                row['triage_review_reason']='D级存在方向和原文线索，需全文裁判确认；不是最终排除。'
-            if triage['grade'] in config['retain_grades'] or triage['uncertain'] or borderline:candidates.append(row)
+            # Full-text budget is reserved for papers passing abstract selection.
+            if triage['grade'] in config['retain_grades']:candidates.append(row)
         except Exception as error:
             if fatal_provider_error(error):raise
             triage_failures+=1
