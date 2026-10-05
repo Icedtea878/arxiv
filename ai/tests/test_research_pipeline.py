@@ -56,6 +56,12 @@ class ResearchPipelineTests(unittest.TestCase):
         self.assertEqual(result['evidence'][0]['quote_kind'],'context_excerpt')
         draft['evidence']=[{'source_id':'invented','quote':''}]
         with self.assertRaises(ValueError):validate_result(draft,self.config,{'s1':{'text':TEXT}})
+    def test_schema_errors_report_the_invalid_field(self):
+        from research_pipeline import parse_json,Triage
+        payload={k:v for k,v in analysis().items() if k not in ['brief','sections']}
+        payload['directions']='individual'
+        with self.assertRaises(ValueError) as error:parse_json(json.dumps(payload),Triage)
+        self.assertIn('directions',str(error.exception))
     def test_final_judge_grade_can_exclude(self):
         engine=FakeEngine(['D'])
         with tempfile.TemporaryDirectory() as d:

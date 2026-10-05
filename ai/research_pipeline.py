@@ -135,7 +135,21 @@ class Engine:
             evidence_shape=shape['$defs']['Evidence']
             evidence_shape['properties']={'source_id':{'type':'string','enum':list(sources)}}
             evidence_shape['required']=['source_id']
-        messages=[('system',PROMPTS[stage]+'\n只输出符合以下Schema的JSON：'+json.dumps(shape,ensure_ascii=False)),
+        if stage=='chunk':
+            example={'notes':'填写带[source_id]的阅读笔记','evidence':[{'source_id':next(iter(sources))}]}
+        elif stage=='judge':
+            example={'verdict':'pass','grade':'C','directions':[next(iter(self.config['directions']))],'reason':'填写实际核查依据','issues':[]}
+        else:
+            example={'grade':'C','directions':[next(iter(self.config['directions']))],'research_object':'填写实际研究对象',
+                     'transfer':'填写具体机制、目标任务及条件','reason':'填写依据','uncertain':False,
+                     'evidence':[{'source_id':next(iter(sources))}]}
+            if stage=='reader':
+                count=self.config['output']['brief_sentences']
+                shape['properties']['brief']['minItems']=count;shape['properties']['brief']['maxItems']=count
+                example['brief']=['填写精简句子' for _ in range(count)]
+                example['sections']={title:'填写该部分的分析及[source_id]' for title in self.config['output']['sections']}
+        messages=[('system',PROMPTS[stage]+'\n以下Schema仅用于校验，禁止输出Schema本身或$defs/properties/type等定义：'+json.dumps(shape,ensure_ascii=False)+
+                   '\n只返回填好的数据实例。结构示例（等级、方向及结论必须根据实际证据判断，替换所有占位内容）：'+json.dumps(example,ensure_ascii=False)),
                   ('human',json.dumps({'research_profile':self.context,**payload},ensure_ascii=False))]
         for attempt in range(3):
             parsed=None;response=None
@@ -151,7 +165,7 @@ class Engine:
                     write_json(self.cache_dir/'rejected'/f'{key}-{attempt}.json', {'stage':stage,'error':str(error),'result':parsed,'raw_response':getattr(response,'content',None) if parsed is None else None})
                     if parsed is not None:
                         messages.append(('assistant',json.dumps(parsed,ensure_ascii=False)))
-                    messages.append(('human','校验失败：'+str(error)[:2200]+'。请修正，不要改写原文引句；可以改用更短的连续原文片段，不能编造。重新输出完整JSON。'))
+                    messages.append(('human','校验失败：'+str(error)[:2200]+'。请修正，不要改写原文引句；可以改用更短的连续原文片段，不能编造。重新输出填好的数据实例，禁止返回Schema/$defs/properties；按照系统消息的实例示例填写。'))
                 if fatal_provider_error(error) or attempt==2: raise
                 time.sleep(5*(attempt+1))
 
@@ -186,7 +200,7 @@ def review_paper(engine,paper,triage,document):
         if judge['verdict']=='revise' and revision<c['reading']['max_revisions']:
             analysis=engine.call('reader',Analysis,{**payload,'previous_analysis':analysis,'judge_feedback':judge},sources)
         else:break
-    pending=judge['verdict']!='pass' or analysis['uncertain'] or document['coverage']=='partial_text'
+    pending=judge['verdict']!='pass' or document['coverage']=='partial_text'
     return {'grade':judge['grade'],'directions':judge['directions'],'reason':judge['reason'],
             'status':'pending_review' if pending else 'reviewed','analysis':analysis,'judgments':history,
             'source':document['source'],'coverage':document['coverage'],'coverage_notes':document['notes'],
