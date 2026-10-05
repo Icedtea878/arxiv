@@ -45,6 +45,10 @@ class ResearchPipelineTests(unittest.TestCase):
         for quote in ['We simulate animal cooperation.', 'We evaluate 99% accuracy.']:
             draft=analysis();draft['evidence']=[{'source_id':'s1','quote':quote}]
             with self.assertRaises(ValueError):validate_result(draft,self.config,{'s1':{'text':TEXT}})
+    def test_retry_feedback_reports_all_bad_evidence(self):
+        draft=analysis();draft['evidence']=[{'source_id':'s1','quote':'invented result one'}, {'source_id':'s2','quote':'invented result two'}]
+        with self.assertRaises(ValueError) as error:validate_result(draft,self.config,{'s1':{'text':TEXT}})
+        self.assertIn('Evidence s1',str(error.exception));self.assertIn('Evidence s2',str(error.exception))
     def test_final_judge_grade_can_exclude(self):
         engine=FakeEngine(['D'])
         with tempfile.TemporaryDirectory() as d:

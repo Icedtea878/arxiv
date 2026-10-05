@@ -73,6 +73,7 @@ def validate_result(value, config, sources):
     if value.get('grade') in config['retain_grades'] and not value.get('directions'):
         raise ValueError('Retained grade requires a research direction')
     evidence=value.get('evidence',[])
+    evidence_errors=[]
     for item in evidence:
         # A model may punctuate an excerpt that ends mid-sentence. Strip only
         # terminal punctuation; all words and internal punctuation stay exact.
@@ -86,7 +87,9 @@ def validate_result(value, config, sources):
             if actual:
                 item['source_id']=actual
             else:
-                raise ValueError(f"Evidence {item['source_id']}: quote not found verbatim: {item['quote'][:160]}. Copy an exact short span from supplied source text.")
+                evidence_errors.append(f"Evidence {item['source_id']}: quote not found verbatim: {item['quote'][:160]}")
+    if evidence_errors:
+        raise ValueError('\n'.join(evidence_errors)+'\nCopy short continuous spans; do not omit internal words or citations.')
     if value.get('grade') in config['retain_grades'] and 'evidence' in value and not evidence:
         raise ValueError('Retained grade requires evidence')
     if 'sections' in value:
@@ -136,7 +139,7 @@ class Engine:
                     write_json(self.cache_dir/'rejected'/f'{key}-{attempt}.json', {'stage':stage,'error':str(error),'result':parsed})
                     if parsed is not None:
                         messages.append(('assistant',json.dumps(parsed,ensure_ascii=False)))
-                    messages.append(('human','校验失败：'+str(error)[:600]+'。请修正，不要改写原文引句；可以改用更短的连续原文片段，不能编造。重新输出完整JSON。'))
+                    messages.append(('human','校验失败：'+str(error)[:2200]+'。请修正，不要改写原文引句；可以改用更短的连续原文片段，不能编造。重新输出完整JSON。'))
                 if fatal_provider_error(error) or attempt==2: raise
                 time.sleep(5*(attempt+1))
 
