@@ -84,3 +84,19 @@ class ResearchPipelineTests(unittest.TestCase):
         from research_config import ResearchConfig
         c=copy.deepcopy(self.config);c['directions']={'biology':'细胞行为'}
         self.assertEqual(ResearchConfig.model_validate(c).directions,{'biology':'细胞行为'})
+
+class ModelCacheTests(unittest.TestCase):
+    def test_validated_stage_result_is_reused(self):
+        from research_pipeline import Engine,Triage
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        config=load_config()
+        payload={k:v for k,v in analysis().items() if k not in ['brief','sections']}
+        payload['evidence']=[{'source_id':'abstract','quote':'We simulate human cooperation'}]
+        model=Mock();model.invoke.return_value=SimpleNamespace(content=json.dumps(payload),usage_metadata={'input_tokens':20,'output_tokens':10})
+        with tempfile.TemporaryDirectory() as d:
+            e=Engine(config,d);e.models['triage']=model
+            sources={'abstract':{'text':TEXT}}
+            a=e.call('triage',Triage,{'title':'test','abstract':TEXT},sources)
+            b=e.call('triage',Triage,{'title':'test','abstract':TEXT},sources)
+            self.assertEqual(a,b);self.assertEqual(e.hits,1);model.invoke.assert_called_once()

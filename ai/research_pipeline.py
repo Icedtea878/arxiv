@@ -48,7 +48,9 @@ class Notes(Strict):
     notes:str=Field(min_length=1)
     evidence:list[Evidence]
 
-def norm(value): return ' '.join(unicodedata.normalize('NFKC',value).split()).casefold()
+def norm(value):
+    value=unicodedata.normalize('NFKC',value).replace('\u00ad','').replace('’', "'").replace('‘', "'").replace('“', '"').replace('”', '"')
+    return ' '.join(value.split()).casefold()
 def digest(value): return hashlib.sha256(json.dumps(value,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
 def write_json(path,value):
     path.parent.mkdir(parents=True,exist_ok=True)
@@ -72,7 +74,13 @@ def validate_result(value, config, sources):
     evidence=value.get('evidence',[])
     for item in evidence:
         source=sources.get(item['source_id'])
-        if not source or norm(item['quote']) not in norm(source['text']): raise ValueError('Evidence quote not found in cited source')
+        if not source or norm(item['quote']) not in norm(source['text']):
+            # Resolve an exact quote misattributed to another supplied source.
+            actual=next((sid for sid,body in sources.items() if norm(item['quote']) in norm(body['text'])),None)
+            if actual:
+                item['source_id']=actual
+            else:
+                raise ValueError(f"Evidence {item['source_id']}: quote not found verbatim: {item['quote'][:160]}. Copy an exact short span from supplied source text.")
     if value.get('grade') in config['retain_grades'] and 'evidence' in value and not evidence:
         raise ValueError('Retained grade requires evidence')
     if 'sections' in value:
@@ -103,16 +111,26 @@ class Engine:
                 cached=schema.model_validate_json(path.read_text(encoding='utf-8')).model_dump()
                 validate_result(cached,self.config,sources);self.hits+=1;return cached
             except (ValueError,TypeError): pass
-        messages=[('system',PROMPTS[stage]+'\n只输出符合以下Schema的JSON：'+json.dumps(schema.model_json_schema(),ensure_ascii=False)),
+        shape=schema.model_json_schema()
+        if 'Evidence' in shape.get('$defs',{}):
+            shape['$defs']['Evidence']['properties']['source_id']['enum']=list(sources)
+        messages=[('system',PROMPTS[stage]+'\n只输出符合以下Schema的JSON：'+json.dumps(shape,ensure_ascii=False)),
                   ('human',json.dumps({'research_profile':self.context,**payload},ensure_ascii=False))]
         for attempt in range(3):
+            parsed=None
             try:
                 response=self.model(role).invoke(messages);self.calls+=1
                 for k,v in (getattr(response,'usage_metadata',None) or {}).items():
                     if k in ['input_tokens','output_tokens','total_tokens'] and isinstance(v,int):self.usage[k]+=v
-                value=validate_result(parse_json(response,schema),self.config,sources)
+                parsed=parse_json(response,schema)
+                value=validate_result(parsed,self.config,sources)
                 write_json(path,value);return value
             except Exception as error:
+                if isinstance(error,ValueError):
+                    write_json(self.cache_dir/'rejected'/f'{key}-{attempt}.json', {'stage':stage,'error':str(error),'result':parsed})
+                    if parsed is not None:
+                        messages.append(('assistant',json.dumps(parsed,ensure_ascii=False)))
+                    messages.append(('human','校验失败：'+str(error)[:600]+'。请修正，不要改写原文引句；可以改用更短的连续原文片段，不能编造。重新输出完整JSON。'))
                 if fatal_provider_error(error) or attempt==2: raise
                 time.sleep(5*(attempt+1))
 

@@ -32,5 +32,8 @@ jobs:
         if: always()
         with:
           name: fulltext-reading-sample
-          path: smoke-reports/
+          path: |
+            smoke-reports/
+            .ai-cache/research/rejected/
+          include-hidden-files: true
           retention-days: 14
