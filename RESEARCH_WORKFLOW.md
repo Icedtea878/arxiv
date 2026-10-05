@@ -39,3 +39,5 @@
 本地运行：`uv sync` 后 `uv run python ai/research_config.py` 校验配置；`uv run python ai/research_pipeline.py --data data/日期.jsonl` 处理已有候选。全流程可用 `uv run bash run.sh`。
 
 证据接口使用原文段落编号。程序保存对应段落的开头片段并标记 `context_excerpt`，用于定位；该片段本身不表示它支持全部结论。裁判读取对应完整原文及上下文，检查结论是否有依据。模型不负责逐字复制引文。
+
+每日数据集精选为独立任务，不调用论文全文阅读流程。配置和反馈说明见 [DATASET_SELECTION.md](DATASET_SELECTION.md)。

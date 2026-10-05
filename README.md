@@ -1,3 +1,5 @@
+每日数据集精选与反馈设置见 [DATASET_SELECTION.md](DATASET_SELECTION.md)。
+
 > 当前部署使用研究档案 + ABCDE 初筛 + 全文阅读 + 独立裁判 + 双 Markdown 报告。参见 [配置与工作流说明](RESEARCH_WORKFLOW.md)，配置入口为 `research-settings.html`。下方为项目原有说明。
 
 # 🚀 daily-arXiv-ai-enhanced

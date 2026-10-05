@@ -28,6 +28,22 @@ class Output(Strict):
     brief_sentences: int = Field(ge=2, le=6)
     detail_words: int = Field(ge=200, le=3000)
     sections: list[str] = Field(min_length=1)
+class DatasetSelection(Strict):
+    enabled: bool = True
+    model: str = Field(default='MiniMax-M2.7', min_length=1)
+    daily_limit: int = Field(default=5, ge=1, le=10)
+    review_limit: int = Field(default=20, ge=1, le=50)
+    queries_per_day: int = Field(default=12, ge=1, le=30)
+    results_per_query: int = Field(default=20, ge=2, le=50)
+    card_chars: int = Field(default=12000, ge=2000, le=24000)
+    candidate_limit: int = Field(default=2000, ge=100, le=5000)
+    recheck_days: int = Field(default=30, ge=7, le=365)
+    queries: dict[str,list[str]] = Field(default_factory=lambda: {
+        'individual':['persona','personality','user simulation','human behavior'],
+        'interaction':['dialogue','negotiation','theory-of-mind','sotopia'],
+        'group':['cooperation','multi-agent','collective','group decision'],
+        'society':['social network','opinion','social norm','community']})
+    aliases: dict[str,str] = Field(default_factory=dict)
 class ResearchConfig(Strict):
     version: int
     name: str = Field(min_length=1)
@@ -43,6 +59,7 @@ class ResearchConfig(Strict):
     models: Models
     reading: Reading
     output: Output
+    datasets: DatasetSelection = Field(default_factory=DatasetSelection)
 
     @model_validator(mode='after')
     def valid(self):
@@ -50,6 +67,13 @@ class ResearchConfig(Strict):
             raise ValueError('version=1 and all ABCDE definitions required')
         if not self.directions or not all(re.fullmatch(r'[a-z][a-z0-9_]*', k) and v.strip() for k,v in self.directions.items()):
             raise ValueError('Direction IDs must be lowercase identifiers with descriptions')
+        if not self.datasets.queries:raise ValueError('At least one dataset query direction is required')
+        if not set(self.datasets.queries) <= set(self.directions):
+            raise ValueError('Dataset query directions must exist in the research profile')
+        if not all(terms and all(isinstance(t,str) and 0<len(t.strip())<=100 for t in terms) for terms in self.datasets.queries.values()):
+            raise ValueError('Dataset queries must be nonempty short strings')
+        if self.datasets.daily_limit>self.datasets.review_limit:
+            raise ValueError('Dataset daily limit must not exceed review limit')
         if not set(self.retain_grades) <= set('ABCDE') or len(set(self.retain_grades)) != len(self.retain_grades):
             raise ValueError('Invalid retained grades')
         if not all(re.fullmatch(r'[A-Za-z][A-Za-z0-9.-]*', c) for c in self.crawl.categories):

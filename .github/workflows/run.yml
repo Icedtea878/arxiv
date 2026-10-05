@@ -331,6 +331,8 @@ jobs:
         rm -f data/*.md 2>/dev/null || true
         rm -f data/*.json 2>/dev/null || true
         rm -f assets/file-list.txt 2>/dev/null || true
+        # Dataset history has already been copied above; remove untracked nested files before checkout.
+        rm -rf data/datasets
         
         # 检查 data 分支是否存在 / Check if data branch exists
         if git ls-remote --heads origin data | grep -q data; then

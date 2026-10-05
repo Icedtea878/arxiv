@@ -268,5 +268,43 @@
       "与研究的联系",
       "可借鉴方式"
     ]
+  },
+  "datasets": {
+    "enabled": true,
+    "model": "MiniMax-M2.7",
+    "daily_limit": 5,
+    "review_limit": 20,
+    "queries_per_day": 12,
+    "results_per_query": 20,
+    "card_chars": 12000,
+    "candidate_limit": 2000,
+    "recheck_days": 30,
+    "queries": {
+      "individual": [
+        "persona",
+        "personality",
+        "user simulation",
+        "human behavior"
+      ],
+      "interaction": [
+        "dialogue",
+        "negotiation",
+        "theory-of-mind",
+        "sotopia"
+      ],
+      "group": [
+        "cooperation",
+        "multi-agent",
+        "collective",
+        "group decision"
+      ],
+      "society": [
+        "social network",
+        "opinion",
+        "social norm",
+        "community"
+      ]
+    },
+    "aliases": {}
   }
 }

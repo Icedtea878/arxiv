@@ -24,3 +24,14 @@
 .dataset-note { margin-top: 32px; font-size: 13px; }
 button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 3px; }
 @media (max-width: 650px) { .dataset-page { padding: 20px 16px 40px; } .dataset-search { padding: 16px; } .dataset-grid { grid-template-columns: 1fr; } .search-row button { padding: 12px 16px; } }
+
+.dataset-toolbar, .dataset-feedback { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.dataset-toolbar { margin: 24px 0 16px; }
+.dataset-toolbar select, .dataset-feedback button, #exportDatasetFeedback { padding: 7px 10px; color: var(--text-color); background: var(--card-bg-color); border: 1px solid var(--border-color); border-radius: 6px; font: inherit; }
+.dataset-feedback button[aria-pressed="true"] { border-color: var(--primary-color); color: var(--primary-color); }
+.dataset-feedback span { font-size: 12px; color: var(--text-secondary); }
+#dailyDatasetStatus { margin-bottom: 16px; color: var(--text-secondary); }
+.dataset-feedback-help, .manual-dataset-search { margin-top: 24px; padding: 16px; border: 1px solid var(--border-color); border-radius: 10px; }
+.dataset-feedback-help p { margin: 12px 0; font-size: 13px; color: var(--text-secondary); }
+.manual-dataset-search > summary, .dataset-feedback-help > summary { cursor: pointer; font-weight: 600; }
+.dataset-card details > p { margin-top: 10px; }

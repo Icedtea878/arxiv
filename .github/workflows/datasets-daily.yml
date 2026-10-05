@@ -1,0 +1,67 @@
+name: Daily dataset selections
+on:
+  schedule:
+    - cron: '45 17 * * *'
+  workflow_dispatch:
+    inputs:
+      review_limit:
+        description: '可选：本次最多评审数量（默认使用研究配置，不超过配置上限）'
+        required: false
+        default: ''
+permissions:
+  contents: write
+concurrency:
+  group: arxiv-daily
+  cancel-in-progress: false
+jobs:
+  datasets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Load dataset backlog and recommendation history
+        run: |
+          if git ls-remote --exit-code --heads origin data >/dev/null; then
+            git fetch origin data
+            if git cat-file -e FETCH_HEAD:data/datasets 2>/dev/null; then
+              git archive FETCH_HEAD data/datasets | tar -x
+            fi
+          fi
+      - name: Install dependencies
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          uv sync --frozen
+      - name: Validate research configuration
+        run: uv run python ai/research_config.py
+      - uses: actions/cache/restore@v4
+        with:
+          path: .ai-cache/datasets
+          key: datasets-v1-${{ github.repository_id }}-${{ github.run_id }}
+          restore-keys: datasets-v1-${{ github.repository_id }}-
+      - name: Discover and review datasets
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          REVIEW_LIMIT: ${{ inputs.review_limit }}
+        run: |
+          if [[ -n "$REVIEW_LIMIT" ]]; then
+            [[ "$REVIEW_LIMIT" =~ ^[1-9][0-9]?$ ]] || exit 1
+            uv run python ai/dataset_pipeline.py --review-limit "$REVIEW_LIMIT"
+          else
+            uv run python ai/dataset_pipeline.py
+          fi
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .ai-cache/datasets
+          key: datasets-v1-${{ github.repository_id }}-${{ github.run_id }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: daily-dataset-selections
+          path: data/datasets/
+          retention-days: 14
+      - name: Publish dataset selections without changing paper results
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: uv run python ai/publish_datasets.py

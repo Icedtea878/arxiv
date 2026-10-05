@@ -138,7 +138,7 @@ class ResearchPipelineTests(unittest.TestCase):
         self.assertNotIn('0.0120.012',sections[0]['text'])
     def test_config_accepts_custom_directions(self):
         from research_config import ResearchConfig
-        c=copy.deepcopy(self.config);c['directions']={'biology':'细胞行为'}
+        c=copy.deepcopy(self.config);c['directions']={'biology':'细胞行为'};c['datasets']['queries']={'biology':['cell behavior']}
         self.assertEqual(ResearchConfig.model_validate(c).directions,{'biology':'细胞行为'})
 
 class ModelCacheTests(unittest.TestCase):

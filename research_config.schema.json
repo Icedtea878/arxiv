@@ -32,6 +32,90 @@
       "title": "Crawl",
       "type": "object"
     },
+    "DatasetSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "model": {
+          "default": "MiniMax-M2.7",
+          "minLength": 1,
+          "title": "Model",
+          "type": "string"
+        },
+        "daily_limit": {
+          "default": 5,
+          "maximum": 10,
+          "minimum": 1,
+          "title": "Daily Limit",
+          "type": "integer"
+        },
+        "review_limit": {
+          "default": 20,
+          "maximum": 50,
+          "minimum": 1,
+          "title": "Review Limit",
+          "type": "integer"
+        },
+        "queries_per_day": {
+          "default": 12,
+          "maximum": 30,
+          "minimum": 1,
+          "title": "Queries Per Day",
+          "type": "integer"
+        },
+        "results_per_query": {
+          "default": 20,
+          "maximum": 50,
+          "minimum": 2,
+          "title": "Results Per Query",
+          "type": "integer"
+        },
+        "card_chars": {
+          "default": 12000,
+          "maximum": 24000,
+          "minimum": 2000,
+          "title": "Card Chars",
+          "type": "integer"
+        },
+        "candidate_limit": {
+          "default": 2000,
+          "maximum": 5000,
+          "minimum": 100,
+          "title": "Candidate Limit",
+          "type": "integer"
+        },
+        "recheck_days": {
+          "default": 30,
+          "maximum": 365,
+          "minimum": 7,
+          "title": "Recheck Days",
+          "type": "integer"
+        },
+        "queries": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Queries",
+          "type": "object"
+        },
+        "aliases": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "object"
+        }
+      },
+      "title": "DatasetSelection",
+      "type": "object"
+    },
     "Models": {
       "additionalProperties": false,
       "properties": {
@@ -220,6 +304,9 @@
     },
     "output": {
       "$ref": "#/$defs/Output"
+    },
+    "datasets": {
+      "$ref": "#/$defs/DatasetSelection"
     }
   },
   "required": [

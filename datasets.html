@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据集搜索 · Social World Model</title>
+    <title>每日数据集精选 · Social World Model</title>
     <meta name="description" content="查找 Social World Model、心智理论、社会推理和社会模拟相关的公开数据集与论文。">
     <link rel="icon" href="assets/logo2-removebg-preview.png">
     <link rel="stylesheet" href="css/styles.css">
@@ -11,17 +11,35 @@
     <script src="js/auth-config.js"></script>
     <script src="js/auth.js"></script>
     <script>Auth.requireAuth();</script>
+    <script src="js/data-config.js"></script>
+    <script src="js/dataset-daily.js?v=1.0.0" defer></script>
     <script src="js/dataset-discovery.js?v=2.0.0" defer></script>
-    <script src="js/datasets.js?v=2.0.0" defer></script>
+    <script src="js/datasets.js?v=3.0.0" defer></script>
 </head>
 <body>
     <main class="dataset-page">
         <nav class="dataset-nav" aria-label="页面导航"><a href="index.html">← 每日论文</a><a href="settings.html">偏好设置</a></nav>
         <section class="dataset-intro">
             <p class="eyebrow">SOCIAL WORLD MODEL</p>
-            <h1>发现相关研究数据</h1>
-            <p>个体、交互、群体、社会：任一方向有关就可以考虑。真人或合成、静态或纵向数据都可进入候选。</p>
+            <h1>每日数据集精选</h1>
+            <p>每天最多 5 个，覆盖个体、交互、群体、社会。兼顾新增与你未看过的历史数据集，不为凑数重复推荐。</p>
         </section>
+        <section aria-label="每日精选">
+            <div class="dataset-toolbar">
+                <label>日期 <select id="datasetDate" aria-label="精选日期"></select></label>
+                <label>显示 <select id="datasetFeedbackFilter"><option value="unseen">未处理 / 有用</option><option value="all">全部（含已看与不相关）</option></select></label>
+                <a id="datasetReportLink" hidden target="_blank" rel="noopener noreferrer">下载今日 Markdown ↗</a>
+            </div>
+            <p id="dailyDatasetStatus" role="status" aria-live="polite"></p>
+            <div id="dailyDatasetResults" class="dataset-grid" aria-busy="false"></div>
+            <p class="dataset-note">匹配度与使用可行性分别判断；用途属于研究建议，未查清的属性标为未知。已推荐内容默认不再出现，实质更新或研究档案变更除外。镜像识别可能不完整。</p>
+            <details class="dataset-feedback-help"><summary>反馈与个人偏好</summary>
+                <p>“有用 / 不相关 / 已看”保存在本浏览器。可以切换“全部”撤销标记；“有用”不妨碍查看。</p>
+                <button id="exportDatasetFeedback" type="button">导出反馈</button>
+                <p>若要让后台以后也按你的反馈筛选，请将导出的 dataset_feedback.json 替换自己仓库 main 分支同名文件；“不相关 / 已看”会被跳过，“有用”用于同等级内的方向偏好。</p>
+            </details>
+        </section>
+        <details id="manualDatasetSearch" class="manual-dataset-search"><summary>手动搜索更多数据集</summary>
         <form id="datasetSearch" class="dataset-search" role="search">
             <label for="datasetQuery">研究方向、数据集名称或英文关键词</label>
             <div class="search-row">
@@ -46,7 +64,8 @@
         </section>
         <p id="datasetStatus" role="status" aria-live="polite"></p>
         <section id="datasetResults" class="dataset-grid" aria-label="数据集搜索结果" aria-busy="false"></section>
-        <p class="dataset-note">当前列表来自 Hugging Face；arXiv 和 Google Dataset Search 提供额外检索入口。名称召回和简介匹配可能漏检或误收；未对数据内容做完整核验。缺少个体 ID、时间或许可信息只做提示，不直接排除。结果独立于每日论文及其 80 分阈值。</p>
+        <p class="dataset-note">当前列表来自 Hugging Face；arXiv 和 Google Dataset Search 提供额外检索入口。名称召回和简介匹配可能漏检或误收；未对数据内容做完整核验。缺少个体 ID、时间或许可信息只做提示，不直接排除。手动搜索结果不经过每日精选的 LLM 筛选。</p>
+        </details>
     </main>
 </body>
 </html>

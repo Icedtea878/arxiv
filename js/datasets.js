@@ -164,5 +164,11 @@
     input.value = chip.dataset.query;
     search();
   }));
+  const manual = document.getElementById('manualDatasetSearch');
+  if (manual?.tagName === 'DETAILS' && !manual.open) {
+    let started = false;
+    manual.addEventListener('toggle', () => { if (manual.open && !started) { started = true; search(); } });
+    return;
+  }
   search();
 })();

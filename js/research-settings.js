@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  let profile, schema;
+  let profile, schema, datasetDefaults;
   const $ = id => document.getElementById(id);
   const fields = [
     ['name','档案名称','text'],['research_goal','研究目标','textarea'],
@@ -13,6 +13,8 @@
     ['models.base_url','模型接口地址（HTTPS）','text'],['models.judge_base_url','独立裁判接口（留空沿用阅读服务）','text'],
     ['reading.max_fulltext_papers','全文篇数上限（留空读全部候选）','nullable'],['reading.max_revisions','最大修订次数（0 或 1）','number'],
     ['output.language','输出语言','text'],['output.brief_sentences','精简版每篇句数（2–6）','number'],
+    ['datasets.daily_limit','每日数据集推荐上限（1–10）','number'],['datasets.review_limit','每日数据卡评审上限（1–50）','number'],
+    ['datasets.model','数据集评审模型','text'],['datasets.queries','数据集检索词（方向标识 → 英文词数组）','json'],['datasets.aliases','数据集别名 / 镜像合并（JSON）','json'],
     ['output.detail_words','详细版每篇目标字数','number'],['output.sections','详细版栏目（JSON 数组）','json']
   ];
   const get = (obj,path) => path.split('.').reduce((v,k)=>v[k],obj);
@@ -40,9 +42,11 @@
     }
   }
   function check(value) {
+    if (!value.datasets && datasetDefaults) value.datasets=structuredClone(datasetDefaults);
     validate(value);
     if(value.version!==1 || Object.keys(value.grades).sort().join('')!=='ABCDE' || !value.retain_grades.every(g=>'ABCDE'.includes(g)&&g.length===1)) throw new Error('请保留完整ABCDE定义及合法保留等级');
     if(!Object.keys(value.directions).length || !Object.entries(value.directions).every(([k,v])=>/^[a-z][a-z0-9_]*$/.test(k)&&v.trim())) throw new Error('方向需要英文小写标识及非空描述');
+    if(value.datasets && (!Object.keys(value.datasets.queries).every(k=>k in value.directions) || value.datasets.daily_limit>value.datasets.review_limit)) throw new Error('数据集检索方向需存在于研究档案，推荐上限不能超过评审上限');
     if(!value.crawl.categories.every(c=>/^[A-Za-z][A-Za-z0-9.-]*$/.test(c))) throw new Error('分类格式错误');
     for(const u of [value.models.base_url,value.models.judge_base_url]) if(u && new URL(u).protocol!=='https:') throw new Error('接口必须使用HTTPS');
     if(!Object.keys(value.keyword_profile.method_keywords).length || !Object.entries(value.keyword_profile.method_keywords).every(([k,v])=>k.trim()&&typeof v==='number'&&v>=0)) throw new Error('关键词权重需为非负数');
@@ -50,7 +54,7 @@
   function collect() {
     const result=structuredClone(profile);
     for(const [path,,type] of fields) {
-      const raw=$('field-'+path).value;
+      const raw=String($('field-'+path).value);
       set(result,path,type==='json'?JSON.parse(raw):type==='csv'?raw.split(',').map(v=>v.trim()).filter(Boolean):type==='nullable'?(raw.trim()?Number(raw):null):type==='number'?Number(raw):raw.trim());
     }
     check(result);return result;
@@ -76,5 +80,5 @@
   function apply(text){const value=JSON.parse(text);check(value);profile=value;render();$('profileStatus').textContent='配置已导入，导出并上传仓库后生效。';}
   $('applyJson').addEventListener('click',()=>{try{apply($('profileJson').value);}catch(e){$('profileStatus').textContent=e.message;}});
   $('importProfile').addEventListener('change',async event=>{try{const file=event.target.files[0];if(!file)return;if(file.size>1000000)throw new Error('配置文件过大');apply(await file.text());}catch(e){$('profileStatus').textContent=e.message;}});
-  Promise.all(['research_config.json','research_config.schema.json'].map(async url=>{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('无法读取配置：'+r.status);return r.json();})).then(([config,s])=>{schema=s;check(config);profile=config;render();$('profileStatus').textContent='已读取仓库当前研究档案。';}).catch(e=>{$('profileStatus').textContent=e.message;});
+  Promise.all(['research_config.json','research_config.schema.json'].map(async url=>{const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('无法读取配置：'+r.status);return r.json();})).then(([config,s])=>{schema=s;datasetDefaults=config.datasets;check(config);profile=config;render();$('profileStatus').textContent='已读取仓库当前研究档案。';}).catch(e=>{$('profileStatus').textContent=e.message;});
 })();
