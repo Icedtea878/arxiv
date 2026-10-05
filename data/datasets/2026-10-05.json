@@ -1,7 +1,7 @@
 {
   "version": 1,
   "date": "2026-10-05",
-  "generated_at": "2026-10-05T13:10:01.985904+00:00",
+  "generated_at": "2026-10-05T15:32:06.276077+00:00",
   "profile": "Social World Model",
   "directions": {
     "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
@@ -13,47 +13,48 @@
     {
       "id": "linkpipi/personality-structure-alignment",
       "review": {
-        "grade": "C",
+        "grade": "B",
         "directions": [
           "individual"
         ],
-        "suitability": "usable",
-        "overview": "385×385人格特质结构矩阵，对比人类对虚构人物的BAP评分与Qwen2.5-7B-Instruct模型层20激活的隐含人格几何结构，包含Mantel对齐指标和逐特质对齐数据。",
-        "application": "可用于研究LLM如何表征人格特质间关系，为构建个性化人格模拟提供参照基准。具体可分析哪些特质对齐程度高、哪些存在偏差，进而设计改进模型人格结构的方法。需验证发现对其他模型/层的迁移性。",
-        "reason": "数据直接提供人格特质间关系的结构矩阵及其人类-模型对齐度量，支持理解隐含人格理论在人-模型间的差异。人格特质结构本身属于个体差异研究范畴。但数据仅含结构矩阵，缺少个体行为/对话记录，结构对齐不等同于人格行为模拟能力；且仅限单一模型层，需额外验证跨模型迁移。",
+        "suitability": "conditional",
+        "overview": "385个双极人格特质的人类角色评分与Qwen2.5-7B-Instruct模型隐藏层激活值的结构矩阵对比数据，包含表征矩阵和结构矩阵，用于测量模型内隐人格几何与人类人格结构的alignment。",
+        "application": "可用于研究个体人格建模任务：(1) 分析人类与AI模型在人格特质组织方式上的差异，验证模型能否模拟人类的内隐人格理论；(2) 基于385个特质维度构建用户人格模拟器，通过特质向量相似度推断个体行为倾向；(3) 为对话系统的个性化人格模块提供人格结构层面的参考。需要申请访问权限，且当前数据仅针对Qwen2.5-7B-Instruct layer-20的特定配置，其他模型或层需要验证迁移可行性。",
+        "reason": "数据集直接提供人类人格评价（2000角色×385特质）与模型激活表征的对比结构矩阵，符合个体研究方向中人格建模任务的核心需求。虽然数据源为虚构角色而非真实用户行为记录，但其特质结构和关系模式可迁移用于个体人格模拟系统的设计与评估。B级而非A级因为：缺少时间信息和个体追踪ID，数据为静态快照；迁移到真实用户模拟需要额外验证。",
         "origin": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "individual_id": {
           "status": "known",
-          "value": "mixed",
+          "value": "角色索引(2000个characters)和特质索引(385个traits)可用于个体级别的分析和匹配，但非真实用户ID",
           "evidence": [
             "card"
           ]
         },
-        "individual_id": {
-          "status": "unknown",
-          "value": "unknown",
-          "evidence": []
-        },
         "time_info": {
-          "status": "unknown",
-          "value": "unknown",
-          "evidence": []
+          "status": "known",
+          "value": "无时间字段，数据为静态快照",
+          "evidence": [
+            "card"
+          ]
         },
         "labels": {
           "status": "known",
-          "value": "385个双极人格特质标签(pole_A/pole_B)及2000个虚构人物ID",
+          "value": "特质维度为双极对立结构(pole_A vs pole_B)，如BAP量表评分，无显式分类标签",
           "evidence": [
             "card"
           ]
         },
         "constraints": [
-          "模型结构仅来自Qwen2.5-7B-Instruct第20层，其他模型/层结果可能不同",
-          "人类与模型表示的列空间不同(人物 vs 隐藏单元)，仅结构矩阵可直接比较",
-          "人物数据为虚构角色非真实个体，2000个人物来源于BAP评分聚合",
-          "特质来源为OpenPsychometrics SWCPQ数据，需遵守其许可条款",
-          "Mantel对齐指标因框架模板而异(char_trait/trait/char)",
-          "仅公开结构矩阵，原始逐对-模板向量需访问linkpipi/personality-concept-vectors"
+          "仅包含Qwen2.5-7B-Instruct layer-20的模型输出，其他模型/层需重新获取",
+          "human和model表征空间不可直接比较，仅结构矩阵可比",
+          "数据基于虚构角色，非真实用户行为记录",
+          "特质来源于OpenPsychometrics SWCPQ，需遵守原始许可条款"
         ],
         "evidence": [
+          "metadata",
           "card"
         ]
       },
@@ -71,91 +72,21 @@
       "last_modified": "2026-06-24T05:21:12.000Z",
       "license": "other",
       "gated": false
-    },
-    {
-      "id": "BothBosu/multi-agent-scam-conversation",
-      "review": {
-        "grade": "C",
-        "directions": [
-          "individual",
-          "interaction"
-        ],
-        "suitability": "conditional",
-        "overview": "包含诈骗与非诈骗电话对话的合成数据集，记录两个AI代理间的多轮交互，每条对话标注接收者人格类型（8种）和对话类型。",
-        "application": "可尝试的任务：(1)基于人格字段(personality)研究不同人格类型对对话策略的影响，模拟个体行为差异；(2)分析对话文本(dialogue)中的交互模式，提取协商、说服、防御策略用于交互行为建模；(3)构建诈骗检测模型时，将接收者人格作为变量，分析其对欺骗成功率的影响。需要验证合成对话能否反映真实交互特征，并确保人格变量的操作化定义与研究需求一致。",
-        "reason": "数据包含8种人格类型(personality)和具体对话内容(dialogue)，可用于研究人格如何影响对话行为(individual)以及交互过程中的策略变化(interaction)。原始设计用于诈骗检测(text-classification)，但对话结构和人格局部设计可迁移用于行为研究。然而，合成数据可能无法完全反映真实交互特征，且数据以对话为基本单位，无个体ID追踪和纵向时间信息，需在方法论上做调整。",
-        "origin": {
-          "status": "known",
-          "value": "synthetic",
-          "evidence": [
-            "metadata",
-            "card"
-          ]
-        },
-        "individual_id": {
-          "status": "known",
-          "value": "不存在（以对话为单位，无个体追踪ID）",
-          "evidence": [
-            "fields"
-          ]
-        },
-        "time_info": {
-          "status": "known",
-          "value": "不存在（静态对话数据，无时间戳或对话阶段标记）",
-          "evidence": [
-            "fields"
-          ]
-        },
-        "labels": {
-          "status": "known",
-          "value": "labels字段为二进制标签(0/1)；personality字段为分类标签(8种)；type字段为诈骗/非诈骗类型细分(8种)",
-          "evidence": [
-            "card",
-            "fields"
-          ]
-        },
-        "constraints": [
-          "合成数据可能无法完全反映真实电话交互的复杂性和自然性",
-          "以对话为单位组织，无个体ID，不支持纵向行为追踪",
-          "无时间信息，无法分析对话动态演变过程",
-          "对话生成依赖特定prompt设计，可能存在系统性偏差",
-          "接收者人格为预设标签，非真实人格测量结果"
-        ],
-        "evidence": [
-          "card",
-          "fields",
-          "metadata"
-        ]
-      },
-      "source_links": {
-        "metadata": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation",
-        "card": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation/blob/main/README.md",
-        "fields": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation",
-        "sample": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation"
-      },
-      "coverage_notes": [],
-      "papers": [],
-      "fingerprint": "5272ee20c8f40701fdb2a4a0a4b76d065287c89c9b74bd6636feccfdb1f9d149",
-      "url": "https://huggingface.co/datasets/BothBosu/multi-agent-scam-conversation",
-      "reason_type": "首次推荐（可为历史数据集）",
-      "last_modified": "2024-06-30T13:08:57.000Z",
-      "license": "apache-2.0",
-      "gated": false
     }
   ],
   "candidate_count": 177,
-  "reviewed_this_run": 3,
-  "review_failures": 2,
+  "reviewed_this_run": 2,
+  "review_failures": 0,
   "warnings": [],
   "limits": {
     "review": 5,
     "recommend": 5
   },
-  "model_calls": 6,
+  "model_calls": 2,
   "cache_hits": 0,
   "usage": {
-    "input_tokens": 21446,
-    "output_tokens": 6563,
-    "total_tokens": 28009
+    "input_tokens": 6848,
+    "output_tokens": 1995,
+    "total_tokens": 8843
   }
 }
