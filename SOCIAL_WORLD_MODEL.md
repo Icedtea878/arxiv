@@ -1,3 +1,7 @@
+# 当前工作流已升级
+
+新配置及操作说明见 [RESEARCH_WORKFLOW.md](RESEARCH_WORKFLOW.md)。当前使用 ABCDE 初筛、全文阅读、独立裁判及双 Markdown 报告。以下为旧百分制流程的历史说明，不作为当前配置依据。
+
 # Social World Model 配置
 
 每日北京时间 01:30（UTC 17:30）触发 GitHub Actions；实际开始时间可能延迟。也可在 Actions → arXiv-daily-ai-enhanced → Run workflow 手动运行。

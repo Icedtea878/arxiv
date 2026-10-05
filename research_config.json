@@ -1,0 +1,272 @@
+{
+  "version": 1,
+  "name": "Social World Model",
+  "research_goal": "理解和模拟个体、个体交互、群体及社会行为，并提炼可用于研究的方法和数据。",
+  "directions": {
+    "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
+    "interaction": "人际、人机或社会代理的对话、协商、关系、相互影响与合作。",
+    "group": "多人协作、博弈、群体决策、集体行为与观点演化。",
+    "society": "社会网络、规范、制度、社区、文化与传播的建模或模拟。"
+  },
+  "questions": [
+    "研究对象与任务是什么，与哪个研究方向有关？",
+    "具体能借鉴哪个机制，用于研究中的什么任务，适用条件是什么？",
+    "原文中支持判断的证据在哪里，哪些联系是推断？"
+  ],
+  "grades": {
+    "A": "核心相关：直接研究研究档案中的核心问题。",
+    "B": "直接支撑：提供明确服务于研究方向的方法、数据或评测。",
+    "C": "方法可借鉴：目标不同，但能明确说明迁移机制、目标任务与适用条件。",
+    "D": "弱相关：只有概念或关键词重合，无法说明具体迁移价值。",
+    "E": "无关：没有可支持的研究联系。"
+  },
+  "exclusions": [
+    "不能仅凭 agent、state、simulation、dataset 等词判断相关。",
+    "通用科学发现、纯技能迁移、纯物理控制，若无明确社会行为联系或具体迁移机制，不视为相关。"
+  ],
+  "examples": [
+    {
+      "topic": "声誉、情绪和策略对多轮合作行为的影响",
+      "grade": "A"
+    },
+    {
+      "topic": "人格一致性评测或用户历史建模",
+      "grade": "B"
+    },
+    {
+      "topic": "记忆机制能够用于个体历史对当前选择的影响，且说明迁移条件",
+      "grade": "C"
+    },
+    {
+      "topic": "仅声称通用agent框架对社会模拟有启发",
+      "grade": "D"
+    },
+    {
+      "topic": "没有行为建模联系的纯矩阵计算优化",
+      "grade": "E"
+    }
+  ],
+  "retain_grades": [
+    "A",
+    "B",
+    "C"
+  ],
+  "crawl": {
+    "categories": [
+      "cs.AI",
+      "cs.CL",
+      "cs.LG",
+      "cs.MA",
+      "cs.HC",
+      "cs.SI",
+      "cs.CY",
+      "cs.CV"
+    ],
+    "per_category": 100,
+    "shortlist": 200
+  },
+  "keyword_profile": {
+    "title_multiplier": 2,
+    "method_min_score": 4,
+    "method_keywords": {
+      "social world model": 12,
+      "human simulation": 8,
+      "user simulation": 8,
+      "persona simulation": 9,
+      "persona graph": 9,
+      "mental state modeling": 9,
+      "mental state modelling": 9,
+      "mental state transition": 10,
+      "individual behavior prediction": 9,
+      "individual behaviour prediction": 9,
+      "personality dynamics": 8,
+      "cognitive appraisal": 8,
+      "person situation": 7,
+      "experience sampling": 7,
+      "behavioral fidelity": 8,
+      "behavioural fidelity": 8,
+      "agent state": 8,
+      "social simulation": 8,
+      "social reasoning": 6,
+      "theory of mind": 8,
+      "mental state": 6,
+      "social interaction": 5,
+      "personality states": 7,
+      "personality traits": 5,
+      "emotion dynamics": 7,
+      "belief tracking": 5,
+      "belief transition": 5,
+      "human behavior": 5,
+      "human behaviour": 5,
+      "agent based simulation": 4,
+      "multi agent": 2,
+      "persona": 3,
+      "personality": 3,
+      "individual modeling": 8,
+      "individual modelling": 8,
+      "individual simulation": 8,
+      "user modeling": 8,
+      "user modelling": 8,
+      "human behavior modeling": 8,
+      "human behaviour modelling": 8,
+      "human digital twin": 8,
+      "interpersonal interaction": 8,
+      "human agent interaction": 8,
+      "human human interaction": 8,
+      "social agent": 8,
+      "social agents": 8,
+      "group simulation": 8,
+      "crowd simulation": 8,
+      "population simulation": 8,
+      "collective behavior": 8,
+      "collective behaviour": 8,
+      "group dynamics": 8,
+      "opinion dynamics": 8,
+      "social influence": 8,
+      "social dynamics": 8,
+      "societal simulation": 8,
+      "society simulation": 8,
+      "agent based social simulation": 8,
+      "computational social science": 8
+    },
+    "groups": {
+      "release": [
+        "dataset",
+        "benchmark",
+        "corpus",
+        "corpora",
+        "data collection",
+        "open data"
+      ],
+      "simulation": [
+        "human simulation",
+        "user simulation",
+        "persona simulation",
+        "persona graph",
+        "social simulation",
+        "social world model",
+        "personality",
+        "persona",
+        "individual simulation",
+        "digital twin"
+      ],
+      "individual_history": [
+        "individual-level",
+        "person-level",
+        "participant-level",
+        "user history",
+        "interaction history",
+        "real-world conversations",
+        "human-human dialogue"
+      ],
+      "longitudinal": [
+        "longitudinal",
+        "intensive longitudinal",
+        "repeated measures",
+        "experience sampling",
+        "ecological momentary assessment",
+        "daily diary",
+        "multi-session dialogue"
+      ],
+      "personality_state": [
+        "personality traits",
+        "Big Five",
+        "personality states",
+        "emotion dynamics",
+        "situational assessment",
+        "mental state",
+        "mental state modeling",
+        "mental state modelling",
+        "mental state transition",
+        "cognitive appraisal",
+        "person-situation",
+        "personality dynamics"
+      ],
+      "behavior_prediction": [
+        "behavioral traces",
+        "human choices",
+        "decision-making",
+        "next-action prediction",
+        "response prediction",
+        "individual behavior prediction",
+        "individual behaviour prediction",
+        "preference prediction",
+        "user simulation"
+      ]
+    },
+    "combination_rules": [
+      {
+        "groups": [
+          "release",
+          "simulation"
+        ],
+        "score": 6,
+        "label": "数据发布 + 人格/个体模拟"
+      },
+      {
+        "groups": [
+          "release",
+          "individual_history",
+          "behavior_prediction"
+        ],
+        "score": 7,
+        "label": "数据发布 + 真实个体/历史 + 行为/预测"
+      },
+      {
+        "groups": [
+          "release",
+          "longitudinal",
+          "personality_state"
+        ],
+        "score": 8,
+        "label": "数据发布 + 纵向观测 + 人格/心理状态"
+      }
+    ],
+    "dataset_names": [
+      "HUMANUAL",
+      "PersonaConvBench",
+      "REALTALK",
+      "Twin-2K-500",
+      "OPeRA",
+      "Persona-E2",
+      "BIG5-CHAT",
+      "CoSER",
+      "Psych-101",
+      "PersonaMem",
+      "openESM",
+      "Smartphone Sensing Panel Study"
+    ],
+    "ambiguous_names": [
+      "OPeRA",
+      "REALTALK"
+    ],
+    "dataset_name_score": 4,
+    "dataset_title_bonus": 2
+  },
+  "models": {
+    "triage": "MiniMax-M2.7",
+    "reader": "MiniMax-M2.7",
+    "judge": "MiniMax-M2.7",
+    "base_url": "https://api.minimax.cn/v1",
+    "judge_base_url": ""
+  },
+  "reading": {
+    "max_fulltext_papers": null,
+    "chunk_chars": 24000,
+    "max_revisions": 1
+  },
+  "output": {
+    "language": "Chinese",
+    "brief_sentences": 4,
+    "detail_words": 1000,
+    "sections": [
+      "研究问题",
+      "核心 insight",
+      "方法机制",
+      "实验与结果",
+      "局限",
+      "与研究的联系",
+      "可借鉴方式"
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+# 研究档案、全文阅读与双报告
+
+配置入口：网页顶部“研究档案设置”，或直接编辑 main 分支 `research_config.json`。网页支持导入、编辑、校验和导出；下载文件后在自己的 GitHub 仓库替换同名文件，下一次运行生效。网页本身不会写入 GitHub。`research_config.schema.json` 是供编辑器使用的结构定义，后台还会校验具体范围。
+
+## 工作流程
+
+1. 按档案的分类抓取，跨分类和历史去重，按档案关键词预选。
+2. 摘要初筛：回答研究对象、具体迁移机制及原文依据三个问题，给出 A/B/C/D/E 等级。保留等级或存在相关性不确定的论文进入全文阶段。
+3. 优先读取 arXiv HTML，失败时提取 PDF 文字层；串行请求并缓存。所有提取文字按块阅读，保存原文位置与短引；图片、公式、复杂表格未做视觉核验。无法获取全文时明确显示未完成。
+4. 阅读分析员生成结构化分析和精简句子。
+5. 裁判在独立上下文中核对原文、分级理由、迁移条件及总结。短文提供全部提取文字，长文提供引文所在段落/页及邻近上下文，因此裁判不是再次阅读全文。引用短引必须能在其标注的原文位置找到，代码会校验。长文阅读员已覆盖全部提取文字，提炼可能丢失细节。
+6. 裁判要求修订时最多重写一次；仍不通过或证据不足则标注“待复核”。同一模型的两个角色可能出现相关错误，不能保证判断正确。
+7. 发布同一批论文的精简版、详细版 Markdown，以及网页卡片。已确认不相关的论文不进入主报告；待处理条目保留占位，不伪装为完成阅读。
+
+等级表示研究相关性：A 核心相关，B 直接支撑，C 有具体迁移机制的方法借鉴，D 弱相关，E 无关。默认保留 A/B/C，按等级排序，同级按关键词预选排序。C 级必须说明机制、目标任务和迁移条件；不设隐藏的百分制。旧日期保留旧分数展示，不自动重新阅读。
+
+## 配置与优先级
+
+`research_config.json` 是新工作流研究设置的唯一来源：研究目标、任意方向、评审问题、分级定义/例子、保留等级、分类和预选上限、关键词及组合、输出语言/栏目/长度、角色模型、全文上限和修订次数。
+
+旧 Actions Variables 中的 RESEARCH_PROFILE、RELEVANCE_THRESHOLD、CATEGORIES、MAX_PAPERS_PER_CATEGORY、MAX_PAPERS_PER_DAY、MODEL_NAME、LANGUAGE 不再覆盖新流程的研究配置。网页个人关键词仍只影响高亮。旧 `research_profile.json`、`ai/relevance.py` 和旧总结模块保留用于历史兼容，不是新工作流入口。
+
+模型接口与密钥：OPENAI_API_KEY 必填。OPENAI_BASE_URL Secret 如有设置，优先于档案 models.base_url。裁判默认沿用阅读服务；可设 JUDGE_API_KEY 和 JUDGE_BASE_URL Secrets，或 models.judge_base_url。角色模型名称都在档案 models 中。请勿把密钥写入公开配置。
+
+`reading.max_fulltext_papers=null` 表示阅读全部候选，设整数可控制当次上限；超出者显示“等待全文阅读”。报告长度是提示词目标，模型输出字数不是严格保证。API 与格式校验失败会重试，鉴权/余额错误终止流程；普通单篇失败保留占位。缓存按内容、提示词、Schema、配置及模型接口区分，修改配置可能触发重新分析。
+
+## 查看结果
+
+网页选中日期后可打开“精简版 Markdown”和“详细版 Markdown”。数据日期沿用 UTC，并在页面明示；报告内部记录实际生成时间。
+
+- data/日期_research.jsonl：报告收录论文和阅读结果。
+- data/日期_brief.md、日期_detailed.md：两份对应文档。
+- data/日期_research_report.json：包含全部初筛、裁判结果和处理状态的审计记录。
+- Actions Summary：最终等级、复核状态和数量；关键词预选另行明确标注，不再称百分制总分。
+- Actions 的 ai-progress Artifact：阶段缓存及报告，可用于恢复，保留 14 天。全文缓存保存在 Actions Cache，不随网页发布。
+
+`Check AI provider` 手动工作流会用一篇真实论文测试全文获取、阅读、裁判和两份文档；样本在 Artifact 中，不覆盖每日论文。正常每日工作流会在下一次运行使用新流程。旧报告不会因部署代码自动生成新的阅读报告。
+
+本地运行：`uv sync` 后 `uv run python ai/research_config.py` 校验配置；`uv run python ai/research_pipeline.py --data data/日期.jsonl` 处理已有候选。全流程可用 `uv run bash run.sh`。

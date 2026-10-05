@@ -1,8 +1,9 @@
 name: Check AI provider
-
 on:
   workflow_dispatch:
-
+concurrency:
+  group: arxiv-daily
+  cancel-in-progress: false
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -12,9 +13,24 @@ jobs:
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           uv sync --frozen
-      - name: Check relevance scoring
+      - uses: actions/cache@v4
+        with:
+          path: .ai-cache
+          key: ai-research-v1-${{ github.repository_id }}-smoke-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            ai-research-v1-${{ github.repository_id }}-
+      - name: Validate research config
+        run: uv run python ai/research_config.py
+      - name: Test real full-text reading and judge
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL || 'https://api.minimax.cn/v1' }}
-          MODEL_NAME: ${{ vars.MODEL_NAME || 'MiniMax-M2.7' }}
-        run: uv run python ai/smoke_relevance.py
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          JUDGE_API_KEY: ${{ secrets.JUDGE_API_KEY }}
+          JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
+        run: uv run python ai/smoke_research.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fulltext-reading-sample
+          path: smoke-reports/
+          retention-days: 14

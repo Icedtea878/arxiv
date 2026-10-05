@@ -35,6 +35,10 @@ def name_matches(text, name):
 def load_profile():
     raw = os.getenv("RESEARCH_PROFILE", "").strip()
     profile = json.loads(raw) if raw else json.loads(DEFAULT_PROFILE.read_text(encoding="utf-8"))
+    return validate_profile(profile)
+
+
+def validate_profile(profile):
     if not isinstance(profile, dict):
         raise ValueError("RESEARCH_PROFILE must be a JSON object")
     if set(profile.get("groups", {})) != GROUPS:
@@ -141,8 +145,8 @@ def write_reports(data_path, boards, candidate_count, selected):
                "note": "关键词排序，不是AI相关性判定；真人、个体ID、时间与行为标签均需人工核验。"}
     data_path.with_name(data_path.stem + "_rankings.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    lines = [f"# {data_path.stem} 研究论文排序", "", f"去重候选：{candidate_count} 篇；收录前 {len(selected)} 篇。方法/数据集标签可重叠，AI摘要只生成一次。", "",
-             "## 总排名", "", "| 排名 | 论文 | 总分 |", "|---|---|---|"]
+    lines = [f"# {data_path.stem} 关键词预选（不是最终相关等级）", "", f"去重候选：{candidate_count} 篇；收录前 {len(selected)} 篇。方法/数据集标签仅为关键词规则标签；最终等级见阅读报告。", "",
+             "## 关键词预选排名", "", "| 排名 | 论文 | 关键词分（非百分制） |", "|---|---|---|"]
     for paper in selected:
         title = paper["title"].replace("\n", " ").replace("|", "\\|")
         lines.append(f"| {paper['research_rank']} | {title} | {paper['research_score']} |")

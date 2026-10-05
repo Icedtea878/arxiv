@@ -1,0 +1,243 @@
+{
+  "$defs": {
+    "Crawl": {
+      "additionalProperties": false,
+      "properties": {
+        "categories": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Categories",
+          "type": "array"
+        },
+        "per_category": {
+          "maximum": 1000,
+          "minimum": 1,
+          "title": "Per Category",
+          "type": "integer"
+        },
+        "shortlist": {
+          "maximum": 2000,
+          "minimum": 1,
+          "title": "Shortlist",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "categories",
+        "per_category",
+        "shortlist"
+      ],
+      "title": "Crawl",
+      "type": "object"
+    },
+    "Models": {
+      "additionalProperties": false,
+      "properties": {
+        "triage": {
+          "minLength": 1,
+          "title": "Triage",
+          "type": "string"
+        },
+        "reader": {
+          "minLength": 1,
+          "title": "Reader",
+          "type": "string"
+        },
+        "judge": {
+          "minLength": 1,
+          "title": "Judge",
+          "type": "string"
+        },
+        "base_url": {
+          "title": "Base Url",
+          "type": "string"
+        },
+        "judge_base_url": {
+          "default": "",
+          "title": "Judge Base Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "triage",
+        "reader",
+        "judge",
+        "base_url"
+      ],
+      "title": "Models",
+      "type": "object"
+    },
+    "Output": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "minLength": 1,
+          "title": "Language",
+          "type": "string"
+        },
+        "brief_sentences": {
+          "maximum": 6,
+          "minimum": 2,
+          "title": "Brief Sentences",
+          "type": "integer"
+        },
+        "detail_words": {
+          "maximum": 3000,
+          "minimum": 200,
+          "title": "Detail Words",
+          "type": "integer"
+        },
+        "sections": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Sections",
+          "type": "array"
+        }
+      },
+      "required": [
+        "language",
+        "brief_sentences",
+        "detail_words",
+        "sections"
+      ],
+      "title": "Output",
+      "type": "object"
+    },
+    "Reading": {
+      "additionalProperties": false,
+      "properties": {
+        "max_fulltext_papers": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Fulltext Papers"
+        },
+        "chunk_chars": {
+          "default": 24000,
+          "maximum": 48000,
+          "minimum": 4000,
+          "title": "Chunk Chars",
+          "type": "integer"
+        },
+        "max_revisions": {
+          "default": 1,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Max Revisions",
+          "type": "integer"
+        }
+      },
+      "title": "Reading",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "title": "Version",
+      "type": "integer"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "research_goal": {
+      "minLength": 1,
+      "title": "Research Goal",
+      "type": "string"
+    },
+    "directions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Directions",
+      "type": "object"
+    },
+    "questions": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Questions",
+      "type": "array"
+    },
+    "grades": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Grades",
+      "type": "object"
+    },
+    "exclusions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Exclusions",
+      "type": "array"
+    },
+    "examples": {
+      "items": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Examples",
+      "type": "array"
+    },
+    "retain_grades": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Retain Grades",
+      "type": "array"
+    },
+    "crawl": {
+      "$ref": "#/$defs/Crawl"
+    },
+    "keyword_profile": {
+      "title": "Keyword Profile",
+      "type": "object"
+    },
+    "models": {
+      "$ref": "#/$defs/Models"
+    },
+    "reading": {
+      "$ref": "#/$defs/Reading"
+    },
+    "output": {
+      "$ref": "#/$defs/Output"
+    }
+  },
+  "required": [
+    "version",
+    "name",
+    "research_goal",
+    "directions",
+    "questions",
+    "grades",
+    "exclusions",
+    "examples",
+    "retain_grades",
+    "crawl",
+    "keyword_profile",
+    "models",
+    "reading",
+    "output"
+  ],
+  "title": "ResearchConfig",
+  "type": "object"
+}

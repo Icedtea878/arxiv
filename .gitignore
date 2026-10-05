@@ -19,3 +19,5 @@ yarn.lock
 package.json
 # Local provider summary checkpoints (persisted only as Actions caches/artifacts)
 .ai-cache/
+
+smoke-reports/

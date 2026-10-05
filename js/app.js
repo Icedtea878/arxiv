@@ -705,7 +705,7 @@ async function fetchAvailableDates() {
   try {
     // 从 data 分支获取文件列表
     const fileListUrl = DATA_CONFIG.getDataUrl('assets/file-list.txt');
-    const response = await fetch(fileListUrl);
+    const response = await fetch(fileListUrl, {cache: 'no-store'});
     if (!response.ok) {
       console.error('Error fetching file list:', response.status);
       return [];
@@ -713,6 +713,7 @@ async function fetchAvailableDates() {
     const text = await response.text();
     const files = text.trim().split('\n');
 
+    window.researchDates = new Set(files.map(file => file.trim().match(/^(\d{4}-\d{2}-\d{2})_research\.jsonl$/)?.[1]).filter(Boolean));
     window.relevanceDates = new Set(files.map(file => file.match(/^(\d{4}-\d{2}-\d{2})_relevance\.jsonl$/)?.[1]).filter(Boolean));
     const dateRegex = /(\d{4}-\d{2}-\d{2})_AI_enhanced_(English|Chinese)\.jsonl/;
     const dateLanguageMap = new Map(); // Store date -> available languages
@@ -732,7 +733,7 @@ async function fetchAvailableDates() {
       }
     });
     
-    window.relevanceDates.forEach(date => {
+    new Set([...window.relevanceDates, ...window.researchDates]).forEach(date => {
       if (!dateLanguageMap.has(date)) { dateLanguageMap.set(date, ['Chinese']); dates.push(date); }
     });
     // Store the language mapping globally for later use
@@ -817,7 +818,8 @@ function toggleRangeMode() {
 
 async function loadPapersByDate(date) {
   currentDate = date;
-  document.getElementById('currentDate').textContent = formatDate(date);
+  document.getElementById('currentDate').textContent = formatDate(date) + '（UTC 数据日期）';
+  updateReportLinks([date]);
   
   // 更新日期选择器中的选中日期
   if (flatpickrInstance) {
@@ -838,8 +840,8 @@ async function loadPapersByDate(date) {
   try {
     const selectedLanguage = selectLanguageForDate(date);
     // 从 data 分支获取数据文件
-    const dataUrl = DATA_CONFIG.getDataUrl(window.relevanceDates?.has(date) ? `data/${date}_relevance.jsonl` : `data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
-    const response = await fetch(dataUrl);
+    const dataUrl = DATA_CONFIG.getDataUrl(window.researchDates?.has(date) ? `data/${date}_research.jsonl` : window.relevanceDates?.has(date) ? `data/${date}_relevance.jsonl` : `data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
+    const response = await fetch(dataUrl, {cache: 'no-store'});
     // 如果文件不存在（例如返回 404），在论文展示区域提示没有论文
     if (!response.ok) {
       if (response.status === 404) {
@@ -913,7 +915,7 @@ function parseJsonlData(jsonlText, date) {
     if (!line.trim()) return;
     try {
       const paper = JSON.parse(line);
-      if (window.relevanceDates?.has(date) && (!Number.isInteger(paper.relevance?.score) || paper.relevance.score <= (paper.relevance_threshold ?? 80))) return;
+      if (!window.researchDates?.has(date) && window.relevanceDates?.has(date) && (!Number.isInteger(paper.relevance?.score) || paper.relevance.score <= (paper.relevance_threshold ?? 80))) return;
       
       if (!paper.categories) {
         return;
@@ -927,19 +929,20 @@ function parseJsonlData(jsonlText, date) {
         result[primaryCategory] = [];
       }
       
-      const summary = paper.AI && paper.AI.tldr ? paper.AI.tldr : paper.summary;
+      const summary = paper.research_review?.analysis?.brief?.join(' ') || (paper.AI && paper.AI.tldr ? paper.AI.tldr : paper.summary);
       
       result[primaryCategory].push({
         title: paper.title,
         url: paper.abs || paper.pdf || `https://arxiv.org/abs/${paper.id}`,
         authors: Array.isArray(paper.authors) ? paper.authors.join(', ') : paper.authors,
         category: allCategories,
-        summary: summary,
+        summary: escapePaperText(summary || ''),
         details: paper.summary || '',
         date: date,
         id: paper.id,
         AI_status: paper.AI_status || '',
         relevance: paper.relevance || null,
+        research_review: paper.research_review || null,
         research_boards: paper.research_boards || [],
         research_board_ranks: paper.research_board_ranks || {},
         research_method_score: paper.research_method_score || 0,
@@ -1118,7 +1121,33 @@ function formatAuthorsForCard(authorsString, authorTerms = []) {
   return result.join(', ');
 }
 
+function escapePaperText(text) {
+  return String(text).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+}
+
+function updateReportLinks(dates) {
+  const container = document.getElementById('researchReports');
+  if (!container) return;
+  container.replaceChildren();
+  const available = dates.filter(date => window.researchDates?.has(date));
+  if (!available.length) { container.textContent = '该批次使用旧评分流程，尚未生成全文阅读报告。'; return; }
+  for (const date of available) {
+    for (const [suffix, label] of [['brief', '精简版 Markdown'], ['detailed', '详细版 Markdown']]) {
+      const link = document.createElement('a');
+      link.textContent = `${date} ${label} ↗`;
+      link.href = DATA_CONFIG.getDataUrl(`data/${date}_${suffix}.md`);
+      link.target = '_blank'; link.rel = 'noopener noreferrer';
+      link.style.marginRight = '18px'; container.append(link);
+    }
+  }
+}
+
 function compareRelevanceScores(a, b) {
+  if (a.research_review || b.research_review) {
+    const order = {A:0, B:1, C:2, D:3, E:4};
+    return (order[a.research_review?.grade] ?? 5) - (order[b.research_review?.grade] ?? 5) ||
+      (a.research_rank || Infinity) - (b.research_rank || Infinity) || String(a.id || '').localeCompare(String(b.id || ''));
+  }
   const scoreA = Number.isInteger(a.relevance?.score) ? a.relevance.score : -1;
   const scoreB = Number.isInteger(b.relevance?.score) ? b.relevance.score : -1;
   return scoreB - scoreA ||
@@ -1383,7 +1412,7 @@ function renderPapers() {
   }
   
   // Relevance remains the final ordering even when keyword matches are highlighted.
-  if (filteredPapers.some(p => Number.isInteger(p.relevance?.score))) {
+  if (filteredPapers.some(p => p.research_review || Number.isInteger(p.relevance?.score))) {
     filteredPapers.sort(compareRelevanceScores);
   }
 
@@ -1480,7 +1509,10 @@ function renderPapers() {
     const relevanceInfo = document.createElement('p');
     relevanceInfo.style.cssText = 'font-size:13px; margin:8px 0; color:var(--text-secondary);';
     const directions = {individual:'个体建模/模拟', interaction:'个体交互', group:'群体模拟', society:'社会模拟'};
-    relevanceInfo.textContent = paper.relevance
+    const reviewStates = {reviewed:'已通过裁判复核', pending_review:'待复核', fulltext_unavailable:'全文未获取，仅摘要初筛', analysis_failed:'全文分析未完成', triage_failed:'初筛失败，待重试', deferred:'等待全文阅读'};
+    relevanceInfo.textContent = paper.research_review
+      ? `等级 ${paper.research_review.grade || '待定'} · ${reviewStates[paper.research_review.status] || '待核验'}：${paper.research_review.reason}`
+      : paper.relevance
       ? `LLM 相关性 ${paper.relevance.score}/100 · ${paper.relevance.directions.map(d => directions[d] || d).join(' / ')}：${paper.relevance.reason}`
       : '历史论文：尚未进行 LLM 相关性评分';
     paperCard.querySelector('.paper-card-body').prepend(relevanceInfo);
@@ -1603,7 +1635,7 @@ function showPaperDetails(paper, paperIndex) {
       <p><strong>Date: </strong>${formatDate(paper.date)}</p>
       
       
-      ${paper.relevance ? '' : `<h3>TL;DR</h3><p>${highlightedSummary}</p>`}
+      ${paper.relevance && !paper.research_review ? '' : `<h3>${paper.research_review ? '精简阅读' : 'TL;DR'}</h3><p>${highlightedSummary}</p>`}
       
       <div class="paper-sections">
         ${paper.motivation ? `<div class="paper-section"><h4>Motivation</h4><p>${highlightedMotivation}</p></div>` : ''}
@@ -1635,6 +1667,17 @@ function showPaperDetails(paper, paperIndex) {
   
   // Update modal content
   document.getElementById('modalBody').innerHTML = modalContent;
+  if (paper.research_review) {
+    const section = document.createElement('section');
+    const label = document.createElement('h3'); label.textContent = '全文阅读分析'; section.append(label);
+    const review = paper.research_review;
+    const note = document.createElement('p'); note.textContent = `等级 ${review.grade || '待定'} · ${review.status} · ${(review.coverage_notes || []).join('；')}`; section.append(note);
+    for (const [heading, content] of Object.entries(review.analysis?.sections || {})) {
+      const h = document.createElement('h4'); h.textContent = heading;
+      const p = document.createElement('p'); p.textContent = content; section.append(h,p);
+    }
+    document.getElementById('modalBody').prepend(section);
+  }
   document.getElementById('paperLink').href = paper.url;
   document.getElementById('pdfLink').href = paper.url.replace('abs', 'pdf');
   document.getElementById('htmlLink').href = paper.url.replace('abs', 'html');
@@ -1787,6 +1830,7 @@ async function loadPapersByDateRange(startDate, endDate) {
     return;
   }
   
+  updateReportLinks(validDatesInRange);
   currentDate = `${normalizedStartDate} to ${normalizedEndDate}`;
   document.getElementById('currentDate').textContent = `${formatDate(normalizedStartDate)} - ${formatDate(normalizedEndDate)}`;
   
@@ -1808,8 +1852,8 @@ async function loadPapersByDateRange(startDate, endDate) {
     for (const date of validDatesInRange) {
       const selectedLanguage = selectLanguageForDate(date);
       // 从 data 分支获取数据文件
-      const dataUrl = DATA_CONFIG.getDataUrl(window.relevanceDates?.has(date) ? `data/${date}_relevance.jsonl` : `data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
-      const response = await fetch(dataUrl);
+      const dataUrl = DATA_CONFIG.getDataUrl(window.researchDates?.has(date) ? `data/${date}_research.jsonl` : window.relevanceDates?.has(date) ? `data/${date}_relevance.jsonl` : `data/${date}_AI_enhanced_${selectedLanguage}.jsonl`);
+      const response = await fetch(dataUrl, {cache: 'no-store'});
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const text = await response.text();
       const dataPapers = parseJsonlData(text, date);
