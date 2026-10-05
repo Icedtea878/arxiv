@@ -418,52 +418,51 @@
       ],
       "rank": 9,
       "review": {
-        "grade": "B",
+        "grade": "C",
         "directions": [
           "individual"
         ],
         "suitability": "conditional",
-        "overview": "385个双极人格特质的人类角色评分与Qwen2.5-7B-Instruct模型隐藏层激活值的结构矩阵对比数据，包含表征矩阵和结构矩阵，用于测量模型内隐人格几何与人类人格结构的alignment。",
-        "application": "可用于研究个体人格建模任务：(1) 分析人类与AI模型在人格特质组织方式上的差异，验证模型能否模拟人类的内隐人格理论；(2) 基于385个特质维度构建用户人格模拟器，通过特质向量相似度推断个体行为倾向；(3) 为对话系统的个性化人格模块提供人格结构层面的参考。需要申请访问权限，且当前数据仅针对Qwen2.5-7B-Instruct layer-20的特定配置，其他模型或层需要验证迁移可行性。",
-        "reason": "数据集直接提供人类人格评价（2000角色×385特质）与模型激活表征的对比结构矩阵，符合个体研究方向中人格建模任务的核心需求。虽然数据源为虚构角色而非真实用户行为记录，但其特质结构和关系模式可迁移用于个体人格模拟系统的设计与评估。B级而非A级因为：缺少时间信息和个体追踪ID，数据为静态快照；迁移到真实用户模拟需要额外验证。",
+        "overview": "人类对虚构角色的人格特质评分矩阵（385特质×2000角色）与Qwen2.5-7B-Instruct模型在第20层的对应激活向量之间的特质间结构对齐数据，包括Mantel相关性及逐特质对齐指标。",
+        "application": "可用于研究LLM是否内化了与人类相似的人格特质组织几何结构，为构建拟人化agent的人格表征提供理论校准依据；需验证Qwen2.5-7B-Instruct的结果能否迁移到其他模型，以及这种结构对齐是否与agent的行为模拟质量相关。",
+        "reason": "数据提供了人类人格特质间关系与模型内部表征的对比，实质上是在检验模型是否拥有类似人类的隐式人格理论（implicit personality theory），这与个体人格模拟研究有关联；但数据本身是静态的结构矩阵（而非行为日志或交互记录），且仅针对单一模型单一层的向量，无直接的行为预测或交互模拟机制，需进一步验证才能用于个体模拟任务。",
         "origin": {
-          "status": "unknown",
-          "value": "unknown",
-          "evidence": []
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "card"
+          ]
         },
         "individual_id": {
           "status": "known",
-          "value": "角色索引(2000个characters)和特质索引(385个traits)可用于个体级别的分析和匹配，但非真实用户ID",
+          "value": "2000个虚构角色的索引存在（char_index.csv），但这些是角色而非真实个体，无真人ID",
           "evidence": [
             "card"
           ]
         },
         "time_info": {
-          "status": "known",
-          "value": "无时间字段，数据为静态快照",
-          "evidence": [
-            "card"
-          ]
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
         },
         "labels": {
           "status": "known",
-          "value": "特质维度为双极对立结构(pole_A vs pole_B)，如BAP量表评分，无显式分类标签",
+          "value": "385个双极人格特质（BAP量表相关），每特质有pole_A和pole_B极性标签；无行为或交互标签",
           "evidence": [
             "card"
           ]
         },
         "constraints": [
-          "仅包含Qwen2.5-7B-Instruct layer-20的模型输出，其他模型/层需重新获取",
-          "human和model表征空间不可直接比较，仅结构矩阵可比",
-          "数据基于虚构角色，非真实用户行为记录",
-          "特质来源于OpenPsychometrics SWCPQ，需遵守原始许可条款"
+          "仅限Qwen2.5-7B-Instruct第20层char_trait向量的结构，跨模型/层迁移需验证",
+          "human_representation与llm_representation的列空间不同（角色vs隐藏单元），只能比较派生的结构矩阵",
+          "特质来自OpenPsychometrics SWCPQ数据， redistribution受原数据协议限制",
+          "无个体行为日志或交互数据，仅为结构对齐测量"
         ],
         "evidence": [
-          "metadata",
           "card"
         ]
       },
-      "review_profile": "90b6a99317ca58fb3aea176b12503d84e847af4d2d51b279634c9026ee3558d5",
+      "review_profile": "e232b08dbac3aeb8a5bc0e5b1ee077f69b1ced2ac184a452a3ee3656b5025f4b",
       "checked_at": "2026-10-05",
       "review_sha": "ec17c307cba48d7feedf9c362c8127b6bd98738c",
       "fingerprint": "af9c852d397e3515199b2283523a9586c580efa3917f76d5eb3d3a142e8358dc",
