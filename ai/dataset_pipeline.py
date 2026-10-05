@@ -77,7 +77,6 @@ class Hub:
     def get(self,url,params=None,limit=2_000_000):
         time.sleep(max(0,.75-(time.monotonic()-self.last)));self.last=time.monotonic()
         for attempt in range(2):
-            response=None
             try:
                 with self.session.get(url,params=params,timeout=(10,35),stream=True,headers={'User-Agent':'SocialWorldModelDatasetDiscovery/1.0'}) as r:
                     if r.status_code==429:raise RateLimited('Source rate-limited; remaining source requests postponed')
@@ -181,6 +180,7 @@ class Reviewer:
         messages=[('system',PROMPT+'\n字段校验规则（不输出规则本身）：'+json.dumps(shape,ensure_ascii=False)+'\n填好的数据实例示例（所有值需依据实际材料替换）：'+json.dumps(example,ensure_ascii=False)),
                   ('human',json.dumps({'profile':profile,'language':c['output']['language'],'dataset':row['id'],'sources':sources,'coverage':document['warnings']},ensure_ascii=False))]
         for attempt in range(2):
+            response=None
             try:
                 response=self.model.invoke(messages);self.calls+=1
                 for k,v in (getattr(response,'usage_metadata',None) or {}).items():
