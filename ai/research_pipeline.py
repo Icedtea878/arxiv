@@ -73,6 +73,11 @@ def validate_result(value, config, sources):
         raise ValueError('Retained grade requires a research direction')
     evidence=value.get('evidence',[])
     for item in evidence:
+        # A model may punctuate an excerpt that ends mid-sentence. Strip only
+        # terminal punctuation; all words and internal punctuation stay exact.
+        quote=item['quote'].rstrip(' .,:;!?。；，！？”')
+        if len(quote)<8: raise ValueError('Evidence excerpt is too short')
+        item['quote']=quote
         source=sources.get(item['source_id'])
         if not source or norm(item['quote']) not in norm(source['text']):
             # Resolve an exact quote misattributed to another supplied source.

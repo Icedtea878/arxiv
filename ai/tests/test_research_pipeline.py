@@ -34,6 +34,14 @@ class ResearchPipelineTests(unittest.TestCase):
     def test_fabricated_evidence_rejected(self):
         draft=analysis();draft['evidence']=[{'source_id':'s1','quote':'We achieved 99% accuracy'}]
         with self.assertRaises(ValueError):validate_result(draft,self.config,{'s1':{'text':TEXT}})
+    def test_excerpt_terminal_punctuation_is_normalized(self):
+        draft=analysis();draft['evidence']=[{'source_id':'s1','quote':'We simulate human cooperation.'}]
+        result=validate_result(draft,self.config,{'s1':{'text':TEXT}})
+        self.assertEqual(result['evidence'][0]['quote'],'We simulate human cooperation')
+    def test_excerpt_internal_words_and_numbers_stay_exact(self):
+        for quote in ['We simulate animal cooperation.', 'We evaluate 99% accuracy.']:
+            draft=analysis();draft['evidence']=[{'source_id':'s1','quote':quote}]
+            with self.assertRaises(ValueError):validate_result(draft,self.config,{'s1':{'text':TEXT}})
     def test_final_judge_grade_can_exclude(self):
         engine=FakeEngine(['D'])
         with tempfile.TemporaryDirectory() as d:
