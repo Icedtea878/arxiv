@@ -12,6 +12,7 @@ write_json(out/'report.json',report)
 brief,detail=reports_markdown(retained,report,config,'sample')
 (out/'brief.md').write_text(brief,encoding='utf-8');(out/'detailed.md').write_text(detail,encoding='utf-8')
 print('Smoke results:',{k:report[k] for k in ['assessed','retained','reviewed','pending','grades','model_calls','cache_hits','usage']})
-if report['reviewed']!=1 or report['pending']:
+decision=report['decisions'][0]['review']
+if decision['status']!='reviewed':
     raise RuntimeError('Real full-text reading did not pass; inspect smoke report')
-print('Real full-text reading, evidence validation, independent judge and both Markdown reports passed.')
+print('Real full-text reading, evidence validation, independent judge and both Markdown reports passed. Final grade:',decision['grade'])

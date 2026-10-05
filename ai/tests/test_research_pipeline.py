@@ -39,6 +39,19 @@ class ResearchPipelineTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             kept,report=run([self.paper],self.config,d,lambda *_:document(),engine)
         self.assertEqual(kept,[]);self.assertEqual(report['decisions'][0]['review']['grade'],'D')
+    def test_borderline_evidence_reaches_fulltext_judge(self):
+        engine=FakeEngine(['C'])
+        original=engine.call
+        def call(stage,*args):
+            value=original(stage,*args)
+            if stage=='triage': value['grade']='D'
+            return value
+        engine.call=call
+        with tempfile.TemporaryDirectory() as d:
+            kept,report=run([self.paper],self.config,d,lambda *_:document(),engine)
+        self.assertEqual(kept[0]['triage']['grade'],'D')
+        self.assertEqual(kept[0]['research_review']['grade'],'C')
+        self.assertIn('judge',engine.stages)
     def test_only_one_revision_and_pending_retained(self):
         engine=FakeEngine(['C','C'],['revise','revise'])
         with tempfile.TemporaryDirectory() as d:
