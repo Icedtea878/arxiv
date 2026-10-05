@@ -66,5 +66,5 @@ class DatasetTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):run(self.config,None,'2026-10-05',FakeHub(),Failed())
     def test_markdown_contains_evidence_and_unknowns(self):
         _,r=run(self.config,None,'2026-10-05',FakeHub(1),FakeReviewer())
-        text=markdown(r);self.assertIn('用途（推断）',text);self.assertIn('证据 card',text);self.assertIn('unknown',text)
+        text=markdown(r);self.assertIn('用途（推断）',text);self.assertIn('证据 card',text);self.assertIn('未知',text)
 if __name__=='__main__':unittest.main()
