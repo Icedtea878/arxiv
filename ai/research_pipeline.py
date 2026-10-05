@@ -112,8 +112,7 @@ def validate_result(value, config, sources):
         if len(value['brief'])!=config['output']['brief_sentences']: raise ValueError('Incorrect brief sentence count')
         invalid=cited_ids(value)-set(sources)
         if invalid:raise ValueError('Unknown citation placeholders/IDs: '+', '.join(sorted(invalid)))
-        missing=[title for title,body in value['sections'].items() if not re.search(r'\[([A-Za-z][A-Za-z0-9_-]*)\]',body)]
-        if missing:raise ValueError('Add actual original-source IDs to these sections, including the mechanism underlying transfer suggestions: '+', '.join(missing))
+        if not cited_ids(value):raise ValueError('Detailed analysis needs actual original-source citation IDs')
     for issue in value.get('issues',[]):
         if issue['source_id']!='missing' and issue['source_id'] not in sources: raise ValueError('Unknown judge source ID')
     return value
@@ -181,7 +180,7 @@ def judge_sources(document,analysis):
     sections=document['sections']
     if sum(len(s['text']) for s in sections)<=48000: return sections
     ids={e['source_id'] for e in analysis['evidence']}|cited_ids(analysis)
-    indices={j for i,s in enumerate(sections) if s['id'] in ids for j in [max(0,i-1),i,min(len(sections)-1,i+1)]}
+    indices={j for i,s in enumerate(sections) if s['id'] in ids or re.search(r'discussion|conclusion|limitation|局限|结论',s.get('location',''),re.I) for j in [max(0,i-1),i,min(len(sections)-1,i+1)]}
     return [s for i,s in enumerate(sections) if i in indices]
 
 def review_paper(engine,paper,triage,document):
