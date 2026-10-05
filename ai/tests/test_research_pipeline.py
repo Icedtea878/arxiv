@@ -91,6 +91,11 @@ class ResearchPipelineTests(unittest.TestCase):
         self.assertTrue(all(sum(len(p['text']) for p in c)<=10 for c in result))
     def test_html_requires_full_article(self):
         with self.assertRaises(ValueError):html_sections(b'<html><p>abstract only</p></html>')
+    def test_html_math_does_not_duplicate_tex_annotations(self):
+        body='<article class="ltx_document"><p>'+('Full text. '*220)+'p=<math><semantics><mn>0.012</mn><annotation encoding="application/x-tex">0.012</annotation></semantics></math>, confirmed.</p></article>'
+        sections,_=html_sections(body.encode())
+        self.assertIn('p=0.012, confirmed.',sections[0]['text'])
+        self.assertNotIn('0.0120.012',sections[0]['text'])
     def test_config_accepts_custom_directions(self):
         from research_config import ResearchConfig
         c=copy.deepcopy(self.config);c['directions']={'biology':'细胞行为'}

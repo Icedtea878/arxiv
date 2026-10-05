@@ -27,7 +27,7 @@ def html_sections(data):
     tree=html.fromstring(data)
     articles=tree.xpath('//article[contains(concat(" ", normalize-space(@class), " "), " ltx_document ")]')
     if not articles: raise ValueError('No arXiv full-text article')
-    for node in articles[0].xpath('.//script|.//style|.//nav'): node.drop_tree()
+    for node in articles[0].xpath('.//script|.//style|.//nav|.//math//annotation'): node.drop_tree()
     sections=[]
     heading='正文'
     for node in articles[0].xpath('.//*[self::h1 or self::h2 or self::h3 or self::h4 or self::p or self::table]'):
@@ -55,7 +55,7 @@ def fetch_fulltext(paper, cache_dir):
     identifier=paper['id']
     if not re.fullmatch(r'(?:\d{4}\.\d{4,5}|[a-zA-Z.-]+/\d{7})(?:v\d+)?',identifier):
         raise ValueError('Invalid arXiv identifier')
-    path=Path(cache_dir)/('text-v1-'+identifier.replace('/','_')+'.json')
+    path=Path(cache_dir)/('text-v2-'+identifier.replace('/','_')+'.json')
     if path.exists(): return json.loads(path.read_text(encoding='utf-8'))
     errors=[]
     for mode,parser in [('html',html_sections),('pdf',pdf_sections)]:
@@ -65,7 +65,9 @@ def fetch_fulltext(paper, cache_dir):
             result={'source':url,'format':mode,'sections':sections,'notes':notes,
                     'coverage':'partial_text' if any('文字缺失' in n for n in notes) else 'extracted_text'}
             path.parent.mkdir(parents=True,exist_ok=True)
-            path.write_text(json.dumps(result,ensure_ascii=False),encoding='utf-8')
+            temp=path.with_suffix('.tmp')
+            temp.write_text(json.dumps(result,ensure_ascii=False),encoding='utf-8')
+            temp.replace(path)
             return result
         except Exception as error:
             errors.append(mode+':'+type(error).__name__)
