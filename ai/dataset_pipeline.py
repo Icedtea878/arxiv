@@ -139,11 +139,18 @@ class Hub:
 def validate_review(value,config,sources):
     if not set(value['directions'])<=set(config['directions']):raise ValueError('Unknown research direction')
     ids=set(value['evidence'])
+    try:metadata=json.loads(sources.get('metadata',{}).get('text','{}'))
+    except ValueError:metadata={}
+    card=sources.get('card',{}).get('text','')
+    if metadata.get('gated') is False and re.search(r'需要申请访问|需申请访问|require.*access permission',value['application'],re.I) and not re.search(r'request.{0,40}access|contact.{0,40}(?:access|permission)|申请.{0,20}(?:访问|权限)',card,re.I):
+        raise ValueError('Repository is not gated and the card does not establish an access request. Do not infer application requirements from missing previews; say access/usage conditions need checking.')
     for name in ['origin','individual_id','time_info','labels']:
         fact=value[name];ids.update(fact['evidence'])
         if fact['status']=='known' and not fact['evidence']:raise ValueError(name+' requires a source; otherwise mark unknown')
         if name in ['individual_id','time_info'] and fact['status']=='known' and 'card' not in fact['evidence'] and re.search(r'不存在|没有|无个体|无时间|not present|absent|no .*id|no .*timestamp',fact['value'],re.I):
             raise ValueError(name+': a limited preview cannot prove absence in the entire dataset; mark unknown or state only what the preview shows')
+        if name=='time_info' and fact['status']=='known' and re.search(r'不存在|没有|无时间|no .*time|absent',fact['value'],re.I) and not re.search(r'no.{0,30}(?:timestamp|temporal|time field)|without.{0,20}timestamp|无时间字段|不包含时间',card,re.I):
+            fact.update(status='unknown',value='unknown',evidence=[])
         if fact['status']=='unknown':fact['value']='unknown';fact['evidence']=[]
     if not ids<=set(sources):raise ValueError('Unknown source IDs: '+str(sorted(ids-set(sources)))+'. Allowed: '+', '.join(sources))
     if value['origin']['value'] not in ['real','synthetic','mixed','unknown']:raise ValueError('Invalid origin value')

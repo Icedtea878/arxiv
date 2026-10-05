@@ -58,6 +58,9 @@ class DatasetTests(unittest.TestCase):
         hub=FakeHub(8);state,refreshed=refresh_existing(self.config,state,first,hub,FakeReviewer())
         self.assertEqual(set(hub.read),set(r['id'] for r in first['datasets']))
         self.assertEqual(len(hub.read),3);self.assertEqual(refreshed['reviewed_this_run'],3)
+    def test_missing_preview_does_not_mean_gated_access(self):
+        r=review();r['application']='需要申请访问权限才能用于个体行为研究。'
+        with self.assertRaises(ValueError):validate_review(r,self.config,{'metadata':{'text':'{"gated": false}'},'card':{'text':'Public structure matrices'}})
         r=review();r['evidence']=['invented']
         with self.assertRaises(ValueError):validate_review(r,self.config,{'card':{}})
     def test_all_failed_reviews_do_not_publish_empty_day(self):
