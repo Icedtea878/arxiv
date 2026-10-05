@@ -13,7 +13,7 @@ jobs:
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           uv sync --frozen
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
         with:
           path: .ai-cache
           key: ai-research-v1-${{ github.repository_id }}-smoke-${{ github.run_id }}-${{ github.run_attempt }}
@@ -28,6 +28,11 @@ jobs:
           JUDGE_API_KEY: ${{ secrets.JUDGE_API_KEY }}
           JUDGE_BASE_URL: ${{ secrets.JUDGE_BASE_URL }}
         run: uv run python ai/smoke_research.py
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .ai-cache
+          key: ai-research-v1-${{ github.repository_id }}-smoke-${{ github.run_id }}-${{ github.run_attempt }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -35,5 +40,6 @@ jobs:
           path: |
             smoke-reports/
             .ai-cache/research/rejected/
+            .ai-cache/research/calls/
           include-hidden-files: true
           retention-days: 14

@@ -65,9 +65,12 @@ def parse_json(response,schema):
         if c!='{': continue
         try:
             value,_=json.JSONDecoder().raw_decode(content[i:])
+        except ValueError: continue
+        try:
             return schema.model_validate(value).model_dump()
-        except (ValueError,TypeError): continue
-    raise ValueError('Invalid structured response')
+        except ValueError as error:
+            raise ValueError('Structured fields invalid: '+str(error)[:1800]) from error
+    raise ValueError('Invalid JSON response')
 
 def validate_result(value, config, sources):
     if not set(value.get('directions',[])) <= set(config['directions']): raise ValueError('Unknown research direction')
@@ -135,7 +138,7 @@ class Engine:
         messages=[('system',PROMPTS[stage]+'\n只输出符合以下Schema的JSON：'+json.dumps(shape,ensure_ascii=False)),
                   ('human',json.dumps({'research_profile':self.context,**payload},ensure_ascii=False))]
         for attempt in range(3):
-            parsed=None
+            parsed=None;response=None
             try:
                 response=self.model(role).invoke(messages);self.calls+=1
                 for k,v in (getattr(response,'usage_metadata',None) or {}).items():
@@ -145,7 +148,7 @@ class Engine:
                 write_json(path,value);return value
             except Exception as error:
                 if isinstance(error,ValueError):
-                    write_json(self.cache_dir/'rejected'/f'{key}-{attempt}.json', {'stage':stage,'error':str(error),'result':parsed})
+                    write_json(self.cache_dir/'rejected'/f'{key}-{attempt}.json', {'stage':stage,'error':str(error),'result':parsed,'raw_response':getattr(response,'content',None) if parsed is None else None})
                     if parsed is not None:
                         messages.append(('assistant',json.dumps(parsed,ensure_ascii=False)))
                     messages.append(('human','校验失败：'+str(error)[:2200]+'。请修正，不要改写原文引句；可以改用更短的连续原文片段，不能编造。重新输出完整JSON。'))
