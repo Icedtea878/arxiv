@@ -72,6 +72,10 @@ def parse_json(response,schema):
             raise ValueError('Structured fields invalid: '+str(error)[:1800]) from error
     raise ValueError('Invalid JSON response')
 
+def cited_ids(analysis):
+    text=' '.join([analysis.get('research_object',''),analysis.get('transfer',''),*analysis.get('brief',[]),*analysis.get('sections',{}).values()])
+    return set(re.findall(r'\[([A-Za-z][A-Za-z0-9_-]*)\]',text))
+
 def validate_result(value, config, sources):
     if not set(value.get('directions',[])) <= set(config['directions']): raise ValueError('Unknown research direction')
     if value.get('grade') in config['retain_grades'] and not value.get('directions'):
@@ -106,6 +110,10 @@ def validate_result(value, config, sources):
         if set(value['sections']) != set(config['output']['sections']) or any(not v.strip() for v in value['sections'].values()):
             raise ValueError('Missing configured summary sections')
         if len(value['brief'])!=config['output']['brief_sentences']: raise ValueError('Incorrect brief sentence count')
+        invalid=cited_ids(value)-set(sources)
+        if invalid:raise ValueError('Unknown citation placeholders/IDs: '+', '.join(sorted(invalid)))
+        missing=[title for title,body in value['sections'].items() if not re.search(r'\[([A-Za-z][A-Za-z0-9_-]*)\]',body)]
+        if missing:raise ValueError('Add actual original-source IDs to these sections, including the mechanism underlying transfer suggestions: '+', '.join(missing))
     for issue in value.get('issues',[]):
         if issue['source_id']!='missing' and issue['source_id'] not in sources: raise ValueError('Unknown judge source ID')
     return value
@@ -172,7 +180,7 @@ class Engine:
 def judge_sources(document,analysis):
     sections=document['sections']
     if sum(len(s['text']) for s in sections)<=48000: return sections
-    ids={e['source_id'] for e in analysis['evidence']}
+    ids={e['source_id'] for e in analysis['evidence']}|cited_ids(analysis)
     indices={j for i,s in enumerate(sections) if s['id'] in ids for j in [max(0,i-1),i,min(len(sections)-1,i+1)]}
     return [s for i,s in enumerate(sections) if i in indices]
 
@@ -204,7 +212,7 @@ def review_paper(engine,paper,triage,document):
     return {'grade':judge['grade'],'directions':judge['directions'],'reason':judge['reason'],
             'status':'pending_review' if pending else 'reviewed','analysis':analysis,'judgments':history,
             'source':document['source'],'coverage':document['coverage'],'coverage_notes':document['notes'],
-            'source_locations':{e['source_id']:sources[e['source_id']]['location'] for e in analysis['evidence']},
+            'source_locations':{sid:sources[sid]['location'] for sid in sorted({e['source_id'] for e in analysis['evidence']}|cited_ids(analysis))},
             'chunks_read':len(parts)}
 
 def run(papers,config,cache_dir,fulltext_loader=fetch_fulltext,engine=None):

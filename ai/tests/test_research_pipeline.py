@@ -62,6 +62,9 @@ class ResearchPipelineTests(unittest.TestCase):
         payload['directions']='individual'
         with self.assertRaises(ValueError) as error:parse_json(json.dumps(payload),Triage)
         self.assertIn('directions',str(error.exception))
+    def test_summary_rejects_placeholder_citations(self):
+        draft=analysis();draft['sections'][next(iter(draft['sections']))]='关键结论 [source_id]'
+        with self.assertRaises(ValueError):validate_result(draft,self.config,{'s1':{'text':TEXT}})
     def test_final_judge_grade_can_exclude(self):
         engine=FakeEngine(['D'])
         with tempfile.TemporaryDirectory() as d:
@@ -80,6 +83,15 @@ class ResearchPipelineTests(unittest.TestCase):
         self.assertEqual(kept[0]['triage']['grade'],'D')
         self.assertEqual(kept[0]['research_review']['grade'],'C')
         self.assertIn('judge',engine.stages)
+    def test_judge_can_resolve_reader_uncertainty(self):
+        engine=FakeEngine(['C']);original=engine.call
+        def call(stage,*args):
+            value=original(stage,*args)
+            if stage=='reader':value['uncertain']=True
+            return value
+        engine.call=call
+        review=review_paper(engine,self.paper,{},document())
+        self.assertEqual(review['status'],'reviewed')
     def test_only_one_revision_and_pending_retained(self):
         engine=FakeEngine(['C','C'],['revise','revise'])
         with tempfile.TemporaryDirectory() as d:

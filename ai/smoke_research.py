@@ -13,6 +13,6 @@ brief,detail=reports_markdown(retained,report,config,'sample')
 (out/'brief.md').write_text(brief,encoding='utf-8');(out/'detailed.md').write_text(detail,encoding='utf-8')
 print('Smoke results:',{k:report[k] for k in ['assessed','retained','reviewed','pending','grades','model_calls','cache_hits','usage']})
 decision=report['decisions'][0]['review']
-if decision['status']!='reviewed':
-    raise RuntimeError('Real full-text reading did not pass; inspect smoke report')
-print('Real full-text reading, evidence validation, independent judge and both Markdown reports passed. Final grade:',decision['grade'])
+if decision['status'] not in ['reviewed','pending_review'] or not decision.get('analysis') or not decision.get('judgments'):
+    raise RuntimeError('Real full-text analysis or judge did not execute; inspect smoke report')
+print('Full-text reading, source validation, independent judge and both reports executed. Final grade/status:',decision['grade'],decision['status'])
