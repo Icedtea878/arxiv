@@ -65,6 +65,9 @@ class ResearchPipelineTests(unittest.TestCase):
     def test_summary_rejects_placeholder_citations(self):
         draft=analysis();draft['sections'][next(iter(draft['sections']))]='关键结论 [source_id]'
         with self.assertRaises(ValueError):validate_result(draft,self.config,{'s1':{'text':TEXT}})
+    def test_judge_rejects_ellipsis_as_reason(self):
+        draft={'grade':'C','directions':['individual'],'reason':'...','issues':[]}
+        with self.assertRaises(ValueError):validate_result(draft,self.config,{'s1':{'text':TEXT}})
     def test_final_judge_grade_can_exclude(self):
         engine=FakeEngine(['D'])
         with tempfile.TemporaryDirectory() as d:

@@ -80,6 +80,8 @@ def validate_result(value, config, sources):
     if not set(value.get('directions',[])) <= set(config['directions']): raise ValueError('Unknown research direction')
     if value.get('grade') in config['retain_grades'] and not value.get('directions'):
         raise ValueError('Retained grade requires a research direction')
+    if 'reason' in value and not re.search(r'[\w\u4e00-\u9fff]',value['reason']):
+        raise ValueError('Reason must explain actual evidence and grade, not punctuation or ellipsis')
     evidence=value.get('evidence',[])
     evidence_errors=[]
     for item in evidence:
@@ -153,7 +155,7 @@ class Engine:
             if stage=='reader':
                 count=self.config['output']['brief_sentences']
                 shape['properties']['brief']['minItems']=count;shape['properties']['brief']['maxItems']=count
-                example['brief']=['填写精简句子' for _ in range(count)]
+                example['brief']=['洞见：填写关键发现','方法：填写具体方法机制','用途：填写可尝试的研究用途','限制：填写最重要限制'] if count==4 else ['填写精简句子' for _ in range(count)]
                 example['sections']={title:'填写分析，并使用材料中真实的原文编号标注依据' for title in self.config['output']['sections']}
         messages=[('system',PROMPTS[stage]+'\n以下Schema仅用于校验，禁止输出Schema本身或$defs/properties/type等定义：'+json.dumps(shape,ensure_ascii=False)+
                    '\n只返回填好的数据实例。结构示例（等级、方向及结论必须根据实际证据判断，替换所有占位内容）：'+json.dumps(example,ensure_ascii=False)),
