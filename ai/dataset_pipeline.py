@@ -77,6 +77,7 @@ class Hub:
     def get(self,url,params=None,limit=2_000_000):
         time.sleep(max(0,.75-(time.monotonic()-self.last)));self.last=time.monotonic()
         for attempt in range(2):
+            response=None
             try:
                 with self.session.get(url,params=params,timeout=(10,35),stream=True,headers={'User-Agent':'SocialWorldModelDatasetDiscovery/1.0'}) as r:
                     if r.status_code==429:raise RateLimited('Source rate-limited; remaining source requests postponed')
@@ -186,6 +187,7 @@ class Reviewer:
                     if k in ['input_tokens','output_tokens','total_tokens'] and isinstance(v,int):self.usage[k]+=v
                 value=validate_review(parse_json(response,Review),c,sources);write_json(path,value);return value
             except Exception as error:
+                if isinstance(error,ValueError):write_json(self.cache/'rejected'/(key+f'-{attempt}.json'),{'error':str(error),'response':getattr(response,'content',None)})
                 if fatal_provider_error(error) or attempt:raise
                 messages.append(('human','校验错误：'+str(error)[:1200]+'。只返回修正后填好的JSON数据实例，不返回Schema。'))
 
@@ -296,6 +298,7 @@ def refresh_existing(config,state,report,hub,reviewer):
             print('刷新已推荐数据集',item['id'],value['grade'],flush=True)
         except Exception as error:
             if fatal_provider_error(error):raise
+            print('刷新评审未完成',item['id'],type(error).__name__,str(error)[:220] if isinstance(error,(ValueError,RuntimeError)) else '',flush=True)
             failures+=1;updated.append(item);warnings.append('未完成刷新：'+item['id'])
     if report['datasets'] and failures==len(report['datasets']):raise RuntimeError('No existing dataset review could be refreshed')
     report.update(datasets=updated,generated_at=datetime.now(timezone.utc).isoformat(),reviewed_this_run=completed,review_failures=failures,
