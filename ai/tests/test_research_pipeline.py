@@ -86,7 +86,7 @@ class ResearchPipelineTests(unittest.TestCase):
                 kept,report=run([self.paper],self.config,d,forbidden,engine)
             self.assertEqual(kept,[]);self.assertEqual(engine.stages,['triage'])
     def test_fulltext_budget_caps_selected_papers(self):
-        engine=FakeEngine(['A']*3);engine.config['reading']['max_fulltext_papers']=3
+        engine=FakeEngine(['A']*3,['pass']*3);engine.config['reading']['max_fulltext_papers']=3
         papers=[{**self.paper,'id':f'1234.1234{i}v1'} for i in range(5)]
         fetched=[]
         def fetch(p,*args):fetched.append(p['id']);return document()
