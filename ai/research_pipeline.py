@@ -144,7 +144,7 @@ class Engine:
             evidence_shape['properties']={'source_id':{'type':'string','enum':list(sources)}}
             evidence_shape['required']=['source_id']
         if stage=='chunk':
-            example={'notes':'填写带[source_id]的阅读笔记','evidence':[{'source_id':next(iter(sources))}]}
+            example={'notes':'填写阅读笔记，并标注材料中真实的原文编号','evidence':[{'source_id':next(iter(sources))}]}
         elif stage=='judge':
             example={'verdict':'pass','grade':'C','directions':[next(iter(self.config['directions']))],'reason':'填写实际核查依据','issues':[]}
         else:
@@ -155,7 +155,7 @@ class Engine:
                 count=self.config['output']['brief_sentences']
                 shape['properties']['brief']['minItems']=count;shape['properties']['brief']['maxItems']=count
                 example['brief']=['填写精简句子' for _ in range(count)]
-                example['sections']={title:'填写该部分的分析及[source_id]' for title in self.config['output']['sections']}
+                example['sections']={title:'填写分析，并使用材料中真实的原文编号标注依据' for title in self.config['output']['sections']}
         messages=[('system',PROMPTS[stage]+'\n以下Schema仅用于校验，禁止输出Schema本身或$defs/properties/type等定义：'+json.dumps(shape,ensure_ascii=False)+
                    '\n只返回填好的数据实例。结构示例（等级、方向及结论必须根据实际证据判断，替换所有占位内容）：'+json.dumps(example,ensure_ascii=False)),
                   ('human',json.dumps({'research_profile':self.context,**payload},ensure_ascii=False))]
