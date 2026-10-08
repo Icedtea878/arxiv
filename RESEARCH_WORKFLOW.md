@@ -16,11 +16,11 @@
 
 ## 配置与优先级
 
-`research_config.json` 是新工作流研究设置的唯一来源：研究目标、任意方向、评审问题、分级定义/例子、保留等级、分类和预选上限、关键词及组合、输出语言/栏目/长度、角色模型、全文上限和修订次数。
+`research_config.json` 是新工作流研究设置的唯一来源：研究目标、任意方向、评审问题、分级定义/例子、保留等级、分类和预选上限、关键词及组合、输出语言/栏目/长度、全文上限和修订次数。模型与 base URL 在 `models.json` 集中配置（见下文）。
 
 旧 Actions Variables 中的 RESEARCH_PROFILE、RELEVANCE_THRESHOLD、CATEGORIES、MAX_PAPERS_PER_CATEGORY、MAX_PAPERS_PER_DAY、MODEL_NAME、LANGUAGE 不再覆盖新流程的研究配置。网页个人关键词仍只影响高亮。旧 `research_profile.json`、`ai/relevance.py` 和旧总结模块保留用于历史兼容，不是新工作流入口。
 
-模型接口与密钥：OPENAI_API_KEY 必填。OPENAI_BASE_URL Secret 如有设置，优先于档案 models.base_url。裁判默认沿用阅读服务；可设 JUDGE_API_KEY 和 JUDGE_BASE_URL Secrets，或 models.judge_base_url。角色模型名称都在档案 models 中。请勿把密钥写入公开配置。
+模型与密钥：所有角色模型名称在仓库根目录的 `models.json`（`triage` / `reader` / `judge` / `dataset` / `crawler`）以及默认 `base_url` 集中配置，是新工作流的唯一来源。OPENAI_API_KEY 必填。OPENAI_BASE_URL Secret 如有设置，优先于 `models.json`。裁判默认沿用阅读服务；可设 JUDGE_API_KEY 和 JUDGE_BASE_URL Secrets。任意角色可通过 `MODEL_<ROLE>` 环境变量覆盖 `models.json`（如 `MODEL_READER`）。请勿把密钥写入公开配置。
 
 `reading.max_fulltext_papers=null` 表示阅读全部候选，设整数可控制当次上限；超出者显示“等待全文阅读”。报告长度是提示词目标，模型输出字数不是严格保证。API 与格式校验失败会重试，鉴权/余额错误终止流程；普通单篇失败保留占位。缓存按内容、提示词、Schema、配置及模型接口区分，修改配置可能触发重新分析。
 

@@ -40,12 +40,6 @@
           "title": "Enabled",
           "type": "boolean"
         },
-        "model": {
-          "default": "MiniMax-M2.7",
-          "minLength": 1,
-          "title": "Model",
-          "type": "string"
-        },
         "daily_limit": {
           "default": 5,
           "maximum": 10,
@@ -114,43 +108,6 @@
         }
       },
       "title": "DatasetSelection",
-      "type": "object"
-    },
-    "Models": {
-      "additionalProperties": false,
-      "properties": {
-        "triage": {
-          "minLength": 1,
-          "title": "Triage",
-          "type": "string"
-        },
-        "reader": {
-          "minLength": 1,
-          "title": "Reader",
-          "type": "string"
-        },
-        "judge": {
-          "minLength": 1,
-          "title": "Judge",
-          "type": "string"
-        },
-        "base_url": {
-          "title": "Base Url",
-          "type": "string"
-        },
-        "judge_base_url": {
-          "default": "",
-          "title": "Judge Base Url",
-          "type": "string"
-        }
-      },
-      "required": [
-        "triage",
-        "reader",
-        "judge",
-        "base_url"
-      ],
-      "title": "Models",
       "type": "object"
     },
     "Output": {
@@ -295,9 +252,6 @@
     "keyword_profile": {
       "title": "Keyword Profile",
       "type": "object"
-    },
-    "models": {
-      "$ref": "#/$defs/Models"
     },
     "reading": {
       "$ref": "#/$defs/Reading"

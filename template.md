@@ -17,7 +17,7 @@ Otherwise, you can directly use this repo in https://dw-dengwei.github.io/daily-
 6. Create the following repository variables:
    1. `CATEGORIES`: separate the categories with ",", such as "cs.CL, cs.CV"
    2. `LANGUAGE`: such as "Chinese" or "English"
-   3. `MODEL_NAME`: such as "deepseek-chat"
+   3. `MODEL_NAME` (optional): legacy scrapy flow model name; defaults to `crawler` from `models.json`
    4. `EMAIL`: your email for push to github
    5. `NAME`: your name for push to github
 7. Go to your-own-repo -> Actions -> arXiv-daily-ai-enhanced

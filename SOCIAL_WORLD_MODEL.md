@@ -23,7 +23,7 @@ API/格式失败不记作零分：保存成功检查点及失败报告，停止�
 | MAX_PAPERS_PER_DAY | 200 | 关键词预选及 LLM 评分篇数上限 |
 | RELEVANCE_THRESHOLD | 80 | 仅保留严格大于此分数的论文 |
 | RESEARCH_PROFILE | research_profile.json 对应 JSON | 关键词、权重、组合及追踪词；变量优先于文件 |
-| MODEL_NAME | MiniMax-M2.7 | 评分模型 |
+| MODEL_NAME | （旧流程评分模型；推荐改 `models.json` 里的 `crawler`） | 旧评分流程覆盖 |
 
 Secrets 使用现有 OPENAI_API_KEY（MiniMax 中国站）和 OPENAI_BASE_URL；不需要 Jev。网页 Settings 关键词只影响本地匹配，不改变后台 RESEARCH_PROFILE 或 LLM 标准。
 

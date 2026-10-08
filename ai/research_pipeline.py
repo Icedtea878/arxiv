@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 from langchain_openai import ChatOpenAI
+from model_config import get_base_url, get_model
 from research_config import load_config, ROOT
 from fulltext import fetch_fulltext, chunks
 from resilient import fatal_provider_error
@@ -125,10 +126,9 @@ class Engine:
         self.context={k:config[k] for k in ['research_goal','directions','questions','grades','exclusions','examples','output']}
     def model(self,role):
         if role not in self.models:
-            c=self.config['models']
             key=os.getenv('JUDGE_API_KEY') or os.getenv('OPENAI_API_KEY','') if role=='judge' else os.getenv('OPENAI_API_KEY','')
-            base=(os.getenv('JUDGE_BASE_URL') or c['judge_base_url'] or os.getenv('OPENAI_BASE_URL') or c['base_url']) if role=='judge' else (os.getenv('OPENAI_BASE_URL') or c['base_url'])
-            self.models[role]=ChatOpenAI(timeout=180,max_retries=1,**build_chat_openai_kwargs(c[role],base,key))
+            base=get_base_url('judge' if role=='judge' else 'default')
+            self.models[role]=ChatOpenAI(timeout=180,max_retries=1,**build_chat_openai_kwargs(get_model(role),base,key))
         return self.models[role]
     def call(self,stage,schema,payload,sources):
         role='reader' if stage in ['chunk','reader'] else stage
@@ -263,7 +263,7 @@ def run(papers,config,cache_dir,fulltext_loader=fetch_fulltext,engine=None):
     report={'config_hash':digest(config),'profile':config['name'],'generated_at':datetime.now(timezone.utc).isoformat(),
             'assessed':len(papers),'retained':len(retained),'reviewed':sum(p['research_review']['status']=='reviewed' for p in retained),
             'pending':sum(p['research_review']['status']!='reviewed' for p in retained),'grades':dict(Counter(p['research_review']['grade'] or '?' for p in retained)),
-            'model_calls':engine.calls,'cache_hits':engine.hits,'usage':dict(engine.usage),'models':config['models'],
+            'model_calls':engine.calls,'cache_hits':engine.hits,'usage':dict(engine.usage),'models':{role:get_model(role) for role in ('triage','reader','judge')},
             'decisions':[{'id':p['id'],'title':p['title'],'triage':p.get('triage'),'review':p['research_review']} for p in records]}
     return retained,report
 

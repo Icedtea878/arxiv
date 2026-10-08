@@ -4,6 +4,7 @@ import os
 
 from langchain_openai import ChatOpenAI
 
+from model_config import get_base_url, get_model
 from runtime import build_chat_openai_kwargs
 from structure import Structure
 
@@ -11,8 +12,8 @@ from structure import Structure
 def main() -> None:
     model = ChatOpenAI(
         **build_chat_openai_kwargs(
-            model_name=os.environ.get("MODEL_NAME", "MiniMax-M2.7"),
-            base_url=os.environ.get("OPENAI_BASE_URL", "https://api.minimax.cn/v1"),
+            model_name=get_model("reader"),
+            base_url=get_base_url(),
             api_key=os.environ.get("OPENAI_API_KEY", ""),
         )
     ).with_structured_output(Structure, method="function_calling")

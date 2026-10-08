@@ -243,13 +243,6 @@
     "dataset_name_score": 4,
     "dataset_title_bonus": 2
   },
-  "models": {
-    "triage": "MiniMax-M2.7",
-    "reader": "MiniMax-M2.7",
-    "judge": "MiniMax-M2.7",
-    "base_url": "https://api.minimax.cn/v1",
-    "judge_base_url": ""
-  },
   "reading": {
     "max_fulltext_papers": 20,
     "chunk_chars": 24000,
@@ -271,7 +264,6 @@
   },
   "datasets": {
     "enabled": true,
-    "model": "MiniMax-M2.7",
     "daily_limit": 5,
     "review_limit": 20,
     "queries_per_day": 12,

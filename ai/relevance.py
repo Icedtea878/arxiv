@@ -9,6 +9,7 @@ from typing import Literal
 
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, ConfigDict, Field
+from model_config import get_base_url, get_model
 from runtime import build_chat_openai_kwargs
 from resilient import fatal_provider_error
 
@@ -126,8 +127,8 @@ def main():
     threshold = int(os.getenv('RELEVANCE_THRESHOLD', '80'))
     if not 0 <= threshold <= 100:
         raise ValueError('RELEVANCE_THRESHOLD must be 0–100')
-    model = os.getenv('MODEL_NAME', 'MiniMax-M2.7')
-    base_url = os.getenv('OPENAI_BASE_URL', 'https://api.minimax.cn/v1').rstrip('/')
+    model = os.getenv('MODEL_NAME') or get_model("triage")
+    base_url = get_base_url().rstrip('/')
     llm = ChatOpenAI(timeout=120, max_retries=1, **build_chat_openai_kwargs(model, base_url, os.getenv('OPENAI_API_KEY', '')))
     papers = [json.loads(line) for line in args.data.read_text(encoding='utf-8').splitlines() if line.strip()]
     prefix = args.data.with_suffix('')

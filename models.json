@@ -1,0 +1,9 @@
+{
+  "triage": "MiniMax-M2.7",
+  "reader": "MiniMax3",
+  "judge": "MiniMax3",
+  "dataset": "MiniMax3",
+  "crawler": "MiniMax-M2.7",
+  "base_url": "https://api.minimax.cn/v1",
+  "judge_base_url": ""
+}

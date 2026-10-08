@@ -64,7 +64,7 @@ Otherwise, you can watch the video above first and directly use this repo in htt
 7. Create the following repository variables:
    1. `CATEGORIES`: separate the categories with ",", such as "cs.CL, cs.CV"
    2. `LANGUAGE`: such as "Chinese" or "English"
-   3. `MODEL_NAME`: such as "deepseek-chat"
+   3. `MODEL_NAME` (optional): legacy scrapy flow model name; defaults to `crawler` from `models.json`
    4. `EMAIL`: your email for push to GitHub
    5. `NAME`: your name for push to GitHub
 8. Go to your-own-repo -> Actions -> arXiv-daily-ai-enhanced

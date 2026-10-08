@@ -20,6 +20,7 @@ from langchain.prompts import (
 )
 from structure import Structure
 from content_filter import is_sensitive
+from model_config import get_model
 from runtime import build_chat_openai_kwargs
 from resilient import invoke_summary, fatal_provider_error, cache_key, load_cache, save_cache
 
@@ -176,7 +177,7 @@ def process_all_items(data: List[Dict], model_name: str, language: str, max_work
 
 def main():
     args = parse_args()
-    model_name = os.environ.get("MODEL_NAME", "MiniMax-M2.7")
+    model_name = os.environ.get("MODEL_NAME") or get_model("crawler")
     language = os.environ.get("LANGUAGE", 'Chinese')
 
     target_file = args.data.replace('.jsonl', f'_AI_enhanced_{language}.jsonl')
