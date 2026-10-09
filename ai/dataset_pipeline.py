@@ -16,7 +16,6 @@ import requests
 from langchain_openai import ChatOpenAI
 from lxml import html
 from pydantic import BaseModel, ConfigDict, Field
-from model_config import get_base_url, get_model
 from research_config import ROOT, load_config
 from research_pipeline import digest, parse_json, write_json
 from resilient import fatal_provider_error
@@ -163,14 +162,14 @@ class Reviewer:
     def review(self,row,document):
         c=self.config
         profile={k:c[k] for k in ['research_goal','directions','questions','exclusions']}
-        base=get_base_url()
-        key=digest([PROMPT,profile,get_model('dataset'),base,document['fingerprint']])
+        base=os.getenv('OPENAI_BASE_URL') or c['models']['base_url']
+        key=digest([PROMPT,profile,c['datasets']['model'],base,document['fingerprint']])
         path=self.cache/(key+'.json');sources=document['sources']
         if path.exists():
             try:
                 result=Review.model_validate_json(path.read_text()).model_dump();validate_review(result,c,sources);self.hits+=1;return result
             except (ValueError,KeyError):pass
-        if self.model is None:self.model=ChatOpenAI(timeout=150,max_retries=1,**build_chat_openai_kwargs(get_model('dataset'),base,os.getenv('OPENAI_API_KEY','')))
+        if self.model is None:self.model=ChatOpenAI(timeout=150,max_retries=1,**build_chat_openai_kwargs(c['datasets']['model'],base,os.getenv('OPENAI_API_KEY','')))
         unknown={'status':'unknown','value':'unknown','evidence':[]}
         example={'grade':'C','directions':[next(iter(c['directions']))],'suitability':'unknown','overview':'填写数据内容','application':'填写具体可尝试任务及条件','reason':'填写判断依据',
                  **{name:unknown for name in ['origin','individual_id','time_info','labels']},'constraints':['填写实际限制'],'evidence':['card']}
@@ -193,7 +192,7 @@ class Reviewer:
                 messages.append(('human','校验错误：'+str(error)[:1200]+'。只返回修正后填好的JSON数据实例，不返回Schema。'))
 
 def pick(candidates,state,config,feedback):
-    profile=digest([config['research_goal'],config['directions'],get_model('dataset'),PROMPT])
+    profile=digest([config['research_goal'],config['directions'],config['datasets']['model'],PROMPT])
     interest=digest([config['research_goal'],config['directions']])
     ready=[];aliases=config['datasets']['aliases']
     preference=Counter()
@@ -236,7 +235,7 @@ def run(config,state,today,hub,reviewer,feedback=None):
         if warnings and '限流' in warnings[-1]:break
     if not success and not state['candidates']:raise RuntimeError('No dataset source could be queried; existing daily results preserved')
     state['query_cursor']=(cursor+len(plan))%len(all_terms)
-    profile=digest([config['research_goal'],config['directions'],get_model('dataset'),PROMPT])
+    profile=digest([config['research_goal'],config['directions'],settings['model'],PROMPT])
     feedback=feedback or {};todo=[]
     for row in state['candidates'].values():
         if feedback.get(row['id']) in ['seen','not_relevant']:continue
@@ -256,7 +255,7 @@ def run(config,state,today,hub,reviewer,feedback=None):
         except RateLimited:warnings.append('数据卡来源限流；剩余候选留到后续运行。');break
         except Exception as error:
             if fatal_provider_error(error):raise
-            failures+=1;print('数据集评审待重试',row['id'],type(error).__name__,str(error)[:150] if isinstance(error,ValueError) else '',flush=True)
+            failures+=1;print('数据集评审待重试',row['id'],type(error).__name__,str(error)[:300],flush=True)
     if todo and failures==min(len(todo),settings['review_limit']):raise RuntimeError('All dataset evidence reviews failed; no new results published')
     selected=pick(list(state['candidates'].values()),state,config,feedback)
     rows=[]
@@ -286,7 +285,7 @@ def migrate_history(state,config):
 def refresh_existing(config,state,report,hub,reviewer):
     """Fix evidence reviews for the same daily IDs; do not reroll the daily list."""
     migrate_history(state,config);updated=[];warnings=[];failures=0;completed=0
-    profile=digest([config['research_goal'],config['directions'],get_model('dataset'),PROMPT])
+    profile=digest([config['research_goal'],config['directions'],config['datasets']['model'],PROMPT])
     for item in report['datasets']:
         row=state['candidates'][item['id']]
         try:
