@@ -2,3 +2,6 @@ arxiv:
   categories:  # 文章类型
     - cs.CV
     - cs.CL
+
+llm:
+  model_name: 'MiniMax-M3'  # 使用的LLM模型
