@@ -58,13 +58,7 @@ jobs:
         export OPENAI_BASE_URL="${{ secrets.OPENAI_BASE_URL || 'https://api.minimax.cn/v1' }}"
         export TOKEN_GITHUB=${{ secrets.TOKEN_GITHUB }}
         export LANGUAGE="${{ vars.LANGUAGE || 'Chinese' }}"
-        # MODEL_NAME defaults to the 'crawler' role from models.json (legacy scrapy flow).
-        # Override with vars.MODEL_NAME or env MODEL_NAME if needed.
-        export MODEL_NAME="${{ vars.MODEL_NAME || '' }}"
-        if [ -z "$MODEL_NAME" ]; then
-          export MODEL_NAME=$(jq -r '.crawler' ../models.json)
-          export OPENAI_BASE_URL=$(jq -r '.base_url' ../models.json)
-        fi
+        export MODEL_NAME="${{ vars.MODEL_NAME || 'MiniMax-M3' }}"
         
         # 使用Scrapy爬取
         # Use Scrapy to crawl
