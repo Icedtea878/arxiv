@@ -1,0 +1,390 @@
+{
+  "version": 1,
+  "date": "2026-10-09",
+  "generated_at": "2026-10-09T06:50:22.559852+00:00",
+  "profile": "Social World Model",
+  "directions": {
+    "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
+    "interaction": "人际、人机或社会代理的对话、协商、关系、相互影响与合作。",
+    "group": "多人协作、博弈、群体决策、集体行为与观点演化。",
+    "society": "社会网络、规范、制度、社区、文化与传播的建模或模拟。"
+  },
+  "datasets": [
+    {
+      "id": "snap-stanford/humanual-opinion",
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction",
+          "group",
+          "society"
+        ],
+        "suitability": "usable",
+        "overview": "Humanual-Opinion 是 SNAP-Stanford 发布的 Reddit r/AITA 板块真实用户评论数据集，包含 4,567 名用户、992 个帖子、42,332 条评论，每条样本提供用户 persona（人口统计/兴趣/价值观/沟通风格统计）、多轮对话 prompt、ground-truth 回复、帖 ID、用户 ID（SHA-256 哈希）、Unix 时间戳和帖子层级。",
+        "application": "可直接用于个体方向的用户模拟器训练与评估，基于 persona 与对话上下文生成风格一致的回复；可用于交互方向的多轮对话风格建模与回复生成；在群体方向可基于同一 post_id 聚合用户分析 AITA 帖子下的多人协商、立场分布与群体决策；在社会方向可结合 persona 的价值观字段研究社会规范、道德判断与争议话题上的立场表达与传播。需验证：persona 是否由 LLM 摘要生成（影响噪声与可解释性），同一用户在不同话题上 persona 是否一致。",
+        "reason": "metadata 与 card 明确说明该数据集是 HumanLM 用户模拟基准的一部分，针对真实用户行为模拟：card 字段含 hashed user_id 提供跨样本可追踪个体标识，timestamp 支持时间分析，turn_id 反映帖子层级交互深度，persona 字段含多维结构化标签（demographics/interests/values/communication/statistics）直接支撑个体行为与人格建模；prompt 为多轮对话列表支持交互研究；多用户在同一 post 下发言天然支持群体层面立场聚合分析；AITA 板块聚焦家庭冲突、生活决策等道德话题，persona 的 values 字段可支撑社会规范与道德表达建模。样本示例佐证了以上字段的真实存在与可解析性。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "user_id（SHA-256 哈希后的 Reddit 用户名），可用于跨样本追踪同一用户",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "timestamp（Unix 秒级）+ Date Range 2018-11-12 至 2025-09-08，支持纵向时间排序与时间窗口分析",
+          "evidence": [
+            "metadata",
+            "card",
+            "fields"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "persona 字段为结构化 JSON，包含 demographics、interests、values、communication、statistics 五类标签",
+          "evidence": [
+            "card",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "许可为 CC BY-NC 4.0，仅限非商业使用",
+          "user_id 虽稳定但经过 SHA-256 哈希，无法还原真实用户名",
+          "persona 由 LLM 从用户评论历史抽取，存在摘要噪声需验证质量",
+          "样本示例第二条评论与 persona 中 pet 兴趣相关，但 prompt 为 AITA 帖，部分样本可能话题与 persona 不完全对齐"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/snap-stanford/humanual-opinion",
+        "card": "https://huggingface.co/datasets/snap-stanford/humanual-opinion/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/snap-stanford/humanual-opinion",
+        "sample": "https://huggingface.co/datasets/snap-stanford/humanual-opinion"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "164f672fd759e7fff3a9c61fd2d59c5eaaeaceb5a670b8657ed192ba52a4bd38",
+      "url": "https://huggingface.co/datasets/snap-stanford/humanual-opinion",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-02-13T04:25:21.000Z",
+      "license": "cc-by-nc-4.0",
+      "gated": false
+    },
+    {
+      "id": "bowen-upenn/PersonaMem-v3",
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "PersonaMem-v3 是面向跨平台个性化智能的基准数据集，包含 100 个匿名化真实行为驱动的合成人物，跨 Instagram、Facebook、Threads、Chatbot、AI Studio 伴侣角色和日历六个应用，共 221,817 条带时间戳的参与事件、62,824 条带置信度的偏好实例和 15,791 条评测查询。",
+        "application": "可用于个体方向研究：跨平台用户偏好建模与演化分析（reinforced/emerging/diminishing/bursting/varied attention shifts），基于约 95% 隐式信号推断心理锚定偏好，测试过度个性化（over-personalization）的边界；可用于交互方向研究：分析 Chatbot 与 AI Studio 伴侣角色中 user–assistant 对话模式、DM 线程、不同提示词下的代理行为差异，以及用户对自然语言指令（如 @ai steer）的响应方式；可作为用户模拟器的训练/评测素材。需要验证：偏好与事件的链接是否在时间因果上需要屏蔽 query 之后的事件（评测代码已默认处理）。",
+        "reason": "metadata 与 card 明确说明数据集围绕'跨平台个人智能'展开，含稳定 persona_id、Unix 时间戳、interaction_type 五类信号极性、preference_evolution 时间线与置信度，直接支持个体偏好与人格建模（individual）。fields 中 conversation_json 包含 role/content 结构的 user–assistant 多轮对话（见 sample row_idx=1 的 AI Studio 会话），user_message、is_dm 等支持人机交互分析（interaction）。paper 摘要强调从跨平台证据推理、个性化响应、推荐重排与主动/克制判断，与个体和交互方向直接对应。group/society 不是数据设计目标：数据以个体行为聚合为核心，未提供多用户之间的关系网络或社区结构。证据：metadata（gated=false、size 100K<n<1M、tags 含 personalization/user-modeling）、card（五个能力领域、六应用、六类偏好演化模式、95% 隐式信号、心理学锚定）、fields（persona_id/timestamp/interaction_type/preferences/preference_evolution/conversation_json）、paper（跨平台用户理解、偏好演化、agentic 工具使用、克制评估）。",
+        "origin": {
+          "status": "known",
+          "value": "mixed",
+          "evidence": [
+            "card",
+            "paper"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "persona_id（int64，100 个；与 backend/{persona_id}/ 目录一一对应）",
+          "evidence": [
+            "fields",
+            "card"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "timestamp（Unix 秒）与 datetime（YYYY-MM-DD HH:MM UTC），每条事件附带 formatted_timestamp；评测需屏蔽 query 之后的事件以保持因果",
+          "evidence": [
+            "fields",
+            "card",
+            "sample"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "interaction_type（implicit_negative/implicit_positive/explicit_positive/explicit_negative/feed_visible）、preference_category、preference_evolution（含时间线与 confidence_score_init/confidence_cross_referenced）、is_dm/is_ad/is_trending、hidden_persona_labels、stereotype_mark 等",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "CC-BY-NC-4.0 许可，禁止商业用途",
+          "gated=false，无需申请即可下载",
+          "原数据来自 Meta GIST-Bench 的匿名化真实参与日志，被 resample 后不追溯到具体真人，属 mixed origin",
+          "评测时必须按时间戳屏蔽 query 之后事件，否则引入因果泄漏",
+          "仅发布首期 100 个 persona（共 200 计划中），样本量较小可能限制统计推断力度",
+          "group 与 society 不是该数据的原生研究方向"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample",
+          "paper"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/bowen-upenn/PersonaMem-v3",
+        "card": "https://huggingface.co/datasets/bowen-upenn/PersonaMem-v3/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/bowen-upenn/PersonaMem-v3",
+        "sample": "https://huggingface.co/datasets/bowen-upenn/PersonaMem-v3",
+        "paper": "https://arxiv.org/abs/2608.21381"
+      },
+      "coverage_notes": [
+        "数据卡超过阅读上限，仅检查开头；信息可能不完整。"
+      ],
+      "papers": [
+        "2608.21381",
+        "2504.14225",
+        "2512.06688"
+      ],
+      "fingerprint": "403959b2c79170dc570eff2103fa29a28ab036ac4e4551875957b065fbd0d324",
+      "url": "https://huggingface.co/datasets/bowen-upenn/PersonaMem-v3",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-08-30T04:30:06.000Z",
+      "license": "cc-by-nc-4.0",
+      "gated": false
+    },
+    {
+      "id": "Lazanantenaina/mbti-Personalitycafe-cleaned-data",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual"
+        ],
+        "suitability": "usable",
+        "overview": "来自 PersonalityCafe 论坛的约 8675 条已清洗帖文样本，每行聚合一位用户的多个帖子（以 [SEP] 连接），并标注其 MBTI 类型与四个二元维度（IE/NS/TF/JP）标签。",
+        "application": "可用于研究个体写作风格与自报人格特质（MBTI 四维度）之间的关联，作为人格分类或条件化用户生成（persona-conditioned text generation / user simulation）的训练或评估数据，例如用帖子文本预测个体的人格倾向，或以人格标签为条件驱动语言模型模拟不同特质个体的表达方式。需在使用时验证：MBTI 标签为自报且在心理学界有效性存疑，原数据未提供稳定用户ID与时间戳，难以做纵向个体稳定性分析。",
+        "reason": "数据将论坛帖文直接与个体人格维度标签配对，结构上支持个体方向的人格建模与用户模拟任务，因此与 individual 方向有具体支撑用途（grade=B）。字段中不含显式用户标识符或时间戳，当前预览中也未见独立交互轮次结构，因此不宜直接断言可做纵向交互或社会层面分析。MBTI 自报标签的信度需在迁移研究中单独检验，因此评为 B 而非 A。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "type（MBTI 类型字符串）与 target_IE/target_NS/target_TF/target_JP 四个二元维度标签，随每条帖文样本提供",
+          "evidence": [
+            "metadata",
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "字段中未暴露稳定用户ID，无法跨样本追踪同一作者",
+          "字段中未暴露时间戳，无法进行纵向或时序分析",
+          "MBTI 类型为自报标签，有效性与一致性需在研究中验证",
+          "clean_posts 为多帖拼接（[SEP] 分隔），缺少清晰对话结构，难以直接用于交互分析",
+          "样本量约 8675 条，规模有限",
+          "数据公开（gated=false），无需额外申请"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/Lazanantenaina/mbti-Personalitycafe-cleaned-data",
+        "card": "https://huggingface.co/datasets/Lazanantenaina/mbti-Personalitycafe-cleaned-data/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/Lazanantenaina/mbti-Personalitycafe-cleaned-data",
+        "sample": "https://huggingface.co/datasets/Lazanantenaina/mbti-Personalitycafe-cleaned-data"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "45accb251e117e2996f7a8fc9d36586737b096de80562f60efe241a93c37b913",
+      "url": "https://huggingface.co/datasets/Lazanantenaina/mbti-Personalitycafe-cleaned-data",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-09-16T16:07:21.000Z",
+      "license": "未知",
+      "gated": false
+    },
+    {
+      "id": "aayus017/mbti-personality-dataset",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "Hugging Face 上公开的 MBTI 人格类型与帖子数据集，每行包含一个 MBTI 类型标签和该用户的系列帖子文本（多条帖子以 '|||' 分隔），规模 1K–10K，无门控。",
+        "application": "（1）个体方向：可作为个体行为/语言风格与人格标签关联分析、基于 MBTI 条件的个体用户模拟（persona-conditioned generation）的数据基础，每条记录的 'type' 字段提供人格标签、'posts' 字段提供自然语言行为样本。（2）交互方向：帖子内容包含论坛内对其他用户的称呼（如 'Hello ENFJ7'、'Dear ENFP'）、关系与协商讨论，可作为定性分析人际交互话语的资料；需自行用帖子顺序近似交互过程。（3）通用条件：需验证 MBTI 标签的自报可靠性与标注过程，并注意 MBTI 框架在学术心理学中的局限性。",
+        "reason": "数据中 'type' 字段提供 16 种 MBTI 人格类型标签，直接对应研究档案中'个体'方向的'人格'与'偏好'维度；'posts' 字段包含丰富的自我表达、人际态度与互动内容，可支持个体语言行为分析，并提供部分人际交互素材用于'交互'方向的研究。当前可见字段中没有独立的个体 ID（如 user_id/author），也无法保证一个用户对应多行数据以支持纵向建模；样本中也未见时间戳，无法直接做时间序列分析，但帖子内部的有序拼接仍可用于话语过程分析。综合判断：与个体方向有具体支撑（人格–语言），与交互方向有明确条件下的间接用途（论坛话语中的人际互动），评为 B。",
+        "origin": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "'type' 字段提供 MBTI 16 种人格类型字符串标签（如 INFJ、ENTP），可作为监督/条件标签使用；'posts' 为用户生成的自由文本，可视为弱自监督的行为/语言数据。",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "MBTI 是自报式类型化标签，存在标注可靠性与构念效度争议，需在使用前评估。",
+          "数据集元数据缺少描述（description 为空），字段与样本未提供用户来源、采集时间或标注流程，需额外查证。",
+          "当前可见字段无稳定个体 ID 与显式时间戳，限制了纵向个体建模与时间序列分析。",
+          "数据集未说明许可与伦理来源（origin.value 暂为 unknown），使用与再分发前需核对许可证。",
+          "原始数据是否涉及真实用户尚需确认（样本中出现关于隐私、自杀等敏感话题的帖子）。",
+          "MBTI 仅含 16 个离散类别，对细粒度个体差异（特质、状态）建模能力有限。"
+        ],
+        "evidence": [
+          "metadata",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/aayus017/mbti-personality-dataset",
+        "fields": "https://huggingface.co/datasets/aayus017/mbti-personality-dataset",
+        "sample": "https://huggingface.co/datasets/aayus017/mbti-personality-dataset"
+      },
+      "coverage_notes": [
+        "README未获取；使用公开元数据与可用字段。"
+      ],
+      "papers": [],
+      "fingerprint": "4e539bd0fcc80450431e28ea080ec0fdd5356f350b8412c24edc52dd741e04f2",
+      "url": "https://huggingface.co/datasets/aayus017/mbti-personality-dataset",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2025-12-02T21:07:02.000Z",
+      "license": "未知",
+      "gated": false
+    },
+    {
+      "id": "ebowwa/theory-of-mind",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "一个小型(n<1K)的Theory of Mind(心智理论)问答数据集,每条样本包含一个涉及多人社交情境的虚构场景描述(input)与对应的心理状态推理答案(output)。",
+        "application": "可用于研究个体层面的心智状态推理与信念归因,例如评估大语言模型在Theory of Mind任务上的表现、分析信念/意图/知识状态推理的论证结构,以及作为人机交互系统中社会推理能力的基准。需验证模型输出与人类推理的一致性或偏差。",
+        "reason": "数据中的每个场景都围绕多个虚构人物的心理状态(谁知道什么、谁意图做什么)展开问答,output中包含对个体信念、意图及他人视角的分析,直接对应individual方向中'认知、心理状态'以及interaction方向中'人际'视角理解。但数据为合成Q&A对(虚构人物、预设场景),非真实人类行为记录,样本量较小,限制了对群体或社会层面的迁移能力。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "sample"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "无稳定个体ID;场景中的人物(Thandi/Raj/Mika等)为虚构角色,不指向真实个体",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "无分类标签字段;仅有input(场景+问题)与output(推理回答)的自由文本对",
+          "evidence": [
+            "fields"
+          ]
+        },
+        "constraints": [
+          "样本量极小(n<1K)",
+          "场景与人物均为合成虚构,非真实社交行为数据",
+          "无时间戳或纵向追踪信息",
+          "仅含英文学术风格的ToM推理,非自然对话语料"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/ebowwa/theory-of-mind",
+        "card": "https://huggingface.co/datasets/ebowwa/theory-of-mind/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/ebowwa/theory-of-mind",
+        "sample": "https://huggingface.co/datasets/ebowwa/theory-of-mind"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "e933ff9b63ce166c662330aa5a83b9a739acef8e49a3e3904c8d782ca596273f",
+      "url": "https://huggingface.co/datasets/ebowwa/theory-of-mind",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2024-05-30T18:20:21.000Z",
+      "license": "apache-2.0",
+      "gated": false
+    }
+  ],
+  "candidate_count": 338,
+  "reviewed_this_run": 18,
+  "review_failures": 2,
+  "warnings": [],
+  "limits": {
+    "review": 20,
+    "recommend": 5
+  },
+  "model_calls": 26,
+  "cache_hits": 0,
+  "usage": {
+    "input_tokens": 131954,
+    "output_tokens": 38166,
+    "total_tokens": 170120
+  }
+}
