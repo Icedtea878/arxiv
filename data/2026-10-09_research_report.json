@@ -1,7 +1,7 @@
 {
   "config_hash": "8abe62ddb7ce7c0efe40987679b065d4e464145e2a11d0dd1e682738aa9c52a6",
   "profile": "Social World Model",
-  "generated_at": "2026-10-09T06:00:43.056188+00:00",
+  "generated_at": "2026-10-09T21:53:08.638782+00:00",
   "assessed": 200,
   "retained": 15,
   "reviewed": 0,
@@ -11,13 +11,9 @@
     "B": 6,
     "C": 8
   },
-  "model_calls": 97,
-  "cache_hits": 103,
-  "usage": {
-    "input_tokens": 135438,
-    "output_tokens": 57917,
-    "total_tokens": 193355
-  },
+  "model_calls": 0,
+  "cache_hits": 200,
+  "usage": {},
   "models": {
     "triage": "MiniMax-M2.7",
     "reader": "MiniMax3",
