@@ -1,13 +1,12 @@
 """Small paid provider check; never publishes sample papers to the site."""
 import os
 from langchain_openai import ChatOpenAI
-from model_config import get_base_url, get_model
 from runtime import build_chat_openai_kwargs
 from relevance import score_paper
 
 llm = ChatOpenAI(timeout=120, max_retries=1, **build_chat_openai_kwargs(
-    get_model("triage"),
-    get_base_url(), os.getenv('OPENAI_API_KEY', '')))
+    os.getenv('MODEL_NAME', 'MiniMax-M3'),
+    os.getenv('OPENAI_BASE_URL', 'https://api.minimax.cn/v1'), os.getenv('OPENAI_API_KEY', '')))
 fixtures = [
     ('individual', 'Simulating individual human choices', 'We model individual people using their histories and predict their choices in held-out situations.'),
     ('interaction', 'Modeling interpersonal negotiation', 'We simulate how people negotiate, infer each other intentions and adapt their dialogue and decisions during interpersonal interactions.'),
