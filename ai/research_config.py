@@ -13,6 +13,12 @@ class Crawl(Strict):
     categories: list[str] = Field(min_length=1)
     per_category: int = Field(ge=1, le=1000)
     shortlist: int = Field(ge=1, le=2000)
+class Models(Strict):
+    triage: str = Field(min_length=1)
+    reader: str = Field(min_length=1)
+    judge: str = Field(min_length=1)
+    base_url: str
+    judge_base_url: str = ''
 class Reading(Strict):
     max_fulltext_papers: int | None = Field(default=None, ge=1)
     chunk_chars: int = Field(default=24000, ge=4000, le=48000)
@@ -24,6 +30,7 @@ class Output(Strict):
     sections: list[str] = Field(min_length=1)
 class DatasetSelection(Strict):
     enabled: bool = True
+    model: str = Field(default='MiniMax-M3', min_length=1)
     daily_limit: int = Field(default=5, ge=1, le=10)
     review_limit: int = Field(default=20, ge=1, le=50)
     queries_per_day: int = Field(default=12, ge=1, le=30)
@@ -49,6 +56,7 @@ class ResearchConfig(Strict):
     retain_grades: list[str] = Field(min_length=1)
     crawl: Crawl
     keyword_profile: dict
+    models: Models
     reading: Reading
     output: Output
     datasets: DatasetSelection = Field(default_factory=DatasetSelection)
@@ -70,6 +78,10 @@ class ResearchConfig(Strict):
             raise ValueError('Invalid retained grades')
         if not all(re.fullmatch(r'[A-Za-z][A-Za-z0-9.-]*', c) for c in self.crawl.categories):
             raise ValueError('Invalid arXiv categories')
+        from urllib.parse import urlparse
+        for url in [self.models.base_url, self.models.judge_base_url]:
+            if url and (urlparse(url).scheme != 'https' or not urlparse(url).hostname):
+                raise ValueError('Model base URLs must use HTTPS')
         # Reuse the established keyword validator, without environment overrides.
         import sys
         sys.path.insert(0, str(ROOT))
