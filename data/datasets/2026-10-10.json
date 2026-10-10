@@ -1,0 +1,374 @@
+{
+  "version": 1,
+  "date": "2026-10-10",
+  "generated_at": "2026-10-10T21:11:48.446864+00:00",
+  "profile": "Social World Model",
+  "directions": {
+    "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
+    "interaction": "人际、人机或社会代理的对话、协商、关系、相互影响与合作。",
+    "group": "多人协作、博弈、群体决策、集体行为与观点演化。",
+    "society": "社会网络、规范、制度、社区、文化与传播的建模或模拟。"
+  },
+  "datasets": [
+    {
+      "id": "jiebian/PersonaMem",
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "PersonaMem 是一个面向 LLM 个性化的合成基准数据集，包含 180+ 模拟用户档案，每个用户有最多约 60 轮多会话对话，覆盖 15 个真实任务场景；数据由合成对话生成流水线产生，专注于评估模型对用户偏好动态演化的追踪与个性化回复能力。",
+        "application": "可直接用于个体方向的用户偏好演化建模、动态人格画像与个性化响应评估研究；可用于交互方向的多轮用户-LLM 对话过程中的偏好更新、记忆与回复对齐机制分析；7 类问题的标注（recall facts、preference evolution、reason recall、preference-aligned recommendation 等）可作为个体偏好建模与对话个性化方法的评测基准。",
+        "reason": "数据卡与论文明确说明该基准以'用户档案 + 多会话对话历史 + 内嵌查询'为单位，包含稳定的 persona_id 作为个体标识，7 类问题对应个体记忆、偏好追踪与迁移的具体研究子任务；shared_contexts 中的会话序列具备块/令牌级的时间距离特征（distance_to_ref_in_blocks/tokens），可用于分析偏好演化序列。数据为合成，但作者明确为模拟真实的用户-LLM 个性化场景设计，因此对个体偏好建模与交互个性化研究直接可用。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "paper",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "persona_id（int64 类型），每个用户档案唯一标识；另有 question_id 和 shared_context_id 用于索引具体问题与共享对话上下文",
+          "evidence": [
+            "fields",
+            "sample",
+            "card"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "无显式时间戳，但提供块/令牌级有序信息：distance_to_ref_in_blocks、distance_to_ref_in_tokens、distance_to_ref_proportion_in_context、end_index_in_shared_context、context_length_in_tokens，可在会话序列内分析偏好演化的相对顺序",
+          "evidence": [
+            "fields",
+            "sample",
+            "card"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "question_type（7 类：recall_user_shared_facts、suggest_new_ideas、acknowledge latest preferences、track full preference evolution、revisit reasons、provide_preference_aligned_recommendations、generalize_to_new_scenarios）；topic（任务主题，如 musicRecommendation）；correct_answer；all_options；num_irrelevant_tokens（噪声干扰量）",
+          "evidence": [
+            "fields",
+            "sample",
+            "card"
+          ]
+        },
+        "constraints": [
+          "数据为合成而非真人采集，对真实用户行为的外推需额外验证",
+          "仅英文，约 180 个用户档案，群体规模有限",
+          "需使用 32k/128k/1M token 三种长上下文版本，对计算资源有较高要求",
+          "persona 与偏好演化模式由模拟流水线生成，需检验其在具体迁移任务中的代表性",
+          "license 为 MIT，gated=false，可直接公开获取"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample",
+          "paper"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/jiebian/PersonaMem",
+        "card": "https://huggingface.co/datasets/jiebian/PersonaMem/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/jiebian/PersonaMem",
+        "sample": "https://huggingface.co/datasets/jiebian/PersonaMem",
+        "paper": "https://arxiv.org/abs/2504.14225"
+      },
+      "coverage_notes": [],
+      "papers": [
+        "2504.14225"
+      ],
+      "fingerprint": "113c3e46f479072a76dc15c3c511a0463c343a687d09664f946ea3829c9e3cfa",
+      "url": "https://huggingface.co/datasets/jiebian/PersonaMem",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-05-12T11:41:09.000Z",
+      "license": "mit",
+      "gated": false
+    },
+    {
+      "id": "grimulkan/theory-of-mind",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "合成心智理论（Theory of Mind）问答数据集，由GPT-4生成并经过双重校验，包含三个JSON文件共约539条目，格式为Alpaca指令格式（instruction/input/response），每条为涉及多名虚构角色的社交情境及其心理状态推理问答。",
+        "application": "可用于评估或微调大语言模型在心智理论任务上的表现，研究模型对他人信念、意图、知识状态等心理状态的推理能力；也可作为社交认知基准测试集，衡量模型在个体心智建模与多人交互情境理解方面的水平。",
+        "reason": "数据集每条目均围绕虚构角色的信念、意图、知识状态展开推理（如'谁最可能知道蛋糕在哪里'、'Elroy会如何回应'、'谁打开了笔记本'），直接涉及个体心理状态推断和多人交互中的社会认知，这是心智理论研究的经典范式，与individual方向的认知/心理状态推断和interaction方向的社会代理互理解高度契合。但数据为合成Q&A对而非真实交互日志或纵向行为记录，不直接支持group或society方向的群体动态、网络传播等研究。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "constraints": [
+          "合成数据由GPT-4生成，虽经过双重校验但不保证完全准确",
+          "许可证为unknown，使用需注意OpenAI条款约束",
+          "每条目为独立Q&A对，无稳定个体标识或纵向追踪信息",
+          "角色为虚构情境中的一次性描述，不等价于真实社会行为数据"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/grimulkan/theory-of-mind",
+        "card": "https://huggingface.co/datasets/grimulkan/theory-of-mind/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/grimulkan/theory-of-mind",
+        "sample": "https://huggingface.co/datasets/grimulkan/theory-of-mind"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "6c201d9fba2fbc2a589abf553e3ffce3de2422da1e2f550dd899602e32e40c31",
+      "url": "https://huggingface.co/datasets/grimulkan/theory-of-mind",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2024-01-13T22:33:53.000Z",
+      "license": "unknown",
+      "gated": false
+    },
+    {
+      "id": "electricsheepasia/asia-owid-water-basins-cooperation-plan",
+      "review": {
+        "grade": "C",
+        "directions": [
+          "society",
+          "group"
+        ],
+        "suitability": "usable",
+        "overview": "亚洲31国2017–2023年跨国水流域（河流、湖泊、含水层）合作协议覆盖比例的省级年度指标数据集，共64条观测。",
+        "application": "可作为跨国水治理研究中的国家层面宏观特征/标签指标。任务示例：（1）以国家+年度为单位，将'河流/湖泊流域合作覆盖比例'作为标签，训练分类或回归模型预测治理水平；（2）将其与其他数据集（如冲突、贸易、气候变量）合并，分析合作协议覆盖率与国际合作的关联；（3）作为跨国制度合作的代理变量，研究区域多边合作模式。需验证：指标定义（比重基线）、缺失机制、与原OWID图数据一致性。",
+        "reason": "数据仅包含国家级聚合的水流域合作协议覆盖百分比，是跨国制度合作的代理指标，与'society'中的制度/规范建模和'group'中的多边协作有间接联系。但样本极少（64行）、国家层面无微观行为和对话/协商过程，且并非个体级或人际交互数据，无法直接支撑个体/交互方向。其相关性在于为国家间水合作治理建模提供宏观结构变量。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "country_iso3为国家层级的稳定单位标识符（ISO3代码），可用于纵向追踪；并非个人层面的真实用户ID",
+          "evidence": [
+            "fields",
+            "sample",
+            "card"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "year字段为int64，覆盖2017–2023年",
+          "evidence": [
+            "fields",
+            "sample",
+            "card"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "'All basins (rivers, lakes & aquifers)'、'Aquifers'、'River and lake basins'三个float64列作为指标/标签值（其中All basins有26.6%缺失）",
+          "evidence": [
+            "fields",
+            "card"
+          ]
+        },
+        "constraints": [
+          "仅64条观测，样本极小",
+          "国家级聚合数据，无个体或对话粒度",
+          "时间跨度仅2017–2023（7年），不利于长期趋势分析",
+          "All basins字段26.6%缺失，需处理",
+          "非行为数据，仅为治理结构代理指标"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/electricsheepasia/asia-owid-water-basins-cooperation-plan",
+        "card": "https://huggingface.co/datasets/electricsheepasia/asia-owid-water-basins-cooperation-plan/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/electricsheepasia/asia-owid-water-basins-cooperation-plan",
+        "sample": "https://huggingface.co/datasets/electricsheepasia/asia-owid-water-basins-cooperation-plan"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "4703d24ebedf00ed88326a94ebf416bc06b94528470ea1453130d4016dc19279",
+      "url": "https://huggingface.co/datasets/electricsheepasia/asia-owid-water-basins-cooperation-plan",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-06-12T23:57:26.000Z",
+      "license": "cc-by-4.0",
+      "gated": false
+    },
+    {
+      "id": "french-open-data/les-projets-de-cooperation-decentralisee-sud-sahara",
+      "review": {
+        "grade": "C",
+        "directions": [
+          "society",
+          "group"
+        ],
+        "suitability": "conditional",
+        "overview": "法国地方当局（区域、省、市镇及跨市镇机构）与撒哈拉以南非洲国家之间约13,000个去中心化国际合作项目的记录，来源于法国去中心化合作国家委员会（CNCD）于2009年建立的Atlas。",
+        "application": "若能获取data.gouv.fr上的实际字段，可用于研究地方层级跨国合作网络拓扑（参与机构-合作伙伴国家/城市的双边关系网络）、制度间伙伴关系的持续性与地理分布（社会网络与制度建模），以及跨区域协作中主题、预算或时间维度的聚集特征（群体层面的合作模式）。需先确认实际数据表是否包含项目主体、年份、主题、合作对象、预算等可分析的字段。",
+        "reason": "数据主题明确涉及跨国制度合作与地方治理间的互动结构，与society方向（制度、社区、跨国网络建模）以及group方向（多主体合作项目）存在实质性匹配；但当前Hugging Face仓库本身为空，仅作为外部data.gouv.fr数据集的引用卡片，未提供字段预览、样例或时间字段信息，无法直接验证可用字段和粒度，因此只能按条件性间接用途评级。标签中的dataset_for_agent为通用元数据标记，按规则不应据此判定相关性。",
+        "origin": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "constraints": [
+          "Hugging Face仓库为空，实际数据需从data.gouv.fr另行获取",
+          "未提供字段预览和样例，无法确认项目主体、时间、主题、合作方等关键字段是否齐备",
+          "数据对象为机构/项目而非自然人，无法用于个体或人际交互层面的研究",
+          "需核实许可证（标注为Licence Ouverte）在研究发布条件下的兼容性",
+          "合作主体为法国地方当局与非洲国家，数据语言为法语，处理时需考虑多语言与地名的标准化"
+        ],
+        "evidence": [
+          "metadata",
+          "card"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/french-open-data/les-projets-de-cooperation-decentralisee-sud-sahara",
+        "card": "https://huggingface.co/datasets/french-open-data/les-projets-de-cooperation-decentralisee-sud-sahara/blob/main/README.md"
+      },
+      "coverage_notes": [
+        "字段预览未获取（可能需申请或不支持预览）；未确认的属性标为未知。"
+      ],
+      "papers": [],
+      "fingerprint": "034aac42069750edaf6cdaf385ad8d3ff3b885c8e61d405b1a259dafd4eef296",
+      "url": "https://huggingface.co/datasets/french-open-data/les-projets-de-cooperation-decentralisee-sud-sahara",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2025-11-21T19:45:31.000Z",
+      "license": "未知",
+      "gated": false
+    },
+    {
+      "id": "anikisandesu/anime-waifu-personality-chat",
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "suitability": "usable",
+        "overview": "合成数据集，包含以动漫角色人格原型（如 tsundere、yandere、deredere、himedere、kamidere 等）标注的聊天风格对话样本，规模 1K–10K，CC-BY-4.0 公开许可。",
+        "application": "可作为人格/性格条件化对话生成或人格表达建模的合成语料：利用 trait 标签作为人格条件，dialogue 字段作为该人格下的单轮表达示例，用于训练或评估具备特定人格原型（傲娇、病娇等）的对话代理/用户模拟器，模拟不同人格特征下的语言风格与交互倾向。研究人员需自行验证从动漫原型人格到现实人格行为模拟的迁移效果，以及多轮对话情境下的泛化能力。",
+        "reason": "数据中 trait 字段直接对应人格原型（如 tsundere/yandere/deredere 等），dialogue 字段承载该人格下的语言行为表现，与'个体'方向中'人格、偏好、行为表达及用户模拟'存在具体联系。但样本预览显示为单句独白而非多轮交互，且数据为合成动漫角色而非真人行为，故不能等同于真实人格数据；迁移到真实个体行为研究需明确验证。group/society 方向缺乏群体或社会结构信息，interaction 方向因样本缺少明确的多轮交互结构而难以直接支撑，需进一步确认 dialogue 字段是否含多轮对话。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "card",
+            "sample"
+          ]
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "trait 字段为人格原型标签，取值包括 tsundere、yandere、deredere、himedere、kamidere 等",
+          "evidence": [
+            "metadata",
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "数据为合成动漫人格原型，非真实人类行为，迁移到现实人格研究需额外验证",
+          "样本预览为单句表达，dialogue 字段是否含多轮对话需进一步确认",
+          "缺少真实个体 ID，无法支持个体纵向追踪类研究",
+          "字段列表仅含 trait 和 dialogue，缺少年龄、性别、文化背景等人口学/情境属性",
+          "许可为 CC-BY-4.0，使用时需保留署名"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/anikisandesu/anime-waifu-personality-chat",
+        "card": "https://huggingface.co/datasets/anikisandesu/anime-waifu-personality-chat/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/anikisandesu/anime-waifu-personality-chat",
+        "sample": "https://huggingface.co/datasets/anikisandesu/anime-waifu-personality-chat"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "df4cf89b19c535991d5db41014df3cac3062b1e609fd27d0d5e61fcc55917b8e",
+      "url": "https://huggingface.co/datasets/anikisandesu/anime-waifu-personality-chat",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-08-10T13:34:40.000Z",
+      "license": "cc-by-4.0",
+      "gated": false
+    }
+  ],
+  "candidate_count": 363,
+  "reviewed_this_run": 16,
+  "review_failures": 4,
+  "warnings": [],
+  "limits": {
+    "review": 20,
+    "recommend": 5
+  },
+  "model_calls": 28,
+  "cache_hits": 0,
+  "usage": {
+    "input_tokens": 108521,
+    "output_tokens": 41291,
+    "total_tokens": 149812
+  }
+}
