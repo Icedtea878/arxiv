@@ -23,3 +23,6 @@
 2026-10-10.jsonl
 2026-10-10_candidates.jsonl
 2026-10-10_research.jsonl
+2026-10-11.jsonl
+2026-10-11_candidates.jsonl
+2026-10-11_research.jsonl

@@ -1,0 +1,429 @@
+{
+  "config_hash": "8abe62ddb7ce7c0efe40987679b065d4e464145e2a11d0dd1e682738aa9c52a6",
+  "profile": "Social World Model",
+  "generated_at": "2026-10-11T21:04:11.691732+00:00",
+  "assessed": 16,
+  "retained": 1,
+  "reviewed": 0,
+  "pending": 1,
+  "grades": {
+    "C": 1
+  },
+  "model_calls": 10,
+  "cache_hits": 6,
+  "usage": {
+    "input_tokens": 13948,
+    "output_tokens": 6893,
+    "total_tokens": 20841
+  },
+  "models": {
+    "triage": "MiniMax-M2.7",
+    "reader": "MiniMax3",
+    "judge": "MiniMax3"
+  },
+  "decisions": [
+    {
+      "id": "2610.12010v1",
+      "title": "PulseBound: Future-Beat State Forecasting Under an Explicit Information Boundary",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "PPG（光电容积描记术）生理信号的预测性表示学习，用于未来心跳状态的预测任务。",
+        "transfer": "无迁移机制。该研究聚焦于医疗生理信号的时序预测，与个体行为建模、人际交互模拟、群体决策或社会行为研究无直接关联。",
+        "reason": "该论文研究对象为PPG信号处理与未来心跳预测，属于医疗/生理信号时序预测领域。核心机制（信息边界、因果注意力、规范化）专为生理信号设计，用于预测心率和形态描述符。无任何关于个体行为、偏好、人格、认知心理状态、人际交互、群体协作或社会建模的内容，与研究档案的四个方向（individual、interaction、group、society）均无关联。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Predictive representation learning from photoplethysmography (PPG) can violate causal information access even with causal attention, as normalization, nonlocal transforms, or companion views may depen",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文研究对象为PPG信号处理与未来心跳预测，属于医疗/生理信号时序预测领域。核心机制（信息边界、因果注意力、规范化）专为生理信号设计，用于预测心率和形态描述符。无任何关于个体行为、偏好、人格、认知心理状态、人际交互、群体协作或社会建模的内容，与研究档案的四个方向（individual、interaction、group、society）均无关联。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12023v1",
+      "title": "InterviewPlayground: A Simulation Environment for Evaluating AI Interviewers",
+      "triage": {
+        "grade": "D",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "开发 InterviewPlayground 模拟环境，用于评估 AI 面试官在多轮对话交互中的表现",
+        "transfer": "论文主要贡献是评估框架和模拟环境，而非用户行为建模方法。模拟参与者基于社会理论构建，但未明确说明其行为机制如何迁移用于其他用户模拟任务",
+        "reason": "该研究的核心目标是评估 AI 面试官性能，而非提供可迁移的用户模拟或行为建模方法。虽然模拟环境使用了基于社会理论的参与者，但其价值主要体现在评估预测效度（Pearson相关性0.86），而非参与者行为机制本身。评估指标（InterviewReportCard）服务于面试质量评测，不直接构成可用于个体行为研究的建模机制。无具体说明哪些参与者行为机制可迁移、迁移至何种任务、适用条件为何。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Increasingly, AI interviewers are being developed to elicit open-ended responses in applications like market research, public polling, preference elicitation, and social science research. However, eva",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "D",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "该研究的核心目标是评估 AI 面试官性能，而非提供可迁移的用户模拟或行为建模方法。虽然模拟环境使用了基于社会理论的参与者，但其价值主要体现在评估预测效度（Pearson相关性0.86），而非参与者行为机制本身。评估指标（InterviewReportCard）服务于面试质量评测，不直接构成可用于个体行为研究的建模机制。无具体说明哪些参与者行为机制可迁移、迁移至何种任务、适用条件为何。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12064v1",
+      "title": "ILM: An AI-Powered Storytelling Educational Tool",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "伊斯兰先知故事的教育平台，包含知识图谱构建、检索增强问答生成、LLM评估学习者答案",
+        "transfer": "无相关迁移机制",
+        "reason": "该论文是教育技术工具开发论文，核心任务是构建知识图谱处理宗教叙事文本，并生成问答进行学习评估。虽然涉及人机交互（学习者回答问题、平台评估），但这是功能性问答交互，非人际或社会代理的行为模拟。系统不涉及个体心理状态、人格、认知建模，无人际互动、群体行为或社会网络建模，与研究档案关注的个体行为模拟、人际社会交互及群体社会现象无任何研究联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Digital technologies have made Islamic narratives more accessible, but existing platforms provide limited support for structured learning and comprehension of these stories, particularly in Arabic and",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文是教育技术工具开发论文，核心任务是构建知识图谱处理宗教叙事文本，并生成问答进行学习评估。虽然涉及人机交互（学习者回答问题、平台评估），但这是功能性问答交互，非人际或社会代理的行为模拟。系统不涉及个体心理状态、人格、认知建模，无人际互动、群体行为或社会网络建模，与研究档案关注的个体行为模拟、人际社会交互及群体社会现象无任何研究联系。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12085v1",
+      "title": "Is Memorization Context-Sensitive? Prefix-Based Extraction Beyond Isolated Prefixes",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM的记忆化（memorization）与提取（extraction）风险，重点研究上下文条件对prefix-based提取的影响",
+        "transfer": "不适用",
+        "reason": "该论文研究LLM在RAG场景下的记忆化安全问题，关注的是训练数据泄露和隐私风险。核心问题是'给定前缀，模型是否继续输出原始训练序列'，属于纯技术安全研究。研究对象是LLM的技术特性（记忆化阈值、提取概率），目标是评估隐私风险和提出防御建议。没有涉及个体行为建模、认知过程、交互模拟、群体决策或社会机制，与研究档案的四个方向（个体、交互、群体、社会）均无关联。摘要中的'context'指的是检索增强的输入上下文，不是社会情境或交互上下文。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Large language models (LLMs) can expose memorized training sequences under prefix-based extraction: given a prefix from a training example, the model may assign high probability to the original contin",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文研究LLM在RAG场景下的记忆化安全问题，关注的是训练数据泄露和隐私风险。核心问题是'给定前缀，模型是否继续输出原始训练序列'，属于纯技术安全研究。研究对象是LLM的技术特性（记忆化阈值、提取概率），目标是评估隐私风险和提出防御建议。没有涉及个体行为建模、认知过程、交互模拟、群体决策或社会机制，与研究档案的四个方向（个体、交互、群体、社会）均无关联。摘要中的'context'指的是检索增强的输入上下文，不是社会情境或交互上下文。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12090v1",
+      "title": "Recompose and Refine Latent Reasoning Flows for Vision-Language-Action Models",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "VLA模型（视觉-语言-动作模型）的潜在推理流重用机制，用于机器人闭环控制",
+        "transfer": "无",
+        "reason": "该论文聚焦于机器人控制中VLA模型的潜在推理优化，旨在提升机械臂等物理执行器的动作生成精度。核心问题是机器人闭环控制效率（closed-loop VLA control），与个体行为建模、人际交互、群体决策或社会机制模拟均无关联。虽然涉及记忆机制（FLOWMEM），但其目的是加速机器人策略推理，而非模拟智能体或人类的认知/记忆过程。排除规则：不能仅凭agent、state、simulation等通用词判断相关；本文明确服务于物理机器人控制，缺乏社会行为联系的任何证据。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Latent reasoning enables vision-language-action (VLA) models to transform multimodal observations into task-relevant internal states before generating continuous robot actions. While existing methods",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文聚焦于机器人控制中VLA模型的潜在推理优化，旨在提升机械臂等物理执行器的动作生成精度。核心问题是机器人闭环控制效率（closed-loop VLA control），与个体行为建模、人际交互、群体决策或社会机制模拟均无关联。虽然涉及记忆机制（FLOWMEM），但其目的是加速机器人策略推理，而非模拟智能体或人类的认知/记忆过程。排除规则：不能仅凭agent、state、simulation等通用词判断相关；本文明确服务于物理机器人控制，缺乏社会行为联系的任何证据。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12114v1",
+      "title": "Universal Textual Teaching for LLMs",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM知识蒸馏：Teacher模型向Student模型传递知识的参数无关框架，用于提升数学和代码生成任务表现",
+        "transfer": "无迁移路径",
+        "reason": "该论文聚焦于LLM之间的知识蒸馏技术（UTT框架），核心目标是改进模型在数学推理和代码生成任务上的表现。虽涉及Teacher-Student角色和教学机制，但这些都是模型训练的技术术语和流程，与研究档案中的个体行为模拟、交互模拟、群体行为或社会建模无实质联系。论文未涉及人格、偏好、认知状态、对话交互、群体决策或社会网络等任何研究方向。技术改进类论文无明确社会行为联系时不视为相关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Knowledge distillation (KD) transfers knowledge from stronger Teacher models to weaker Student models, but most methods require training the Student parameters, thereby binding the distilled knowledge",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文聚焦于LLM之间的知识蒸馏技术（UTT框架），核心目标是改进模型在数学推理和代码生成任务上的表现。虽涉及Teacher-Student角色和教学机制，但这些都是模型训练的技术术语和流程，与研究档案中的个体行为模拟、交互模拟、群体行为或社会建模无实质联系。论文未涉及人格、偏好、认知状态、对话交互、群体决策或社会网络等任何研究方向。技术改进类论文无明确社会行为联系时不视为相关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12124v1",
+      "title": "Use and Disuse: Intent-Structured Experience Consolidation for Memory and Learning in LLM Agents",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "LLM Agent的层级记忆与持续学习架构Hippocam，解决长期自主操作中连续经验转化为可复用知识的问题",
+        "transfer": "机制：认知过程选择性维护目标相关信息+长期记忆通过重复巩固逐渐形成的组合机制，通过nested intents结构化经验、递归前缀巩固保留原始交互并逐步恢复细节。任务：用于模拟个体或交互中的长期历史记忆管理，支持基于历史经验的当前决策。条件：适用于需要维护个体用户历史、长期对话一致性或模拟生活的场景，可为个体模拟中的认知状态管理提供架构参考",
+        "reason": "论文聚焦Agent记忆效率优化而非社会行为研究，无直接个体/交互/群体/社会行为建模。但其intents结构化记忆机制理论上可迁移用于个体模拟中历史对当前选择的影响：nested intents层次支持个体经验积累和逐步抽象恢复，原始交互保留机制可支持用户历史建模和对话一致性维护。迁移路线基于推断（作者未明确验证真人心理状态模拟价值），evidence仅有方法描述而非验证结论",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "The evolution of Large Language Model agents from single-task execution to long-term autonomous operation highlights the critical challenge of transforming continuous experiences into reusable knowled",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "论文聚焦Agent记忆效率优化而非社会行为研究，无直接个体/交互/群体/社会行为建模。但其intents结构化记忆机制理论上可迁移用于个体模拟中历史对当前选择的影响：nested intents层次支持个体经验积累和逐步抽象恢复，原始交互保留机制可支持用户历史建模和对话一致性维护。迁移路线基于推断（作者未明确验证真人心理状态模拟价值），evidence仅有方法描述而非验证结论",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.12124v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.12133v1",
+      "title": "Rehearse Everything, Remember Nothing: Attic-KV Rehearses What Will Be Read",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "KV缓存压缩技术，用于LLM长上下文处理和检索增强生成",
+        "transfer": "无",
+        "reason": "该论文是纯技术优化研究，聚焦于KV缓存压缩的效率问题。核心问题是模型在严格预算下如何更好地'记住'上下文内容，与研究档案中的个体行为、交互、群体或社会行为建模均无关联。虽然涉及记忆机制，但此记忆非个体认知/心理状态的模拟，而是技术层面的缓存条目保留。无社会行为联系，无具体迁移机制可借鉴。",
+        "uncertain": false,
+        "evidence": []
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文是纯技术优化研究，聚焦于KV缓存压缩的效率问题。核心问题是模型在严格预算下如何更好地'记住'上下文内容，与研究档案中的个体行为、交互、群体或社会行为建模均无关联。虽然涉及记忆机制，但此记忆非个体认知/心理状态的模拟，而是技术层面的缓存条目保留。无社会行为联系，无具体迁移机制可借鉴。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12235v1",
+      "title": "Language Models as AI Research World Models",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "语言模型作为研究世界模型（RWM），预测AI研究环境中候选干预措施的执行结果",
+        "transfer": "无",
+        "reason": "该文研究AI研究代理的实验预测与自动改进能力，研究对象是科学研究环境中的实验干预预测（pretraining、post-training、inference配置），目标是提升AI系统自身的递归自我改进效率。与研究档案中的个体行为/认知/心理状态（individual）、人际/人机对话交互（interaction）、群体协作博弈决策（group）、社会网络制度文化（society）均无关联。无个体/群体/社会行为的建模、模拟或数据提取，迁移机制不存在。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "AI research agents automate the cycle of proposing, implementing, and evaluating experiments, opening a path toward recursive self-improvement. Yet their ability to propose experiments outpaces their",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该文研究AI研究代理的实验预测与自动改进能力，研究对象是科学研究环境中的实验干预预测（pretraining、post-training、inference配置），目标是提升AI系统自身的递归自我改进效率。与研究档案中的个体行为/认知/心理状态（individual）、人际/人机对话交互（interaction）、群体协作博弈决策（group）、社会网络制度文化（society）均无关联。无个体/群体/社会行为的建模、模拟或数据提取，迁移机制不存在。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12242v1",
+      "title": "TokenRouter: Efficient Serving System for Token-Level LLM Routing",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM推理服务系统的效率优化，专注于token级路由的分发与批处理调度",
+        "transfer": "无迁移机制",
+        "reason": "该论文是纯系统优化工作，聚焦于LLM推理服务的吞吐量提升和调度策略。未涉及个体行为建模、用户模拟、交互机制、群体决策或社会行为研究。路由指的是跨模型分配推理计算，与人际/社会行为路由无关联。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Large language model (LLM) routing distributes inference work across different models, advancing the cost-quality Pareto frontier of LLM serving. While coarse-grained routing at the session or query l",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文是纯系统优化工作，聚焦于LLM推理服务的吞吐量提升和调度策略。未涉及个体行为建模、用户模拟、交互机制、群体决策或社会行为研究。路由指的是跨模型分配推理计算，与人际/社会行为路由无关联。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12248v1",
+      "title": "EgoVoice: Proactive Spoken Assistance from Egocentric Multimodal Streams",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "可穿戴AR助手中的主动语音指导系统，决定何时说话和说什么内容",
+        "transfer": "无明确迁移机制。该论文是纯工程系统设计，目标是优化语音助手的技术性能（干预时机、内容相关性），不涉及人类行为建模、个体心理状态或社会交互机制的模拟，无法说明对研究档案中个体行为、人际交互、群体决策或社会行为的借鉴价值。",
+        "reason": "该论文关注的是AR助手系统的技术性能提升，属于服务型人机交互系统。论文未讨论任何人类行为建模、心理状态模拟或社会机制。虽然涉及'何时说话'的决策，但这是面向助手服务的工程决策，无关于个体心理、认知或社会行为研究。标题和摘要中的'egocentric'指第一人称视角数据收集方式，非个体自我意识或心理状态建模。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Wearable augmented reality (AR) assistants are moving toward continuous real-world interaction, where they perceive the user's activity through first-person video and audio and provide timely spoken g",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文关注的是AR助手系统的技术性能提升，属于服务型人机交互系统。论文未讨论任何人类行为建模、心理状态模拟或社会机制。虽然涉及'何时说话'的决策，但这是面向助手服务的工程决策，无关于个体心理、认知或社会行为研究。标题和摘要中的'egocentric'指第一人称视角数据收集方式，非个体自我意识或心理状态建模。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12313v1",
+      "title": "Verdict Without the Rule: Diagnosing and Auditing Regulatory Rule Sensitivity in LLM Compliance Systems",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM合规系统的规则敏感性测试：验证模型判决是否依赖给定规则（通过删除、替换、否定规则来测试OCS和ICS-delta指标）",
+        "transfer": "无明确迁移机制",
+        "reason": "论文核心是诊断LLM合规系统的技术缺陷（规则敏感性不足），属于AI系统评估/安全审计范畴，与研究档案中的个体行为模拟、人际交互建模、群体决策或社会规范制度模拟无直接联系。虽然监管规则可视为制度规范的代理变量，但论文仅测试模型能否遵循给定规则输出判决，未涉及社会行为的理解、建模或模拟机制。无具体迁移机制、目标任务或适用条件说明与上述四个研究方向相关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Large language model compliance systems are deployed on the assumption that a verdict depends on the regulatory rule it is given. We test this directly across five models and 20 regulatory and platfor",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文核心是诊断LLM合规系统的技术缺陷（规则敏感性不足），属于AI系统评估/安全审计范畴，与研究档案中的个体行为模拟、人际交互建模、群体决策或社会规范制度模拟无直接联系。虽然监管规则可视为制度规范的代理变量，但论文仅测试模型能否遵循给定规则输出判决，未涉及社会行为的理解、建模或模拟机制。无具体迁移机制、目标任务或适用条件说明与上述四个研究方向相关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12338v1",
+      "title": "VFold: Symmetry-Aware Cross-Layer Value Cache Compression",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM推理中的KV缓存内存压缩技术",
+        "transfer": "无",
+        "reason": "该论文研究的是大型语言模型解码过程中的内存优化技术，通过压缩跨层value cache来减少内存占用。这是纯系统效率/工程优化问题，与研究档案中的个体行为模拟、交互模拟、群体决策或社会行为建模无任何关联。摘要未涉及任何行为建模、认知模拟、代理交互或社会机制。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "While caching key-value (KV) states accelerates Large Language Model (LLM) decoding, this cache can dominate memory usage at long context lengths. One solution is to compress this memory by exploiting",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文研究的是大型语言模型解码过程中的内存优化技术，通过压缩跨层value cache来减少内存占用。这是纯系统效率/工程优化问题，与研究档案中的个体行为模拟、交互模拟、群体决策或社会行为建模无任何关联。摘要未涉及任何行为建模、认知模拟、代理交互或社会机制。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12367v1",
+      "title": "Which Skill to Distill? SGUID: Selecting a Compact Skill Bank for Model-Skill Co-Evolution",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM技能库的压缩选择与模型-技能协同蒸馏",
+        "transfer": "无",
+        "reason": "该论文聚焦于LLM技能蒸馏的效率优化，研究如何从技能库中选择有效技能提升模型性能。这与研究档案中的个体行为模拟、交互建模、群体决策或社会机制研究没有直接联系。摘要中的'skill'指可复用的程序性指导（procedural guidance），'co-evolution'指模型参数的迭代更新，均非关于行为、认知或社会现象的建模。无明确迁移机制或适用条件。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Skills, reusable procedural guidance added at inference, can substantially improve LLM downstream performance (Li et al., 2026). Prior work retrieves skills from a bank by semantic relevance, then use",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文聚焦于LLM技能蒸馏的效率优化，研究如何从技能库中选择有效技能提升模型性能。这与研究档案中的个体行为模拟、交互建模、群体决策或社会机制研究没有直接联系。摘要中的'skill'指可复用的程序性指导（procedural guidance），'co-evolution'指模型参数的迭代更新，均非关于行为、认知或社会现象的建模。无明确迁移机制或适用条件。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12375v1",
+      "title": "OnTrack: Real-Time Monitoring and Intervention in LLM Agent Trajectories via Streaming Structure-Aware Optimal Transport",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM Agent执行轨迹的流式监控与干预机制，用于检测计划违规、循环、停滞和重复工具调用",
+        "transfer": "不适用",
+        "reason": "该研究聚焦于LLM Agent系统的技术可靠性问题（成本控制、安全风险、计算资源浪费），目标是改善软件代理的执行效率。应用场景（行程规划、股票交易、IT事件分类）是具体任务领域，而非研究个体行为、交互模式、群体协作或社会机制。摘要未涉及认知、心理状态、个体偏好、人格特征、人际影响、集体行为或社会规范的建模。根据排除规则，仅凭agent等词不能判定相关，此处无任何社会行为研究联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Agents are deployed in applications from trip planners and stock trading to IT incident triage. In most cases, LLM agents work autonomously with minimal rule-based safeguarding, leading to cost and sa",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该研究聚焦于LLM Agent系统的技术可靠性问题（成本控制、安全风险、计算资源浪费），目标是改善软件代理的执行效率。应用场景（行程规划、股票交易、IT事件分类）是具体任务领域，而非研究个体行为、交互模式、群体协作或社会机制。摘要未涉及认知、心理状态、个体偏好、人格特征、人际影响、集体行为或社会规范的建模。根据排除规则，仅凭agent等词不能判定相关，此处无任何社会行为研究联系。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.12455v1",
+      "title": "Hybrid Cinematography: Previsualizing and Managing Hallucination Risk in Generative Video Reshooting",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "电影拍摄中生成式视频重拍的幻觉风险管理工作流",
+        "transfer": "无相关迁移机制",
+        "reason": "该研究面向电影制作中的技术风险控制，研究对象是摄像机运动调整与生成内容的对齐问题。核心机制（3D镜头规划、代理预览、实时幻觉风险评估）针对的是视频生成质量与拍摄素材的匹配，不涉及个体行为建模、人际互动模拟、群体协作机制或社会行为研究。虽然涉及 filmmakers 的相机决策研究，但关注点是技术性决策（镜头角度、拍摄补充），而非社会行为模式或人际关系。无任何机制可迁移用于理解或模拟个体心理、交互动态、群体行为或社会现象。",
+        "uncertain": false,
+        "evidence": []
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该研究面向电影制作中的技术风险控制，研究对象是摄像机运动调整与生成内容的对齐问题。核心机制（3D镜头规划、代理预览、实时幻觉风险评估）针对的是视频生成质量与拍摄素材的匹配，不涉及个体行为建模、人际互动模拟、群体协作机制或社会行为研究。虽然涉及 filmmakers 的相机决策研究，但关注点是技术性决策（镜头角度、拍摄补充），而非社会行为模式或人际关系。无任何机制可迁移用于理解或模拟个体心理、交互动态、群体行为或社会现象。",
+        "status": "abstract_excluded"
+      }
+    }
+  ]
+}
