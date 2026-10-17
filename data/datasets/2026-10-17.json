@@ -1,0 +1,383 @@
+{
+  "version": 1,
+  "date": "2026-10-17",
+  "generated_at": "2026-10-17T20:30:14.260045+00:00",
+  "profile": "Social World Model",
+  "directions": {
+    "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
+    "interaction": "人际、人机或社会代理的对话、协商、关系、相互影响与合作。",
+    "group": "多人协作、博弈、群体决策、集体行为与观点演化。",
+    "society": "社会网络、规范、制度、社区、文化与传播的建模或模拟。"
+  },
+  "datasets": [
+    {
+      "id": "LLM-Digital-Twin/Twin-2K-500-Mega-Study",
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction",
+          "society"
+        ],
+        "suitability": "usable",
+        "overview": "Twin-2K-500 Mega Study数据集，包含19个子研究共13,299条真实被试在调查中的回答，涉及态度、偏好、行为意向等164个结局变量，用于构建和验证LLM数字孪生个体预测能力。",
+        "application": "直接用于个体方向的用户模拟、偏好与态度建模、数字孪生方法评估任务；也可用于交互方向（如obedient_twins中的遵从行为）和社会方向（如hiring_algorithms、targeting_fairness中的算法态度、制度感知）的具体子研究。",
+        "reason": "数据集提供稳定PID对应的大量真实个体调查回答，覆盖消费、隐私、算法公平等社会行为主题，字段明确包含survey_json_with_human_response作为标签/回答，可直接用于个体行为建模与数字孪生方法比较。论文还指出存在五种系统性偏差（个体化不足、刻板印象、代表性偏差等），为研究社会偏差传播提供了评估基准。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "card",
+            "paper"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "PID字段为被试唯一标识，与Twin-2K-500数据集匹配，样本中以pid_1等形式呈现",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "survey_json_with_human_response字段包含每个被试对各题项的真实回答，作为监督标签",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "gated=false，按数据卡说明可免费访问",
+          "数据集结构为按子研究分split，每split内部PID为唯一被试标识",
+          "样本为美国参与者，可能存在代表性偏差",
+          "部分题目因随机化每个被试看到的题目集不同",
+          "需结合results.zip中的LLM预测结果进行对比分析"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample",
+          "paper"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500-Mega-Study",
+        "card": "https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500-Mega-Study/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500-Mega-Study",
+        "sample": "https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500-Mega-Study",
+        "paper": "https://arxiv.org/abs/2509.19088"
+      },
+      "coverage_notes": [],
+      "papers": [
+        "2509.19088"
+      ],
+      "fingerprint": "26dc999d9d4b4c42e5947b719d377589c174bd376cd66a9dafcb06d2efdef686",
+      "url": "https://huggingface.co/datasets/LLM-Digital-Twin/Twin-2K-500-Mega-Study",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-01-18T09:29:35.000Z",
+      "license": "apache-2.0",
+      "gated": false
+    },
+    {
+      "id": "raphaelnercessian/proto-social-network-canal-barra",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "society",
+          "group"
+        ],
+        "suitability": "usable",
+        "overview": "巴西 Canal Barra 数字考古数据集，记录 1996 年起在 BRASnet 网络 #barra IRC 频道形成的早期网络社区（proto-social-network）的结构化历史档案，包含 2000 年访问权限名单、2002 年昵称注册记录以及按时间排序的证据索引。",
+        "application": "可用于研究早期在线社区的社会结构与治理形态：（1）基于 role_group / role_rank / access_level_numeric 字段构建社区等级层次与角色网络，分析 founders、master 等角色结构对社区形成的影响（society/group）；（2）以 display_nickname 作为持久化身份标识，结合 source_date_text / wayback_capture_timestamp，追踪 2000–2002 年间成员留存与社区演化的纵向结构变化（society）；（3）将历史昵称、角色与时间证据整合为知识图谱或 RAG 资源，用于数字考古与互联网史研究。需要验证：当前样本仅展示静态层级信息，实际配置中是否包含交互/聊天日志需要进一步核对；昵称向真实个体身份的映射受隐私声明约束。",
+        "reason": "数据本身是真实社区的结构性历史记录（access_list_2000、nicknames_2002、temporal_evidence 三个配置），提供了带有时间锚点和层级角色的成员身份信息（card, fields, sample），对研究早期 proto-social-network 的社会结构与群体治理有具体支撑价值，因此评为 B 而非 C。但样本中未出现交互文本、对话日志或行为序列字段（fields, sample），无法直接支持个体行为、人格或人机交互类任务，故不评为 A。关键词 'social-network'、'community governance' 指向真实研究方向，但数据仅为成员/角色快照而非动态行为数据，因此相关方向限定为 society 与 group。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "card",
+            "sample"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "display_nickname 作为社区内的持久化名身份，配合 source_record_id 与 role_group/role_rank 标识成员角色；样例中可见 BarMan、NATHALIA_GAUCHA、NEGAUM 等独立昵称。",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "source_date_text 提供文本日期（如 '2000-12'），wayback_capture_timestamp 为 Wayback 抓取时间戳（如 20010221233151），temporal_evidence 配置另含按时间排序的证据索引。",
+          "evidence": [
+            "fields",
+            "sample",
+            "card"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "role_group（如 founder、master）、role_rank（整数层级）、access_level_numeric（数值权限）、evidence_status（如 archived_web_capture）、privacy_tier（如 public_historical_access_list）等字段对成员角色与证据强度进行了标注。",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "数据为静态档案快照（2000-12、2002-11），非纵向行为追踪",
+          "样例字段中未包含 IRC 聊天日志或交互文本，无法直接分析对话过程",
+          "档案不完整，原网站、聊天记录与外部服务大多已不可用",
+          "nicknames 为公开化名，禁止与私人真实身份关联",
+          "样本规模 n<1K，统计推断需谨慎",
+          "主要为葡萄牙语原始材料"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/raphaelnercessian/proto-social-network-canal-barra",
+        "card": "https://huggingface.co/datasets/raphaelnercessian/proto-social-network-canal-barra/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/raphaelnercessian/proto-social-network-canal-barra",
+        "sample": "https://huggingface.co/datasets/raphaelnercessian/proto-social-network-canal-barra"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "f3eeb820b7e3611189e627ebddb74715fb53c66e6d8a6dc42f292efb5e796460",
+      "url": "https://huggingface.co/datasets/raphaelnercessian/proto-social-network-canal-barra",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-08-23T16:42:45.000Z",
+      "license": "mit",
+      "gated": false
+    },
+    {
+      "id": "Aiden0526/PersonaMem-Evo",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "PersonaMem-Evo 是 EvoArena 基准的一部分，包含 10 个角色（persona）、505 条带标注的查询样本，以及每个角色对应的长对话历史（最长约 368K tokens），用于评估 LLM 智能体在动态环境中根据角色聊天历史推断偏好的能力。",
+        "application": "可用于个体方向的角色偏好演化建模：分析 persona 在长对话中的偏好变迁轨迹（temporal_trajectory）、冲突解决（conflict_resolution）与多模式偏好合成（multi_pattern_synthesis），研究个体偏好稳定性与漂移；也可用于交互方向，研究用户–智能体对话结构、对话场景与查询类型的关系，以及基于聊天历史的角色模拟（user simulation）。需验证：偏好标注是否可作为可靠的'偏好状态'标签用于纵向分析，以及 10 个角色样本量对统计推断的局限。",
+        "reason": "数据卡明确列出 persona_id、short_persona/expanded_persona、preference、topic_preference、prev_pref、conversation_scenario 等字段，直接对应个体偏好与人格特征；同时 chat_history_32k 提供长对话序列，支持交互层面的对话分析。OOD 类型（temporal_trajectory、conflict_resolution）体现了个体偏好的时间动态。但数据本质为基准评测集，非自然行为采集，且仅 10 个角色，限制了群体/社会方向的应用。等级 B 而非 A，因为数据为合成基准而非真实用户行为记录，迁移到行为研究需额外验证。",
+        "origin": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "persona_id 字段作为角色级稳定标识符，10 个唯一 persona 跨 505 条样本",
+          "evidence": [
+            "card"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "包含 preference、topic_preference、prev_pref、correct_answer/incorrect_answers、ood_type、ood_difficulty、conversation_scenario、chain_group_key 等标注字段",
+          "evidence": [
+            "card"
+          ]
+        },
+        "constraints": [
+          "仅 10 个角色，样本量极小，限制群体层面统计分析",
+          "数据为基准构造而非自然行为采集，角色与对话是否为真实人类未在数据卡中说明",
+          "字段列表未显示显式时间戳，时间动态需从聊天历史顺序推断",
+          "以 LLM 智能体评测为主要设计目的，迁移至行为研究需验证标注可靠性",
+          "聊天历史为 JSON 文件，需与 CSV 关联加载"
+        ],
+        "evidence": [
+          "metadata",
+          "card"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/Aiden0526/PersonaMem-Evo",
+        "card": "https://huggingface.co/datasets/Aiden0526/PersonaMem-Evo/blob/main/README.md"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "b7178d2bf5759c97a5040f38413601e1ae37b08db4b88e120edea721bf9f9e01",
+      "url": "https://huggingface.co/datasets/Aiden0526/PersonaMem-Evo",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-06-11T11:41:03.000Z",
+      "license": "未知",
+      "gated": false
+    },
+    {
+      "id": "zalizedata/us-court-opinions-dockets-judges-dataset",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "group",
+          "society"
+        ],
+        "suitability": "usable",
+        "overview": "DataForge 整理自 CourtListener / Free Law Project 的美国法院裁决元数据集合，包含约 1000 万案件集群、7000 万 docket 条目及 1.6 万名法官信息，以 S/M/L 三档提供案件、法官、法院、引用边、年度统计、企业诉讼画像等表格；不含裁决全文。",
+        "application": "可用于：①法官层面的个体研究——基于 16K 名法官的多档案任职轨迹（judge_positions）和投票/裁决方向字段（scdb_decision_direction、scdb_votes_majority/minority）建模个体决策倾向与职业生涯行为变化；②合议庭/法庭层面的群体研究——同一案件的多名法官（'judges' 字段）与多数/少数票字段支持研究合议决策与异议模式；③社会层面的制度与传播研究——引用图（citations 表，含引用次数）与公司诉讼画像（company_litigation_profiles/yearly）可分析裁决影响力的社会网络扩散或组织性诉讼行为。研究者需根据具体任务自行设计表间连接（如将 judges 与 judge_positions、judge_year_stats 关联），并验证迁移到行为模拟任务的有效性。",
+        "reason": "数据卡片明确列出 'Judicial-behavior studies' 与 'Citation-network analysis' 用途，与个体和群体研究方向直接对应；法官表（judges/judge_positions）提供稳定个体识别与时间轨迹（任职记录），适合个体层面行为追踪；合议庭多法官字段与投票字段为群体决策研究提供结构化数据；引用表与机构级表则支撑社会网络分析。评级 B 而非 A 的原因：不含裁决全文，缺少对话/协商等直接交互数据，对 interaction 方向支撑弱；同时将元数据迁移到用户/代理模拟任务需要额外处理与验证。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "案件簇 cluster_id、docket_id、judge IDs（及 judge_positions 外键）均存在，可作为不同粒度的稳定个体标识",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "date_filed、date_modified、_collected_at 等时间字段在 cases 等表中提供；judge_positions 记录法官任职起止时间，可用于纵向行为分析",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "提供结构化元数据标签如 precedential_status、source、scdb_decision_direction、scdb_votes_majority/minority、citation_count、nature_of_suit；非自由行为标签，需自行加工",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "许可证为 CC BY-NC 4.0，仅限学术或个人非商业使用，商业用途需另签 DataForge 商用许可",
+          "不包含裁决全文，仅元数据与派生信号，限制了话语/语义层面的细粒度分析",
+          "需自行跨表关联（如 judges↔judge_positions↔opinions↔citations）以构建研究级数据集",
+          "上游为 CourtListener 公共领域数据，使用须遵循原始许可条款与引用要求"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/zalizedata/us-court-opinions-dockets-judges-dataset",
+        "card": "https://huggingface.co/datasets/zalizedata/us-court-opinions-dockets-judges-dataset/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/zalizedata/us-court-opinions-dockets-judges-dataset",
+        "sample": "https://huggingface.co/datasets/zalizedata/us-court-opinions-dockets-judges-dataset"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "2aeac6d8325f4dae6d76f0182b67497b5434f6666ad37c0cc93a64912dd2d0e4",
+      "url": "https://huggingface.co/datasets/zalizedata/us-court-opinions-dockets-judges-dataset",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-08-14T00:52:19.000Z",
+      "license": "cc-by-nc-4.0",
+      "gated": false
+    },
+    {
+      "id": "MemoryAsModality/PersonaMem-v2",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "PersonaMem-v2 是一个基于合成persona的多轮对话记忆的个性化问答基准数据集，按persona_0至persona_85+划分为多个config，每个config包含train/validation/test等分割；每条样本包含question、五项choice（A–E）、correct_choice标签、对话历史documents/user_documents/assistant_documents及整数user_id，用于测试模型能否依据用户历史对话选出与persona一致的回复。",
+        "application": "可用于个体层面的用户模拟研究：利用user_id与各persona config的对话历史documents/user_documents/assistant_documents，分析合成个体的偏好、兴趣与表达模式如何在多轮对话中保持一致，并用于构建/评估persona一致对话生成或用户画像模拟；也可用于交互层面研究：基于有序对话文档分析人机交互中上下文依赖、话题延续与风格一致性的模式，用于训练和评估个性化对话系统的记忆与一致性机制。需验证合成persona的对话分布是否能迁移到真人用户模拟任务。",
+        "reason": "数据以离散persona为单位组织（card中persona_0…persona_85+的config），每条样本有稳定user_id（fields），并提供多轮对话历史documents/user_documents/assistant_documents以及多选回复与correct_choice标签（fields，sample），明确支持persona一致行为建模。这与individual方向的'偏好、人格、用户模拟'以及interaction方向的'人机对话、个性化交互'有具体对应：可从对话文档中提取个体特征，再利用多选题结构验证回复的persona一致性。但因对话内容疑似合成、缺乏明确时间戳与真实社会关系网络，仅作为支持用途，不直接等同于真实个体或群体行为研究，故评为B。",
+        "origin": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "数据包含整数user_id字段（fields），并通过persona_0…persona_85+等config组织（card），每个config对应一个独立persona/个体索引，可作为合成个体的稳定ID。",
+          "evidence": [
+            "fields",
+            "card"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "correct_choice字段（A–E字母）标识与persona一致的回复（fields，sample）；correct_answer字段提供对应文本答案；rationale字段提供解释但样例中为空。",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "cardData与description为空，缺少正式说明文档，任务与构造细节需进一步核实",
+          "当前字段预览未见时间戳，无法做纵向时间分析",
+          "persona与对话可能为合成，需验证迁移到真实用户/社会行为研究的有效性",
+          "choice_e在样例中为空字符串，需确认是否所有样本都包含五选项",
+          "rationale字段在样例中为空，部分标签信息可能不完整"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/MemoryAsModality/PersonaMem-v2",
+        "card": "https://huggingface.co/datasets/MemoryAsModality/PersonaMem-v2/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/MemoryAsModality/PersonaMem-v2",
+        "sample": "https://huggingface.co/datasets/MemoryAsModality/PersonaMem-v2"
+      },
+      "coverage_notes": [
+        "数据卡超过阅读上限，仅检查开头；信息可能不完整。"
+      ],
+      "papers": [],
+      "fingerprint": "98a9a5fce3c952fe5176b7039c11813a94b79c823dcaa4832318a92fd6467785",
+      "url": "https://huggingface.co/datasets/MemoryAsModality/PersonaMem-v2",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-02-27T00:40:05.000Z",
+      "license": "未知",
+      "gated": false
+    }
+  ],
+  "candidate_count": 426,
+  "reviewed_this_run": 19,
+  "review_failures": 1,
+  "warnings": [],
+  "limits": {
+    "review": 20,
+    "recommend": 5
+  },
+  "model_calls": 23,
+  "cache_hits": 1,
+  "usage": {
+    "input_tokens": 93108,
+    "output_tokens": 28539,
+    "total_tokens": 121647
+  }
+}
