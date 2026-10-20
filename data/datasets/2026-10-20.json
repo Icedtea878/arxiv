@@ -1,0 +1,406 @@
+{
+  "version": 1,
+  "date": "2026-10-20",
+  "generated_at": "2026-10-20T21:56:55.352531+00:00",
+  "profile": "Social World Model",
+  "directions": {
+    "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
+    "interaction": "人际、人机或社会代理的对话、协商、关系、相互影响与合作。",
+    "group": "多人协作、博弈、群体决策、集体行为与观点演化。",
+    "society": "社会网络、规范、制度、社区、文化与传播的建模或模拟。"
+  },
+  "datasets": [
+    {
+      "id": "PersonalizedAgents/PersonaShop",
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "PersonaShop是一个由Amazon Reviews 2023真实评论与商品元数据，以及GPT-4o生成的类别级偏好档案和个性化购物问题组成的小型评测集，用于测试购物助手是否利用用户偏好历史。",
+        "application": "研究用途（推断）：可直接开展个体级用户建模与个性化问答评测，以user_id和类别级user_profile作为用户状态，结合target_product和generated_questions，评测代理在偏好、风格、预算、尺寸、质量重点、厌恶项和痛点等方面是否给出符合历史选择的答案，并比较使用与不使用用户档案的基线。也可将每组问题作为静态人机交互提示来评测购物助手；若研究多轮协商、长期关系变化或轨迹控制，需要另行生成或收集代理回答、安排问题顺序并建立交互协议。",
+        "reason": "数据直接提供了真实评论者ID、类别级偏好档案、目标商品及6至8个依赖用户档案作答的决策问题，能够评测个体偏好保持和个性化购物助手，因此对individual方向构成直接支撑；对interaction方向可支持有限的提示—回答实验，但发布内容没有代理回复或完整多轮轨迹。数据规模很小，档案和问题又由模型生成，因而适合作为个性化评测起点，不宜直接视为经过验证的真实人格或长期行为记录。论文摘要中的长交互与轨迹评测属于方法背景，不能据此认定数据本身包含对话轨迹。",
+        "origin": {
+          "status": "known",
+          "value": "mixed",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "questions和user_profiles均提供user_id，值为Amazon Reviews 2023的评论者ID且可在两个子集间匹配；questions含231个唯一ID，user_profiles含232个，36个ID跨多个类别出现。",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "每个问题样本含1至5星的目标商品评分及评论标题、文本，可作为结果参考；八项user_profile和generated_questions也是显式字段，但它们由模型生成，并非均经过人工验证的偏好标签。",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "规模小：questions仅327个用户—商品对和231个唯一用户ID，只有test划分，定位为评测而非训练。",
+          "user_profile与generated_questions均由GPT-4o生成，可能过度概括甚至表达用户未直接表达的偏好。",
+          "target_product中的评分和评论是参考答案，实验时不得提供给被评测系统，以免数据泄漏。",
+          "当前发布内容没有现成的代理回复或多轮对话轨迹，交互实验需自行构造回答与评测协议。",
+          "内容限于英文和美国Amazon市场，商品信息是2023年快照，且327行中仅191行有价格。",
+          "生成内容采用CC BY 4.0，但用户ID、评论和商品元数据仍受Amazon Reviews 2023源数据条款约束。"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample",
+          "paper"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/PersonalizedAgents/PersonaShop",
+        "card": "https://huggingface.co/datasets/PersonalizedAgents/PersonaShop/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/PersonalizedAgents/PersonaShop",
+        "sample": "https://huggingface.co/datasets/PersonalizedAgents/PersonaShop",
+        "paper": "https://arxiv.org/abs/2610.11375"
+      },
+      "coverage_notes": [],
+      "papers": [
+        "2610.11375",
+        "2403.03952"
+      ],
+      "fingerprint": "d2b05d528dc1ba35045c65c3ba4693c0997fadc0ebeb2cc6422894471a711328",
+      "url": "https://huggingface.co/datasets/PersonalizedAgents/PersonaShop",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-10-10T03:22:06.000Z",
+      "license": "other",
+      "gated": false
+    },
+    {
+      "id": "siddharthmb/2026.RA.Five-Seat-Frontier-Negotiation",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "interaction",
+          "group",
+          "individual"
+        ],
+        "suitability": "conditional",
+        "overview": "一个公开的五方数据中心议题多智能体谈判实验数据束，五名 LLM/anthropic:claude-opus-5/seat 各自持私有偏好表与整数接受阈值，可提出方案并发送公开说服消息；五个主臂分别由全 LLM、四 LLM+一名轮换私有理性代理、四 LLM+一名轮换全知预言机、全理性代理、全预言机组成，含每回合私有理性反事实与全知预言机反事实。",
+        "application": "可用于研究：1) 多方私有信息下的谈判交互动态与公开说服话术对达成/否决的影响；2) 群组决策中的福利分配、纳什福利、基尼系数与距纳什贝叶斯解距离之间的关系，检验不同信息结构/智能体组成对群体公平性的影响；3) 单个智能体在不同对手类型（LLM/理性/全知）下的策略差异与公平性偏好表现。需注意 oracle 臂的强制终投存在已公开的腐败选票错误（commits ca20157 后已修复），分析前需剔除或对照修复版本。",
+        "reason": "数据直接提供多智能体谈判的交互记录、群体结局度量（deal_rate、normalized_primary、normalized_nash_welfare、gini、dist_to_nbs）和按臂/按实例的标识，可支撑关于谈判交互与群体决策的具体任务；但个体层 ID 仅以 instance_id/episode_seed 索引整场谈判而非稳定跨场次的真人 ID，persona_id 在样本中为 null，且数据为 LLM 生成的合成谈判而非真人行为，故评定为 B 而非 A。oracle 臂需在明确条件下重新对照修复版本方可使用。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "无稳定真人/跨场次个体ID；instance_id 为实例（场次）标识，persona_id 字段存在但 sample 中可见为 null，treated_seat 标识臂内轮换席位。",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "无日历时间戳；包含 episode_seed、min_accept 与银行化的回合结构（4 rounds），并以 round/turn 顺序组织回合；数据卡未列出回合级时间字段。",
+          "evidence": [
+            "card",
+            "sample"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "字段含 difficulty_tags（easy/medium 等）、normalized_primary、normalized_nash_welfare、deal_rate、dist_to_nbs、gini、cost_usd、logical_table（臂标签：all_llm/one_rational/one_oracle/all_rational/all_oracle）。",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "合成数据：智能体均为 anthropic:claude-opus-5 生成的 LLM，非真人谈判行为",
+          "one_oracle/all_oracle 臂含已公开的腐败选票错误，使用其 deal_rate/score 前需对照修复版本（数据集内 runs_ballot_repaired 或兄弟数据集 Seeded-Optimal-Opening 的 *_ballot_fixed 臂）",
+          "analysis-episodes 配置目前仅展示聚合行级别指标，未在预览中显示回合级 transcript，需获取完整包以分析逐回合对话过程",
+          "persona_id 在样本中为 null，个体层特征标签缺失"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/siddharthmb/2026.RA.Five-Seat-Frontier-Negotiation",
+        "card": "https://huggingface.co/datasets/siddharthmb/2026.RA.Five-Seat-Frontier-Negotiation/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/siddharthmb/2026.RA.Five-Seat-Frontier-Negotiation",
+        "sample": "https://huggingface.co/datasets/siddharthmb/2026.RA.Five-Seat-Frontier-Negotiation"
+      },
+      "coverage_notes": [
+        "数据卡超过阅读上限，仅检查开头；信息可能不完整。"
+      ],
+      "papers": [],
+      "fingerprint": "dadd44ea7b4da7fe95ffd70cd6b3a15418a9dcffefc12e211e3d2332f670d626",
+      "url": "https://huggingface.co/datasets/siddharthmb/2026.RA.Five-Seat-Frontier-Negotiation",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-09-03T13:16:01.000Z",
+      "license": "未知",
+      "gated": false
+    },
+    {
+      "id": "facells/youtube-vlog-personality-recognition-wcpr14",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual"
+        ],
+        "suitability": "usable",
+        "overview": "WCPR14 数据集，包含 YouTube 视频博客（vlog）及对应的五大人格特质分数（外向性、宜人性、尽责性、情绪稳定性、开放性），同时提供声学/韵律特征（如 pitch、energy、voice.rate 等）和文本转录，用于人格识别建模。",
+        "application": "可用于个体方向的人格建模任务：(1) 训练/验证基于文本或行为特征的人格预测模型，作为人格条件用户模拟器的基线；(2) 研究外向性等特质与语言表达、声学特征之间的关系，用于生成具备特定人格特质的合成个体言行；(3) 构建带有稳定人格标签的\"角色画像\"用于 agent 个性化行为模拟。需验证：转录文本与原始视频片段的对应关系，以及人格分数的采集方式（自评/他评）。",
+        "reason": "数据直接提供 Big Five 人格连续分数作为标签，并包含每位 vlog 者的转录文本和声学/视觉特征，labelID/vlogId 可作为个体标识，与档案中\"个体行为、人格、心理状态、用户模拟\"方向高度对应。属于人格识别竞赛数据集，核心任务是预测个体特质，可迁移用于人格条件生成或个体差异建模。grade 评为 B 而非 A 的原因：数据集规模小（n<1K），主要为静态横截面（每位 vlogger 单条记录或少量记录），缺乏纵向交互过程，不直接支持个体交互或群体行为研究；且原始任务为预测而非模拟，迁移需自行设计条件生成或行为对齐验证。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "metadata",
+            "card",
+            "sample"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "labelID 与 vlogId 字段（如 VLOG1、VLOG3）作为个体/vlog 标识，sample 中可见不同行的 labelID 不同",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "Big Five 人格分数：extraversion、agreableness、conscientiousness、stability、openness，均为 float64 连续值（样例中如 4.9、3.7、3.6、3.2、5.5）",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "许可为 CC-BY-NC-ND-4.0，仅限非商业使用且禁止演绎",
+          "数据集规模小于 1K 样本",
+          "仅含英文 vlog 转录文本和预提取的声学/视觉特征，未提供原始视频或帧",
+          "横截面静态数据，不含纵向人格变化或多轮交互",
+          "字段名存在拼写问题（agreableness 而非 agreeableness，stability 而非 neuroticism 反向）需自行确认量表方向"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/facells/youtube-vlog-personality-recognition-wcpr14",
+        "card": "https://huggingface.co/datasets/facells/youtube-vlog-personality-recognition-wcpr14/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/facells/youtube-vlog-personality-recognition-wcpr14",
+        "sample": "https://huggingface.co/datasets/facells/youtube-vlog-personality-recognition-wcpr14"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "a6b10ade38c61c29c60ead8ce777bed7aa5b024d850da66afc355c499191b80d",
+      "url": "https://huggingface.co/datasets/facells/youtube-vlog-personality-recognition-wcpr14",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2025-04-01T13:32:59.000Z",
+      "license": "cc-by-nc-nd-4.0",
+      "gated": false
+    },
+    {
+      "id": "StrataSynth/stratasynth-termination-negotiations-fr",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "合成法语职场解雇谈判对话集，含100段对话、1768轮次，角色为雇主/HR与被裁员工，每轮附带意图、目标、言语行为及情感度量（tension/connection/vulnerability），并按法国心理测量与文化分布采样角色。",
+        "application": "可用于研究两方谈判中个体心理状态（基于archetype与情感度量）、对话策略与权力不对等的互动模式（基于intent/goal/communication_act及arc_type演化）；亦可作为合成语料训练或评估法语谈判对话系统中个体角色一致性与情感动态建模能力，但合成数据的生态效度需验证。",
+        "reason": "数据明确标注为synthetic，每轮带有intent、goal、communication_act及三项情感连续标注，archetype描述角色类型（如first_gen_immigrant、resilient_survivor），可支撑个体心理状态与互动过程的研究。conversation_id串联轮次、arc_type描述对话弧（escalation_partial_resolution等），支持追踪两方互动轨迹。但仅100段对话、单一解雇场景、单一文化（FR），样本与场景覆盖有限，故评为B而非A。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "无真实个人标识；persona_a/persona_b为合成角色，由archetype区分，conversation_id标识会话而非个人",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "每轮标注：intent、goal、communication_act为分类标签；tension、connection、vulnerability为0-1连续情感分；is_noisy为噪声标志",
+          "evidence": [
+            "card",
+            "fields"
+          ]
+        },
+        "constraints": [
+          "合成数据，角色与对话均为生成，生态效度需自行验证",
+          "仅100段对话、单一解雇场景、单一文化（FR），规模与覆盖有限",
+          "无真实时间戳，无法做真实时序分析",
+          "CC-BY-4.0协议，无gated访问",
+          "仅法语"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/StrataSynth/stratasynth-termination-negotiations-fr",
+        "card": "https://huggingface.co/datasets/StrataSynth/stratasynth-termination-negotiations-fr/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/StrataSynth/stratasynth-termination-negotiations-fr",
+        "sample": "https://huggingface.co/datasets/StrataSynth/stratasynth-termination-negotiations-fr"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "9b9aa3131ac2176835582f8f33d4c490607b1a683ebaf239189b345de9e02adc",
+      "url": "https://huggingface.co/datasets/StrataSynth/stratasynth-termination-negotiations-fr",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-09-21T19:04:45.000Z",
+      "license": "cc-by-4.0",
+      "gated": false
+    },
+    {
+      "id": "humanlong/emotion-negotiation-benchmarks",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "interaction",
+          "individual"
+        ],
+        "suitability": "usable",
+        "overview": "四个面向LLM智能体的情绪感知谈判基准数据集（共400个情景，每个子集100个），覆盖信贷催收、灾难幸存者救援、学业睡眠督促、医院手术排程四个高风险领域；数据为合成的情景化谈判场景，包含结构化的谈判参数与角色设定。",
+        "application": "可用于研究：(1) LLM代理对代理的多轮谈判交互动力学、策略适应与情绪转换机制；(2) 基于9种对抗性债务人角色（威胁、欺骗、卖惨、僵持等）的个体行为/人设建模；(3) 情绪状态转移（HMM/MDP框架）在双边谈判中的建模与策略学习参考。可尝试将情绪转换策略、博弈论（Win-Stay Lose-Shift）等机制迁移到用户模拟、说服对话或协作任务中的个体/交互研究方向。需自行生成或收集实际的对话轨迹以分析交互过程。",
+        "reason": "数据集直接针对agent-to-agent的对抗性谈判交互设计，包含多轮情绪决策机制（贝叶斯优化、HMM、博弈论等），与interaction方向高度相关；同时包含明确的角色人格设定（9种债务人persona、7种情绪状态），对individual方向的行为/人格建模有具体支撑价值。但数据本质是合成的LLM评估基准，情景参数丰富但对话轨迹需另行生成，且非真实人类行为记录，因此不能作为研究真实社会行为的一手数据。gated=false，许可证为CC BY 4.0，可直接通过🤗 datasets加载使用。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "paper"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "无稳定的真实个体ID；Creditor Name与Debtor Name为情景中的虚构实体名称，9种persona是预设的角色类别而非真实用户标识",
+          "evidence": [
+            "fields",
+            "sample",
+            "card"
+          ]
+        },
+        "time_info": {
+          "status": "known",
+          "value": "包含Last Payment Date等情景日期字段，但谈判对话本身的轮次时间戳需通过对话生成过程获取，结构化字段中无对话序列时间标记",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "labels": {
+          "status": "known",
+          "value": "包含7种情绪状态标签（happy, angry, sad, fear, disgust, surprise, neutral）、Recovery Stage分类、9种对抗性persona类别，以及谈判结果相关指标（Recovery Probability、Interest Accrued等）",
+          "evidence": [
+            "card",
+            "paper"
+          ]
+        },
+        "constraints": [
+          "数据为合成基准，非真实人类行为记录",
+          "对话轨迹需自行运行LLM生成或从配套论文/代码库获取",
+          "规模较小（n<1K），仅100个情景/子集",
+          "场景限定于4个特定领域，泛化性需验证",
+          "角色名称为情景虚构，无跨场景追踪能力",
+          "需自行验证情绪策略机制迁移到目标研究任务的有效性"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample",
+          "paper"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/humanlong/emotion-negotiation-benchmarks",
+        "card": "https://huggingface.co/datasets/humanlong/emotion-negotiation-benchmarks/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/humanlong/emotion-negotiation-benchmarks",
+        "sample": "https://huggingface.co/datasets/humanlong/emotion-negotiation-benchmarks",
+        "paper": "https://arxiv.org/abs/2503.21080"
+      },
+      "coverage_notes": [
+        "数据卡超过阅读上限，仅检查开头；信息可能不完整。"
+      ],
+      "papers": [
+        "2503.21080",
+        "2511.03370",
+        "2509.04310"
+      ],
+      "fingerprint": "a54d95e95b795119a76543effaf3c840c13b2dd427abc12cc47e051f57a6f26b",
+      "url": "https://huggingface.co/datasets/humanlong/emotion-negotiation-benchmarks",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-06-07T23:16:44.000Z",
+      "license": "cc-by-4.0",
+      "gated": false
+    }
+  ],
+  "candidate_count": 449,
+  "reviewed_this_run": 13,
+  "review_failures": 7,
+  "warnings": [],
+  "limits": {
+    "review": 20,
+    "recommend": 5
+  },
+  "model_calls": 34,
+  "cache_hits": 0,
+  "usage": {
+    "input_tokens": 117737,
+    "output_tokens": 188717,
+    "total_tokens": 306454
+  }
+}
