@@ -1,0 +1,374 @@
+{
+  "version": 1,
+  "date": "2026-10-21",
+  "generated_at": "2026-10-21T21:50:06.846228+00:00",
+  "profile": "Social World Model",
+  "directions": {
+    "individual": "个体行为、偏好、人格、认知、心理状态及用户模拟。",
+    "interaction": "人际、人机或社会代理的对话、协商、关系、相互影响与合作。",
+    "group": "多人协作、博弈、群体决策、集体行为与观点演化。",
+    "society": "社会网络、规范、制度、社区、文化与传播的建模或模拟。"
+  },
+  "datasets": [
+    {
+      "id": "Fatima0923/Automated-Personality-Prediction",
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual"
+        ],
+        "suitability": "usable",
+        "overview": "该数据集是PANDORA的英文Reddit评论子集，覆盖1608名具有大五人格分数的用户，每行提供评论文本及对应的五项人格特质分数。",
+        "application": "可直接以评论文本为输入、五个Big Five分数为监督目标，开展评论级人格预测、人格相关语言特征分析及可解释性研究；还可据此迁移构建带人格条件的合成用户，但需验证标签可靠性、跨用户泛化能力和生成行为的一致性。",
+        "reason": "文本与五维人格标签直接配对，且数据明确来自具有人格分数的Reddit用户，因此直接支持个体层面的自动人格预测。用于合成用户是建立在人格预测之上的研究迁移，并非数据已包含代理行为。当前字段未提供回复关系、互动角色、群体结构或社会网络，不能仅凭Reddit来源判定其直接支持交互、群体或社会方向。",
+        "origin": {
+          "status": "known",
+          "value": "real",
+          "evidence": [
+            "metadata",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "每行含agreeableness、openness、conscientiousness、extraversion和neuroticism五项浮点人格分数。",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "当前字段未显示用户ID，无法直接重建用户级记录或进行用户分组交叉验证。",
+          "当前字段未显示时间信息，不能直接研究人格表达或行为的纵向变化。",
+          "缺少回复对象、对话角色、线程关系和网络边，不能直接研究互动、群体或社会传播。",
+          "仅包含预处理的英文评论，跨语言及原始平台语境研究受限。",
+          "本子集仅提供Big Five分数，不含完整PANDORA所称的MBTI和九型人格分数。",
+          "所给材料未说明人格分数的测量与标注流程，使用前需验证标签可靠性。"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/Fatima0923/Automated-Personality-Prediction",
+        "card": "https://huggingface.co/datasets/Fatima0923/Automated-Personality-Prediction/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/Fatima0923/Automated-Personality-Prediction",
+        "sample": "https://huggingface.co/datasets/Fatima0923/Automated-Personality-Prediction"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "cf97805cd283996fdf678470e22a9394279cc13f21408171dfe843fd29942f4e",
+      "url": "https://huggingface.co/datasets/Fatima0923/Automated-Personality-Prediction",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2024-02-07T16:39:27.000Z",
+      "license": "未知",
+      "gated": false
+    },
+    {
+      "id": "SynthLabsAI/PERSONA",
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "society"
+        ],
+        "suitability": "conditional",
+        "overview": "PERSONA（Prism Filter）是基于美国人口普查数据程序化生成的合成人格偏好数据集，包含约1586个具有人口统计学和个体差异属性的人格、3868个提示以及超过317,200条反馈对，用于多元对齐研究。",
+        "application": "可直接用于个体层面的用户偏好模拟、persona-conditioned LLM角色扮演评估与个性化对齐方法研究（individual方向）；也可用于社会层面研究人口多样性下的偏好分布、少数群体观点表征和多元价值对齐（society方向）。具体任务包括：训练/评估模型针对不同人格给出不同偏好的能力、构建合成用户替代物以研究敏感话题偏好分布、对比真实人口统计相关性与模型偏差。需验证：合成人格与真实人类偏好的迁移保真度（论文已部分验证）、persona属性对偏好可解释性、模型在OOD问题上的泛化能力（数据集已划分train/test提示以支持该评估）。",
+        "reason": "数据集核心是为多元对齐构建的persona-conditioned偏好语料，每行绑定一个人格与一条偏好回答，可直接支持个体行为模拟与个性化研究；人格基于美国普查人口统计生成，与真实美国人群属性强相关，为研究社会人口多样性下的偏好结构提供合成替代物。依据论文摘要明确说明1586个合成人格、3868条prompt和317,200个反馈对，并附带PERSONA Bench基准；数据卡说明人格选择与问题划分方式（3000训练问题+836测试问题），便于做跨人格或跨问题的泛化评估。虽然原研究目标是LM alignment而非社会行为研究，但persona+preference结构对个体/社会方向有直接可迁移用途，故评为A。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "paper",
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "每行包含persona属性（人口统计学+个体特征）、问题/提示、偏好反馈对；测试集划分标记（train/50-test/50-test-from-test）。",
+          "evidence": [
+            "card",
+            "paper"
+          ]
+        },
+        "constraints": [
+          "数据集为gated（gated=auto），必须通过SynthLabs.ai网站填写表单申请访问",
+          "完整persona列表与字段结构未在公开预览中提供，需获取后确认个体ID与属性粒度",
+          "数据为合成人格（非真实用户），向真实偏好迁移需要额外验证",
+          "仅限非商业使用（CC-BY-NC-SA-4.0）",
+          "字段预览不可用，相关元数据细节需查阅官方技术报告"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "paper"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/SynthLabsAI/PERSONA",
+        "card": "https://huggingface.co/datasets/SynthLabsAI/PERSONA/blob/main/README.md",
+        "paper": "https://arxiv.org/abs/2407.17387"
+      },
+      "coverage_notes": [
+        "字段预览未获取（可能需申请或不支持预览）；未确认的属性标为未知。"
+      ],
+      "papers": [
+        "2407.17387"
+      ],
+      "fingerprint": "b20bb946d46ccea61225ce8f849da7ce160dd946229a909d48c17a779e102ad7",
+      "url": "https://huggingface.co/datasets/SynthLabsAI/PERSONA",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2024-10-11T19:35:45.000Z",
+      "license": "cc-by-nc-sa-4.0",
+      "gated": "auto"
+    },
+    {
+      "id": "xxingheng/ChatHaruhi-54K-Role-Playing-Dialogue",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "ChatHaruhi-54K 是一个用于角色扮演对话的合成数据集，包含 32 个中英文动漫/电视剧/小说角色的超过 54K 条模拟对话，每条记录包含用户角色名、用户发言、AI 角色名、AI 回复及来源标注。",
+        "application": "可用于研究虚构角色的个性化对话生成与人格一致性建模（individual 方向）：以 agent_role/user_role 作为角色身份标识，分析不同角色的语气、价值观与表达模式，从而构建或评估 persona-consistent 对话代理、用户/角色模拟器；也可用于研究虚构角色间的交互模式（interaction 方向），如师徒、恋人、对手等关系在对话中的语言表现与情感动态。需自行验证的是：角色的'人格'标签并未在数据中显式给出，需从对话文本中自动提取或借助外部角色设定对齐。",
+        "reason": "数据卡与论文摘要明确指出该数据集覆盖 32 个具有鲜明性格特征的虚构角色，并提供大量模拟对话（paper, card），这与 individual 方向的'人格/偏好/行为模拟'以及 interaction 方向的'对话与相互影响'直接相关。样例显示对话带有清晰的角色身份（user_role, agent_role）和多轮上下文（more_dialogues），可支撑对话过程分析。评为 B 而非 A，因为：1) 原数据用途是训练角色扮演聊天机器人，并非直接用于社会行为研究；2) 数据为合成虚构角色对话，缺乏真实个体行为信息；3) 字段中未提供显式的人格/心理标签或时间戳，相关分析需借助文本推断或外部知识。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "paper"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "以 agent_role / agent_role_name_en 作为虚构角色的稳定标识字段（英文名如 weixiaobao），user_role 标识对话方角色；这些为虚构角色 ID 而非真人 ID。",
+          "evidence": [
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "constraints": [
+          "对话主体为虚构动漫/小说角色，非真实个体行为",
+          "原始用途为角色扮演对话生成而非社会行为分析",
+          "缺少显式人格/心理标签和时间戳",
+          "需自行补充外部角色设定以支撑人格一致性研究"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample",
+          "paper"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/xxingheng/ChatHaruhi-54K-Role-Playing-Dialogue",
+        "card": "https://huggingface.co/datasets/xxingheng/ChatHaruhi-54K-Role-Playing-Dialogue/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/xxingheng/ChatHaruhi-54K-Role-Playing-Dialogue",
+        "sample": "https://huggingface.co/datasets/xxingheng/ChatHaruhi-54K-Role-Playing-Dialogue",
+        "paper": "https://arxiv.org/abs/2308.09597"
+      },
+      "coverage_notes": [],
+      "papers": [
+        "2308.09597"
+      ],
+      "fingerprint": "b8ee2429a7a0d23a0540638865a0c98636879dee96bce414ca414122b8f87a25",
+      "url": "https://huggingface.co/datasets/xxingheng/ChatHaruhi-54K-Role-Playing-Dialogue",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-10-13T03:30:28.000Z",
+      "license": "cc-by-4.0",
+      "gated": false
+    },
+    {
+      "id": "mimseong/seoul-synthetic-personas-15k",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "society",
+          "group"
+        ],
+        "suitability": "usable",
+        "overview": "Seoul Synthetic Personas 15K 是覆盖首尔 25 个自治区、421 个行政洞的 15,000 名合成居民人格数据集，每条记录包含稳定的 agent_id、居住地、行政洞×性别×年龄段的消费与移动定量属性，以及来自 Nemotron-Personas-Korea 的职业、兴趣、家庭、文化背景等叙事字段和一个由 LLM 生成的 5 行生活方式摘要。",
+        "application": "可作为代理人初始化用于首尔地区政策与商圈变化的基于代理的仿真（society），研究不同洞/年龄段/消费档位下的集体行为与社区差异（group）；也可以 persona-conditioned 文本生成、个人偏好与行为画像研究（individual），例如消费倾向（节约/普通/消费型）与生活方式叙事的关联、不同社会人口学变量的差异分析。需自行设计交互或多轮仿真来补充 interaction 方向的研究。",
+        "reason": "数据卡明确说明用途为'政策·商圈的基于代理仿真初始人口'（card, overview 与 Intended Use 节），并在生成方法中给出了按行政洞×性别×年龄单元格分配人口、再以消费分位与社会经济分位做 rank coupling 的机制（card, Generation Process），因此对 society/group 方向有直接支撑；每条记录包含稳定 agent_id 与职业、兴趣、家庭、文化背景、spending_tendency、lifestyle 摘要，可用于个人画像与用户模拟的个体方向研究（fields, sample）。定量数据为横截面，无时间戳，故 interaction 方向需通过自行搭建仿真来补充；合成人格非真人行为记录，迁移到真实行为预测需要先验证代表性。",
+        "origin": {
+          "status": "known",
+          "value": "synthetic",
+          "evidence": [
+            "card"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "agent_id，格式为 AGT_{行政洞代码}_{性别}_{年龄段}_{编号}，每名人物唯一",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "包含 demographic 标签（age_group、gender、job、life_stage、income_proxy）、行为标签（weekday_spending_level、mobility_level、delivery_days）、人格标签（spending_tendency：节约/普通/消费型）与 lifestyle LLM 生成的 5 行叙事摘要",
+          "evidence": [
+            "card",
+            "fields",
+            "sample"
+          ]
+        },
+        "constraints": [
+          "全部为合成数据，非真实个体的行为记录",
+          "无时间字段，仅为横截面，不支持纵向追踪",
+          "同一行政洞×性别×年龄段单元格内个体共享消费分位与移动距离等定量值",
+          "数据仅覆盖首尔 25 个区，外部推广性需自行验证",
+          "lifestyle 摘要约 1% 存在格式不规整（如带'한 줄 요약:'前缀）",
+          "作者原仿真使用了不同版本的定量属性，无法仅凭此数据复现其结果"
+        ],
+        "evidence": [
+          "metadata",
+          "card",
+          "fields",
+          "sample"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/mimseong/seoul-synthetic-personas-15k",
+        "card": "https://huggingface.co/datasets/mimseong/seoul-synthetic-personas-15k/blob/main/README.md",
+        "fields": "https://huggingface.co/datasets/mimseong/seoul-synthetic-personas-15k",
+        "sample": "https://huggingface.co/datasets/mimseong/seoul-synthetic-personas-15k"
+      },
+      "coverage_notes": [],
+      "papers": [],
+      "fingerprint": "a0997054b00a272e0e68e68527f66602bffbf0cdfd2239f026cea754e79ebaa6",
+      "url": "https://huggingface.co/datasets/mimseong/seoul-synthetic-personas-15k",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-10-21T09:20:04.000Z",
+      "license": "cc-by-4.0",
+      "gated": false
+    },
+    {
+      "id": "Dwootton/persona-representation-corpus",
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "suitability": "usable",
+        "overview": "该数据集是一个关于\"persona 表达方式\"的元语料库，汇集了来自 19 个来源（共 39,459 条规范化记录）的 persona 表征，涵盖 6 种表达家族：单句角色、结构化档案、带标签的文本档案、角色卡、行为历史、代理状态/问卷式 persona。",
+        "application": "可用于个体方向的 persona 表征方法学研究、用户/角色模拟的输入格式设计、以及 persona 属性（人口学五元组、人格、价值观、兴趣、沟通风格等）的跨来源比较；可辅助对话/角色扮演场景中个体属性与交互风格的对照研究。需自行按 persona_id 或 source 构建分析样本，并注意 2,000 字符截断、嵌入模型仅适配英文等限制。",
+        "reason": "数据卡明确将其定位为 persona 表达方式的调研语料，包含 20 属性统一 schema 的标注、跨家族存在率统计、嵌入几何审计与解码探针结果，直接支撑个体行为/偏好/人格相关研究（individual 方向，A 级支撑）；包含 PersonaChat、Synthetic-Persona-Chat 等对话语料以及角色卡的沟通风格、场景设定等字段，可为交互方向提供 persona 侧属性而非真实交互记录（interaction 方向，B 级支撑）。群体/社会方向仅在 census 抽样来源（Danish、Japan、Nemotron）的人口学分布上提供间接素材，故不列为主要方向。graded 为 B 而非 A 的原因是该语料是对 persona 的表征调查与元分析素材，并非直接的交互、群体或社会行为记录。",
+        "origin": {
+          "status": "known",
+          "value": "mixed",
+          "evidence": [
+            "card",
+            "metadata"
+          ]
+        },
+        "individual_id": {
+          "status": "known",
+          "value": "personas.jsonl 中包含 persona_id 字段，personahub/opencharacter/nemotron/PersonalWAB/LaMP/PRISM 等来源为每位 persona/用户分配稳定 ID",
+          "evidence": [
+            "card"
+          ]
+        },
+        "time_info": {
+          "status": "unknown",
+          "value": "unknown",
+          "evidence": []
+        },
+        "labels": {
+          "status": "known",
+          "value": "原始字段（fields）、家族（family）、领域（domain）、生成方式（generation），以及层 2 经 Qwen3-4B 抽取的统一 20 属性 schema（人口学五元组、人格、价值观、兴趣、沟通风格等）+ parse_ok 置信度",
+          "evidence": [
+            "card"
+          ]
+        },
+        "constraints": [
+          "text 字段统一截断至 2,000 字符，对长结构化档案和行为历史有信息损失",
+          "嵌入模型 sentence-transformers/all-MiniLM-L6-v2 以英文为中心，日语来源跨源相似度几近为 0",
+          "小来源按可用量抽样（LaMP 仅 50 用户、Generative Agents 仅 15、PersonaGym 仅 100）",
+          "大型来源有 5,000 条/源的上限",
+          "层 2 抽取有 11.6% 解析失败率，相关记录需排除或单独处理"
+        ],
+        "evidence": [
+          "metadata",
+          "card"
+        ]
+      },
+      "source_links": {
+        "metadata": "https://huggingface.co/datasets/Dwootton/persona-representation-corpus",
+        "card": "https://huggingface.co/datasets/Dwootton/persona-representation-corpus/blob/main/README.md"
+      },
+      "coverage_notes": [
+        "字段预览未获取（可能需申请或不支持预览）；未确认的属性标为未知。"
+      ],
+      "papers": [],
+      "fingerprint": "76b4cf7cc83a13ee9662987ce6ee45adafd499e6406bb679eebeadadebc2a30a",
+      "url": "https://huggingface.co/datasets/Dwootton/persona-representation-corpus",
+      "reason_type": "首次推荐（可为历史数据集）",
+      "last_modified": "2026-10-10T03:28:07.000Z",
+      "license": "未知",
+      "gated": false
+    }
+  ],
+  "candidate_count": 471,
+  "reviewed_this_run": 13,
+  "review_failures": 7,
+  "warnings": [],
+  "limits": {
+    "review": 20,
+    "recommend": 5
+  },
+  "model_calls": 29,
+  "cache_hits": 2,
+  "usage": {
+    "input_tokens": 139474,
+    "output_tokens": 117025,
+    "total_tokens": 256499
+  }
+}
