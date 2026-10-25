@@ -1,0 +1,334 @@
+{
+  "config_hash": "8abe62ddb7ce7c0efe40987679b065d4e464145e2a11d0dd1e682738aa9c52a6",
+  "profile": "Social World Model",
+  "generated_at": "2026-10-25T19:51:39.317941+00:00",
+  "assessed": 11,
+  "retained": 3,
+  "reviewed": 0,
+  "pending": 3,
+  "grades": {
+    "A": 1,
+    "B": 1,
+    "C": 1
+  },
+  "model_calls": 11,
+  "cache_hits": 0,
+  "usage": {
+    "input_tokens": 17366,
+    "output_tokens": 4400,
+    "total_tokens": 21766
+  },
+  "models": {
+    "triage": "MiniMax-M2.7",
+    "reader": "MiniMax3",
+    "judge": "MiniMax3"
+  },
+  "decisions": [
+    {
+      "id": "2610.31553v1",
+      "title": "Contestable Agents for Data Governance: Recording Human Stewardship of AI-Generated Metadata Across Structured and Unstructured Systems",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction",
+          "society"
+        ],
+        "research_object": "工业组织中由大语言模型代理生成元数据建议，并由领域人员审核、修订和留痕的数据治理流程。",
+        "transfer": "可迁移其“代理提出带文档依据的争议性方案—人工接受、拒绝或修改—保存审核干预与最终结果—将经验证决定转化为后续先例”的机制，用于研究个体模拟或社会行为代理生成标注、解释与决策时的可审计人机协作；适用条件是代理输出需引用证据、关键决定存在争议或不确定性、提交前保留人工复核，并使用领域词汇表及版本化治理记录。该迁移属于方法推断，原文仅在HVAC元数据分类和保修故障判定场景中展示或说明应用。",
+        "reason": "研究明确涉及人类监督者与大语言模型代理之间的协商、干预和责任记录，可对应interaction与society方向的治理研究。其核心机制能够具体迁移到社会行为研究的标注及代理决策审计任务，但原文没有验证该机制对个体心理状态建模、人际互动或群体行为研究的有效性，且所述HVAC案例包含说明性或实现性案例，因此保留不确定性。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Industrial organizations hold operational knowledge in structured records, such as telemetry, point lists, and transactions, and in unstructured sources, such as manuals, service notes, communications",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction",
+          "society"
+        ],
+        "reason": "研究明确涉及人类监督者与大语言模型代理之间的协商、干预和责任记录，可对应interaction与society方向的治理研究。其核心机制能够具体迁移到社会行为研究的标注及代理决策审计任务，但原文没有验证该机制对个体心理状态建模、人际互动或群体行为研究的有效性，且所述HVAC案例包含说明性或实现性案例，因此保留不确定性。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.31553v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.31576v1",
+      "title": "What Makes a Good Unmasking Policy? A Controlled Study of Learned Unmasking in Diffusion Language Models",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "研究扩散语言模型中学习到的解掩码策略及其对推理速度、准确率、函数评估次数和吞吐量的影响。",
+        "transfer": "摘要中的机制是利用教师标签、轨迹收缩目标、置信度和隐藏状态来选择可提交的token位置；其目标任务是优化语言模型解码效率与推理性能，而非模拟个体行为、交互、群体或社会行为。由于未涉及行为状态、偏好、人格、关系、规范或群体决策建模，无法建立面向研究档案任务的具体迁移路线。",
+        "reason": "该文核心是扩散语言模型的解掩码策略与计算效率，属于通用语言模型推理优化。它没有研究或验证个体、个体交互、群体及社会行为，也不提供可用于这些方向的行为建模机制、数据或评测。虽然策略设计可能对一般智能体系统有工程启发，但摘要中没有指向个体或社会模拟目标任务的明确机制—任务—条件链条，因此判定为无关而非方法可借鉴。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Masked diffusion language models generate tokens in parallel, but their efficiency depends on which predictions are committed. Learned unmasking policies improve the speed--accuracy trade-off, yet dif",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该文核心是扩散语言模型的解掩码策略与计算效率，属于通用语言模型推理优化。它没有研究或验证个体、个体交互、群体及社会行为，也不提供可用于这些方向的行为建模机制、数据或评测。虽然策略设计可能对一般智能体系统有工程启发，但摘要中没有指向个体或社会模拟目标任务的明确机制—任务—条件链条，因此判定为无关而非方法可借鉴。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.31579v1",
+      "title": "Who Is Sycophantic to Whom? Confident LLMs, Human Deference, and the Collapse of Trust Calibration",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "研究人类在与自信且错误的LLM助手互动时的认知吸收、信念更新、信心校准、信任与再互动行为；对象为32名参与者在学习科学主题过程中与5个植入不同比例错误事实的助手对话。",
+        "transfer": "可借鉴其“控制助手事实可靠性→让参与者判断并吸收错误事实→测量信心与信任变化”的机制，用于研究人机交互中的错误信息吸收、信念更新和信任校准；还可借鉴baseline-corrected Human Deference Index及逐项呈现可靠性的交互设计，支持个体用户行为建模和人机协作界面的评测。适用条件是人类在具有明确任务、答案反馈和信心评分的对话中接触自信但可能错误的AI，并将指标迁移到其他任务时需要重新建立对应基线和可靠性标注。",
+        "reason": "这是档案中个体行为与人机交互方向的直接研究：摘要明确报告人类受试者、LLM助手、错误信息吸收、信心校准、信任和再互动行为，并提出Human Deference Index。研究结论直接服务于理解个体在AI影响下的心理与判断变化；将其迁移到其他任务的具体条件和指标适配属于基于摘要的推断，而非原文已验证结果。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Research on sycophancy asks whether large language models (LLMs) bend towards what their users want to hear. We ask the reverse question: when an LLM is confident, consistent, and wrong, do users bend",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "这是档案中个体行为与人机交互方向的直接研究：摘要明确报告人类受试者、LLM助手、错误信息吸收、信心校准、信任和再互动行为，并提出Human Deference Index。研究结论直接服务于理解个体在AI影响下的心理与判断变化；将其迁移到其他任务的具体条件和指标适配属于基于摘要的推断，而非原文已验证结果。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.31579v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.31586v1",
+      "title": "Would an LLM Match into a Residency? Uncertainty, Reasoning and Image Use of Open Language Models on the Spanish MIR Examination",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "四个开放语言模型在西班牙 MIR 住院医师考试中的答题准确性、不确定性校准、医学微调影响、临床推理质量及医学图像使用情况",
+        "transfer": "未发现可迁移至个体行为与心理状态建模、人际或社会代理交互、多人协作与群体决策、社会网络与规范模拟的明确机制；其评测对象是医学考试能力与临床图像利用，与研究档案核心任务无直接联系。",
+        "reason": "摘要研究的是语言模型在医学考试中的置信度校准、弃答收益、微调效应和图像依赖。虽然涉及模型不确定性与推理评测，但未研究或验证个体偏好、心理状态、人机或社会交互、群体行为及社会结构，因此没有可具体说明的“机制→目标任务→适用条件”迁移路线。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Accuracy on medical examinations is common evidence offered for the clinical use of language models, yet a health system that intends to run an open model on its own hardware needs to know considerabl",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要研究的是语言模型在医学考试中的置信度校准、弃答收益、微调效应和图像依赖。虽然涉及模型不确定性与推理评测，但未研究或验证个体偏好、心理状态、人机或社会交互、群体行为及社会结构，因此没有可具体说明的“机制→目标任务→适用条件”迁移路线。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.31592v1",
+      "title": "Beyond Best-of-$k$: Prior-Consistent DAPS for Ambiguous Nonlinear Inverse Problems",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "非线性逆问题中的多解重建与扩散采样，核心对象是测量一致且符合先验分布的候选解。",
+        "transfer": "论文没有涉及个体、人际、群体或社会行为的建模机制，因此无法明确迁移到研究档案中的目标任务；其候选解剪枝与先验一致性机制虽可用于一般逆问题求解，但未提供适用于社会行为模拟的具体条件。",
+        "reason": "摘要聚焦扩散模型在相位恢复等非线性逆问题中的先验一致性采样、候选解维护与剪枝，实验对象和评价目标均为逆问题重建质量与多样性。作者未讨论个体状态、交互关系、群体决策或社会规范，也没有提出将这些机制迁移至行为建模任务的应用条件，故与研究档案无明确可支持的联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Diffusion models have become strong priors for solving inverse problems. However, nonlinear inverse problems such as phase retrieval remain challenging when multiple measurement-consistent solutions a",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要聚焦扩散模型在相位恢复等非线性逆问题中的先验一致性采样、候选解维护与剪枝，实验对象和评价目标均为逆问题重建质量与多样性。作者未讨论个体状态、交互关系、群体决策或社会规范，也没有提出将这些机制迁移至行为建模任务的应用条件，故与研究档案无明确可支持的联系。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.31620v1",
+      "title": "Bilingual Language Models Capture Cross-Linguistic Influence in Second-Language Reading",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "双语语言模型对不同母语背景学习者在英语第二语言阅读中的跨语言影响建模，并使用眼动阅读时间进行评测。",
+        "transfer": "可借鉴“母语匹配的双语语言模型惊讶度”机制：选择与读者母语背景一致的双语模型，利用模型 surprisal 预测其英语第二语言阅读时间，从而刻画个体母语驱动的阅读认知差异。适用条件是已知读者母语背景，且任务涉及第二语言文本阅读；作者验证的优势主要出现在后期眼动指标，并受母语—第二语言文字系统重合度和学习者熟练度调节。",
+        "reason": "论文直接研究个体第二语言阅读行为，并以12种母语背景的眼动数据提供明确的数据、模型比较和评测依据，可直接支撑个体认知行为建模。摘要还验证了母语匹配模型对阅读时间的预测优势，因此机制、目标任务和适用条件均较明确。将其迁移到其他个体行为或用户模拟任务属于合理推断，但不是本文已验证的结果。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "While monolingual language model (LM) surprisal is widely established as a predictor of reading times, it cannot capture the non-native (L2) reading dynamics that are shaped by the reader's first lang",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual"
+        ],
+        "reason": "论文直接研究个体第二语言阅读行为，并以12种母语背景的眼动数据提供明确的数据、模型比较和评测依据，可直接支撑个体认知行为建模。摘要还验证了母语匹配模型对阅读时间的预测优势，因此机制、目标任务和适用条件均较明确。将其迁移到其他个体行为或用户模拟任务属于合理推断，但不是本文已验证的结果。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.31620v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.31623v1",
+      "title": "F2G-Pose: Geometry-Aware Foundation Feature Lifting for Direct RGB-D Category-Level Object Pose Estimation",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "基于单幅RGB-D观测的类别级物体三维旋转、平移、尺寸与相机坐标系形状补全，并评估其在真实物体操控中的部署可行性。",
+        "transfer": "摘要提出的几何感知基础特征提升、点云几何编码及物体级结构整合机制可迁移到机器人视觉中的物体位姿估计或物理交互感知，但未形成面向个体行为、人际互动、群体行为或社会模拟的明确迁移路线；若要用于社会行为模拟，还需另行建立物体交互与心理或社会行为之间的建模联系。",
+        "reason": "研究对象是类别级RGB-D物体位姿估计与形状补全，核心贡献是几何特征提升、尺寸预测和实时推理。摘要仅提及真实世界操控实验和分割后的RGB-D输入条件，没有研究个体、认知、人际或群体社会行为，也没有可用于这些研究目标的评测或数据。因而其与档案的潜在联系至多是物理层面的通用感知技术，未说明从几何感知机制到社会行为模拟任务的具体桥接机制，属于无明确可支持研究联系的纯视觉/物理操控工作。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "This paper studies category-level RGB-D object pose estimation, which recovers an object's 3D rotation and translation without instance-specific CAD models or reference views. This task is highly ambi",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是类别级RGB-D物体位姿估计与形状补全，核心贡献是几何特征提升、尺寸预测和实时推理。摘要仅提及真实世界操控实验和分割后的RGB-D输入条件，没有研究个体、认知、人际或群体社会行为，也没有可用于这些研究目标的评测或数据。因而其与档案的潜在联系至多是物理层面的通用感知技术，未说明从几何感知机制到社会行为模拟任务的具体桥接机制，属于无明确可支持研究联系的纯视觉/物理操控工作。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.31641v1",
+      "title": "UniVOE: A Removal-Driven Framework for Interaction-Aware Universal Video Object Editing",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "视频对象移除与对象注入：移除对象及其交互效果，并由对象缺失视频反向恢复对象的外观、动态与交互效果。",
+        "transfer": "未发现可明确迁移到个体行为、个体交互、群体行为或社会行为建模的机制。摘要中的“interaction effects”是视频对象与场景之间的视觉交互效应，并非人际、社会代理或群体互动；其配对数据生成与人类偏好奖励训练也未指向档案中的目标任务。",
+        "reason": "该论文直接研究通用视频对象编辑，核心贡献包括移除驱动的配对数据构造、对象注入及感知质量优化。摘要没有研究人的偏好、人格、认知、对话关系、合作、群体决策或社会规范，也未给出将这些编辑机制迁移到行为或社会模拟任务的合理路线、目标任务和适用条件，因此与研究档案无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Video object removal and injection are reciprocal editing operations between object-present and object-absent video states, yet they differ substantially in training difficulty. Removal can be effecti",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该论文直接研究通用视频对象编辑，核心贡献包括移除驱动的配对数据构造、对象注入及感知质量优化。摘要没有研究人的偏好、人格、认知、对话关系、合作、群体决策或社会规范，也未给出将这些编辑机制迁移到行为或社会模拟任务的合理路线、目标任务和适用条件，因此与研究档案无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.31645v1",
+      "title": "OmniRay: Camera-Agnostic Monocular 3D Reconstruction with Composite Ray Fields",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "从单张鱼眼或全景等广角图像中进行相机无关的单目三维重建。",
+        "transfer": "无可支持的迁移：摘要提出的分层复合光线场与三维重建机制面向相机几何和像素射线预测，不涉及个体、交互、群体或社会行为的建模、解释或模拟。",
+        "reason": "研究任务是纯计算机视觉中的单目三维重建，核心贡献是改进不同相机几何下的光线表示与点云恢复。摘要未涉及社会行为、用户状态、对话互动、多人协作或社会模拟，因此与研究档案四个方向均无明确联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Monocular models recover 3D geometry from a single image in one pass, but most assume a pinhole camera and produce distorted geometry on the wide-angle imagery produced by fisheye and panoramic lenses",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究任务是纯计算机视觉中的单目三维重建，核心贡献是改进不同相机几何下的光线表示与点云恢复。摘要未涉及社会行为、用户状态、对话互动、多人协作或社会模拟，因此与研究档案四个方向均无明确联系。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.31646v1",
+      "title": "Low-Bit N-Gram Embeddings for Language Models",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "研究语言模型中n-gram嵌入表的低比特存储与量化，以降低内存开销并保持或提升模型性能。",
+        "transfer": "未发现面向个体行为、个体交互、群体行为或社会行为建模的具体迁移机制；虽然更大的嵌入表可能改善语言模型能力，但摘要没有将其连接到用户模拟、对话交互或社会模拟任务，也没有给出相应适用条件。",
+        "reason": "论文核心是语言模型n-gram嵌入表的量化、内存节省与下游语言任务性能，而非社会行为建模或可用于该领域的行为数据与方法。摘要中提及保存更多模型性能结果，但未提供从低比特存储机制迁移到社会行为研究任务的明确路线。按照纯模型效率优化且无明确社会行为联系不应视为相关的标准，可判为无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Many recent open-weight language models use n-gram embedding tables to improve performance. These tables store learned representations of short token sequences, such as pairs or triples of consecutive",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文核心是语言模型n-gram嵌入表的量化、内存节省与下游语言任务性能，而非社会行为建模或可用于该领域的行为数据与方法。摘要中提及保存更多模型性能结果，但未提供从低比特存储机制迁移到社会行为研究任务的明确路线。按照纯模型效率优化且无明确社会行为联系不应视为相关的标准，可判为无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.31651v1",
+      "title": "BrickWright: Agentic Creation of Physically Feasible Brick Builds",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "BrickWright框架及其预训练编码代理：根据文本或图像提示生成由真实积木组成、无碰撞、无悬空且尽可能连通的可物理装配积木结构。",
+        "transfer": "无可支持档案研究方向的迁移路线。论文中的积木装配API、代码生成流程和物理可行性验证器仅用于约束实体积木模型的零件兼容性、碰撞、悬空与连通性，未涉及个体行为、人际互动、群体协作或社会行为建模。",
+        "reason": "该研究直接研究文本或图像到实体LEGO积木结构的生成与物理可行性验证。方法核心是专用装配工具及几何、连通性验证反馈，而不是社会行为机制、用户建模或互动模拟。摘要未提供将这些机制迁移至个体、交互、群体或社会研究任务的具体条件，因此与研究档案无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Frontier coding agents are becoming increasingly adept at 3D modeling. Yet, they still face challenges when building objects meant to be assembled in the physical world, often creating invalid assembl",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该研究直接研究文本或图像到实体LEGO积木结构的生成与物理可行性验证。方法核心是专用装配工具及几何、连通性验证反馈，而不是社会行为机制、用户建模或互动模拟。摘要未提供将这些机制迁移至个体、交互、群体或社会研究任务的具体条件，因此与研究档案无关。",
+        "status": "abstract_excluded"
+      }
+    }
+  ]
+}
