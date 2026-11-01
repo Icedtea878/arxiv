@@ -1,0 +1,2699 @@
+{
+  "config_hash": "8abe62ddb7ce7c0efe40987679b065d4e464145e2a11d0dd1e682738aa9c52a6",
+  "profile": "Social World Model",
+  "generated_at": "2026-11-01T21:33:40.776024+00:00",
+  "assessed": 92,
+  "retained": 50,
+  "reviewed": 0,
+  "pending": 50,
+  "grades": {
+    "A": 8,
+    "B": 10,
+    "C": 32
+  },
+  "model_calls": 92,
+  "cache_hits": 0,
+  "usage": {
+    "input_tokens": 144005,
+    "output_tokens": 53162,
+    "total_tokens": 197167
+  },
+  "models": {
+    "triage": "MiniMax-M2.7",
+    "reader": "MiniMax3",
+    "judge": "MiniMax3"
+  },
+  "decisions": [
+    {
+      "id": "2610.38667v1",
+      "title": "ExplainCC: Explaining Correlated Clusters by Node Labels",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "society",
+          "group"
+        ],
+        "research_object": "研究带节点标签的相关聚类问题：在给定对象两两相似与不相似信息时，寻找由标签树解释、并使相关聚类目标函数最小的可解释数据划分。",
+        "transfer": "可迁移其“标签树约束相关聚类”机制：仅允许以节点标签形成的树解释簇，并通过递归式贪心分裂获得局部最优、可解释的群体划分。迁移到社会网络研究时，可用于识别具有可解释标签结构的社区或群体；适用条件是网络对象具有可用于分裂的节点标签，并能提供或构造对象间相似与不相似关系。该应用属于基于摘要的方法推断，原文未验证社会行为机制或群体形成解释。",
+        "reason": "摘要明确提出了面向带标签对象的可解释聚类方法，并在真实网络上生成可解释簇，因而可为社会网络或群体结构分析提供具体方法借鉴。原研究目标是聚类算法的可解释性，而非直接研究社会行为，故不能判为A或B；但“标签树约束—递归划分—社区识别”的迁移机制、目标任务和使用条件均能从摘要中合理说明，达到C级。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "An increasingly important requirement for clustering algorithms is that decisions and outcomes need to be clearly understandable for human users. We address this requirement for the Correlation Cluste",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "society",
+          "group"
+        ],
+        "reason": "摘要明确提出了面向带标签对象的可解释聚类方法，并在真实网络上生成可解释簇，因而可为社会网络或群体结构分析提供具体方法借鉴。原研究目标是聚类算法的可解释性，而非直接研究社会行为，故不能判为A或B；但“标签树约束—递归划分—社区识别”的迁移机制、目标任务和使用条件均能从摘要中合理说明，达到C级。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.38667v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.38694v1",
+      "title": "Geometry Matters in Packed 3D Attention",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "研究三维体数据打包为token序列后的注意力失效问题，并提出保留局部邻域、压缩远距离上下文且基于真实三维网格坐标编码相对位置的PACK3D算子。",
+        "transfer": "摘要没有面向个体、交互、群体或社会行为建模的已验证迁移机制。若将三维网格坐标注意力用于社会行为研究中的空间化状态表示，仍需另行定义人物或社会实体的三维编码、关系结构及几何坐标假设；这些条件与任务均未被摘要支持，因此不能构成可借鉴路线。",
+        "reason": "该文核心是三维显微图像的视觉任务与打包顺序鲁棒性，解决的是几何数据压缩和位置编码问题。摘要虽提出可迁移的局部—全局注意力机制，但没有研究社会行为、用户状态、人际互动、群体决策或社会网络，也未提供将这些机制用于研究档案目标任务的证据。因此其联系至多是尚未建立的技术类比，不构成弱相关以上的具体研究联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Packing a 3D volume into a token sequence is not merely long-sequence modeling. Once the volume is packed, sequence order no longer encodes the geometry of the sample---so a positional mechanism index",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该文核心是三维显微图像的视觉任务与打包顺序鲁棒性，解决的是几何数据压缩和位置编码问题。摘要虽提出可迁移的局部—全局注意力机制，但没有研究社会行为、用户状态、人际互动、群体决策或社会网络，也未提供将这些机制用于研究档案目标任务的证据。因此其联系至多是尚未建立的技术类比，不构成弱相关以上的具体研究联系。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38721v1",
+      "title": "Idea Traces: Threading Accretive Content across Scientific Papers",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "跨科学论文的“idea traces”：表示被引网络中分面内容的相似性、差异与演化，并构建文献创意依赖图和可视化导航系统。",
+        "transfer": "摘要中的LLM流水线用于提取论文间显著转变并构建创意依赖图，可用于创意发现和文献导航；但未说明如何迁移到个体、个体交互、群体或社会行为研究任务，也未给出目标行为任务、行为建模环节及适用条件。",
+        "reason": "研究对象是科学文献中的创意关系与知识演化，而非个体状态、交互行为、群体决策或社会现象。论文验证的是与LLM问答工作流的比较、研究者访谈及创意标注，未验证任何目标方向中的行为模拟或解释机制。虽然创意依赖图在形式上可能作为研究工具，但摘要没有建立其与档案研究任务的具体联系，因此不能据此提出合理且可执行的迁移路线。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "We introduce idea traces, a novel thread-based representation of accretive content across scientific papers. Rather than capturing fixed themes from papers, idea traces surface similarities and deltas",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是科学文献中的创意关系与知识演化，而非个体状态、交互行为、群体决策或社会现象。论文验证的是与LLM问答工作流的比较、研究者访谈及创意标注，未验证任何目标方向中的行为模拟或解释机制。虽然创意依赖图在形式上可能作为研究工具，但摘要没有建立其与档案研究任务的具体联系，因此不能据此提出合理且可执行的迁移路线。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38726v1",
+      "title": "The Quine Test: How Much of a Model's Self Survives Its Own Description?",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "语言模型自我描述所表达的偏好画像，以及该描述能否作为跨模型重建偏好的可移植规格。",
+        "transfer": "可借鉴的是将自我描述或显式偏好政策作为偏好画像规格，迁移到接收模型复现作者偏好的任务：接收模型读取描述后，在110项偏好测验上重建原模型的选择画像。适用条件是描述包含明确规定的偏好政策或作者回答；实验显示这种受政策约束的描述能接近政策文本本身的迁移效果，而原生自我描述不能可靠复现偏好。该迁移路线用于个体偏好模拟的依据是跨模型重建结果，并非预先由作者验证的应用。",
+        "reason": "研究直接测量模型偏好及其跨模型表达与重建，属于个体偏好建模和用户/个体模拟的核心问题。论文不仅提出“自我描述能否移植”的机制性问题，还系统比较原生自我描述、显式偏好政策和直接列出回答等条件，并提供偏好测验、流程、调用日志和模型描述数据。结论也界定了有效迁移条件：受明确偏好政策约束的描述可迁移，原生自我描述虽会影响行为但不足以稳定指定偏好。因此该论文直接支撑个体偏好画像的建模、评测及跨模型模拟。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Frontier language models express coherent preferences, but behavioral evidence alone cannot say whether these belong to the model or to a character it portrays. Following Hofstadter's view of the self",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual"
+        ],
+        "reason": "研究直接测量模型偏好及其跨模型表达与重建，属于个体偏好建模和用户/个体模拟的核心问题。论文不仅提出“自我描述能否移植”的机制性问题，还系统比较原生自我描述、显式偏好政策和直接列出回答等条件，并提供偏好测验、流程、调用日志和模型描述数据。结论也界定了有效迁移条件：受明确偏好政策约束的描述可迁移，原生自我描述虽会影响行为但不足以稳定指定偏好。因此该论文直接支撑个体偏好画像的建模、评测及跨模型模拟。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.38726v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.38728v1",
+      "title": "From Grind to Grasp",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "group",
+          "society"
+        ],
+        "research_object": "在信息与工作预算限制下，智能体及智能体集体如何通过资源复用、知识共享、协作与组织维护形成可持续的深层成就，以及如何以“grasp”衡量不同工作预算下的表现。",
+        "transfer": "可迁移的机制是让个体或集体保存并复用先前工作的产物，通过知识共享和协调扩大可用资源，同时显式建模组织建立与维护所消耗的工作及其对集体持续目标的影响。该机制可用于模拟多人或社会代理的协作、资源分配、组织维持和社会协调任务，并比较不同工作预算下、相同信息额度内的集体表现。适用条件是代理能够积累和复用资源、存在知识共享或协调渠道，且研究目标允许把组织维护成本及集体自身目标纳入模型；这些具体模拟用途属于基于摘要的迁移推断，原文主要提出形式化框架并讨论其在集体与agent society上的含义。",
+        "reason": "摘要明确提出工作与信息限制下的形式化框架，并通过资源复用、知识共享、协作和组织维护解释个体与集体如何提高后续任务表现，因此与群体和社会方向存在可具体说明的机制联系。由于摘要未直接开展真实社会行为建模或实证验证，不能视为直接支撑核心问题，但方法迁移路径、目标任务和适用条件均已明确，故判为C。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Discussions of complexity, knowledge and intelligence often overlook the work involved. For example, outputs generated by short programs have low algorithmic complexity but can have high computational",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "group",
+          "society"
+        ],
+        "reason": "摘要明确提出工作与信息限制下的形式化框架，并通过资源复用、知识共享、协作和组织维护解释个体与集体如何提高后续任务表现，因此与群体和社会方向存在可具体说明的机制联系。由于摘要未直接开展真实社会行为建模或实证验证，不能视为直接支撑核心问题，但方法迁移路径、目标任务和适用条件均已明确，故判为C。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.38728v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.38732v1",
+      "title": "Adversarial Self-Distillation",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "研究安全对齐语言模型在对抗性扰动、诱导性前缀及上下文注入下仍能稳定拒绝有害请求的问题。",
+        "transfer": "可借鉴其机制—目标任务—条件链条：利用模型自身在干净提示下的安全回答作为教师，通过在学生模型实际访问的前缀上进行on-policy自蒸馏，将拒绝能力扩展到对抗输入；迁移到人机交互或社会代理研究时，可用于提高用户模拟器面对越界、诱导性或攻击性提示时的稳健拒绝。适用条件是目标语言模型本身已具备基本安全行为或能通过上下文指令触发该行为，并允许采样和训练模型实际生成的前缀。",
+        "reason": "摘要明确给出了自蒸馏教师—学生机制、前缀分布条件以及降低攻击成功率和恢复拒绝的验证结果，因此并非仅有agent或language model等关键词重合。作者验证的是通用安全攻击场景，将其迁移到社会代理或用户模拟器的交互安全任务是本文证据基础上的方法推断，不是原文已经验证的社会行为结论，故评为C而非A或B。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Even though current safety-aligned language models are able to refuse harmful requests, their guard can still be bypassed by adversarial perturbations. As in other domains, adversarial training is con",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "摘要明确给出了自蒸馏教师—学生机制、前缀分布条件以及降低攻击成功率和恢复拒绝的验证结果，因此并非仅有agent或language model等关键词重合。作者验证的是通用安全攻击场景，将其迁移到社会代理或用户模拟器的交互安全任务是本文证据基础上的方法推断，不是原文已经验证的社会行为结论，故评为C而非A或B。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38754v1",
+      "title": "Alpha-TCM: A Nine-Layer Framework for TCM-Guided Multimodal Inference and Structured-Prior Auditing",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "中医导向的多模态个案推断系统架构；合成原型以舌图像、脉搏波形、问诊字段和文本为输入，融合版本化情境先验并审计知识—证据接口。",
+        "transfer": "可借鉴“独立编译情境先验—去除重复先验信息—概率融合—污染与结构损坏审计”的机制，将个体历史编译为带版本和来源的情境先验，用于个体偏好或当前选择的推断，并可用于对话交互中的历史更新。该迁移属于跨领域推断，适用于低数据、历史信息结构化且可信的情境；错误情境会降低性能，且原框架的纵向更新与语言交互层未被原型验证。",
+        "reason": "摘要明确提出知识、个案证据、概率推断与下游决策分离的审计架构，并为原型实例化了情境先验融合及污染检测，因此存在可具体描述的迁移路线。目标可对应个体历史建模或交互系统中的当前状态推断，但研究对象本身是中医多模态合成任务，并未验证真实个体行为或人机交互。由于仅原型实现前五层，纵向更新、语言交互及人类治理层缺少实验依据，迁移价值仍不确定。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Alpha-TCM makes two contributions under a central thesis: auditable systems should separate domain knowledge, case evidence, probabilistic inference, and downstream authority. First, it proposes a nin",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要明确提出知识、个案证据、概率推断与下游决策分离的审计架构，并为原型实例化了情境先验融合及污染检测，因此存在可具体描述的迁移路线。目标可对应个体历史建模或交互系统中的当前状态推断，但研究对象本身是中医多模态合成任务，并未验证真实个体行为或人机交互。由于仅原型实现前五层，纵向更新、语言交互及人类治理层缺少实验依据，迁移价值仍不确定。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38773v1",
+      "title": "Rennala NSGD: Asynchronous Stochastic Optimization Beyond Euclidean Geometry",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "一般范数空间中的小批量随机梯度下降、半异步分布式优化算法及其高概率复杂度界。",
+        "transfer": "未发现可迁移至个体、个体交互、群体或社会行为研究的机制；摘要仅讨论非欧几何、噪声条件与分布式训练复杂度。",
+        "reason": "研究任务是深度学习训练中的随机优化，核心对象是范数几何、梯度噪声和异构工作节点，而非行为、认知、对话、关系、规范或社会动态。摘要没有提出可用于模拟社会行为或分析个体状态的任务机制，因此不构成具体迁移路线。该判断基于摘要明确限定的纯数学优化范围，联系性缺失并非信息不足，故uncertain=false。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "The empirical success of matrix-aware optimizers, such as Muon (Jordan et al., 2024) and Shampoo (arXiv:1802.09568), highlights the potential of non-Euclidean geometry for deep learning, including lar",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究任务是深度学习训练中的随机优化，核心对象是范数几何、梯度噪声和异构工作节点，而非行为、认知、对话、关系、规范或社会动态。摘要没有提出可用于模拟社会行为或分析个体状态的任务机制，因此不构成具体迁移路线。该判断基于摘要明确限定的纯数学优化范围，联系性缺失并非信息不足，故uncertain=false。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38774v1",
+      "title": "Auditable Hierarchical Inference with Multimodal Evidence and Bayesian Active Inquiry",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "在合成临床场景中，基于舌象、双手多压力脉象和声学观测进行综合征族与细分类别的推断，并通过贝叶斯主动提问缩小诊断范围。",
+        "transfer": "可迁移其“结构化多模态证据先验推断＋带来源的知识核心＋有限类型问题＋安全问题排除”的机制，用于刻画个体的离散偏好、认知状态或行为倾向，并在交互中通过主动提问选择信息增益高的问题以逐步更新用户模型。适用条件是具有可定义的状态候选集、可结构化观测和可回答的问题，以及能区分普通状态证据与必须拒答或额外处理的安全问题；原文结果仅在合成临床流程中验证，向社会行为研究的迁移属于方法推断。",
+        "reason": "摘要给出了明确的贝叶斯逐步收窄、主动提问、缺失模态路由和拒答机制，可形成“机制→个体状态或用户偏好建模任务→结构化证据及有限候选条件下应用”的具体路线。作者验证的是合成诊断性能，而非真人心理状态或社会行为，因此不构成直接支撑，但并非只有关键词重合。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Most multimodal classifiers assume that all useful evidence is available upfront, whereas clinical inquiry is sequential. We present a synthetic evaluation framework separating objective multimodal in",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要给出了明确的贝叶斯逐步收窄、主动提问、缺失模态路由和拒答机制，可形成“机制→个体状态或用户偏好建模任务→结构化证据及有限候选条件下应用”的具体路线。作者验证的是合成诊断性能，而非真人心理状态或社会行为，因此不构成直接支撑，但并非只有关键词重合。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38775v1",
+      "title": "Skillful and realistic precipitation forecasting with reinforced diffusion",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "基于强化扩散框架的降水预报系统FitzRoy，研究对象是24小时以内的大尺度降水预测与极端事件捕捉。",
+        "transfer": "其条件离散扩散模型结合强化学习，可用于提升时空预测的点精度与结构真实性，并已在美国大陆的降水预报及实时业务部署条件下验证；但该任务不涉及个体、交互、群体或社会行为建模，缺少面向研究档案目标的迁移机制，因此无可保留的具体迁移路线。",
+        "reason": "摘要明确聚焦天气预报、极端降水事件、物理一致性和实时部署。原文中未出现对个体状态、用户行为、人机互动、多人协作或社会规范的建模或评测。该工作属于明确无社会行为联系的纯物理时空预测；即使其时空建模技术原则上可作通用工程参考，也不能据此建立用于理解或模拟社会行为的具体机制→目标任务→适用条件链路。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Accurate precipitation forecasting remains elusive as physics-based models struggle to resolve mesoscale convection and machine learning often yields physically inconsistent, blurred results that cons",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要明确聚焦天气预报、极端降水事件、物理一致性和实时部署。原文中未出现对个体状态、用户行为、人机互动、多人协作或社会规范的建模或评测。该工作属于明确无社会行为联系的纯物理时空预测；即使其时空建模技术原则上可作通用工程参考，也不能据此建立用于理解或模拟社会行为的具体机制→目标任务→适用条件链路。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38782v1",
+      "title": "Crossing the Chasm: Bridging Visual Augmentations and Designer Intent",
+      "triage": {
+        "grade": "D",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "可视化设计师意图与读者认知行为之间的设计空间，包括视觉编码、标注、动画和风格化布局等增强手段。",
+        "transfer": "可从该设计空间推断，将沟通目标分解为观察、解释和内省等认知行为，并设计标注、聚焦、排序和关联机制来支持个体或人机交互中的信息沟通；但摘要未展示这些机制如何用于用户模拟、代理建模或社会行为研究，因此目前只有概念层面的迁移。",
+        "reason": "摘要直接研究可视化设计意图、认知目标与阅读者理解之间的联系，与个体认知存在弱概念关联。可借鉴之处是将高层沟通目标映射为可操作的设计策略，但论文验证对象是多种可视化设计目标，不是真实个体、用户历史或交互代理，也未提供面向研究档案目标任务的评测。因而无法形成明确且已有依据的“机制→目标任务→适用条件”迁移路线，只能判为弱相关；上述应用联系属于推断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "To direct attention and communicate context, visualization designers often employ augmentations such as annotations, animated transitions, and stylistic layouts. While graphical perception principles",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "D",
+        "directions": [
+          "individual"
+        ],
+        "reason": "摘要直接研究可视化设计意图、认知目标与阅读者理解之间的联系，与个体认知存在弱概念关联。可借鉴之处是将高层沟通目标映射为可操作的设计策略，但论文验证对象是多种可视化设计目标，不是真实个体、用户历史或交互代理，也未提供面向研究档案目标任务的评测。因而无法形成明确且已有依据的“机制→目标任务→适用条件”迁移路线，只能判为弱相关；上述应用联系属于推断。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38784v1",
+      "title": "Loss is Not Behavior: A Unified Output-Space Analysis of Gradient-Based Machine Unlearning",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "研究梯度式机器遗忘方法与仅使用保留数据重新训练的模型之间，在输出空间中的差异结构，并分析遗忘集与保留集之间的几何纠缠。",
+        "transfer": "未发现可迁移到个体、个体交互、群体或社会行为研究的机制。论文中的“output-space behavior”是机器学习模型的输出行为，遗忘—保留损失及杠杆矩阵用于审计机器遗忘，不对应人类行为、偏好、认知心理状态、对话互动或群体决策机制；缺少可指向档案目标任务的具体迁移路线与适用条件。",
+        "reason": "摘要明确聚焦梯度式机器遗忘、重新训练模型的几何关系以及遗忘集审计，没有建立社会行为建模联系。标题和摘要中的“behavior”仅指模型输出行为，不能据此支持行为科学方向；“leverage diagnostics”等方法也未被用于或验证于个体历史、对话、社会代理、群体合作或社会规范等目标任务，因此判为E而非仅因术语重合判D。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Gradient-based machine unlearning methods typically ``unlearn'' by optimizing forget and retain losses, but similar losses do not necessarily imply similar output-space behavior. Prior work has shown",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要明确聚焦梯度式机器遗忘、重新训练模型的几何关系以及遗忘集审计，没有建立社会行为建模联系。标题和摘要中的“behavior”仅指模型输出行为，不能据此支持行为科学方向；“leverage diagnostics”等方法也未被用于或验证于个体历史、对话、社会代理、群体合作或社会规范等目标任务，因此判为E而非仅因术语重合判D。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38796v1",
+      "title": "Routed Continual Learning",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "研究在异构、持续到达的任务流中如何为LLM智能体选择、分区并保留历史经验，使智能体能复用相关记忆并降低上下文与调用成本。",
+        "transfer": "可将其“按问题描述路由到经验簇—由簇内指定记忆系统维护状态—通过Context Memory Adapter接入智能体循环”的机制迁移到具有长期历史的个体或用户模拟，用簇摘要表征过去经历，使当前决策选择性调用与当前问题相关的历史经验；适用条件是智能体重复遇到相关问题、存在可描述的记忆系统库，并能维护多个经验簇及其摘要。该迁移属于依据原机制作出的研究推断，原文并未验证真人心理状态、人格或用户模拟效果。",
+        "reason": "摘要明确给出了持续学习的任务对象、经验聚类与路由机制、记忆适配器以及在六个CL-Bench任务和银行任务流上的评测结果。该机制与个体方向中的长期历史建模具有合理对应关系，可用于研究历史经历如何影响智能体当前选择或行为，因此不是仅有概念重合。由于原实验目标是通用智能体持续学习，而非人格、偏好或用户行为模拟，迁移价值属于方法借鉴而非直接支撑，判为C。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Agents deployed at scale repeatedly encounter related problems, and it is natural to let them learn from each other's experience rather than starting over each time. Unfortunately, there is no single",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "摘要明确给出了持续学习的任务对象、经验聚类与路由机制、记忆适配器以及在六个CL-Bench任务和银行任务流上的评测结果。该机制与个体方向中的长期历史建模具有合理对应关系，可用于研究历史经历如何影响智能体当前选择或行为，因此不是仅有概念重合。由于原实验目标是通用智能体持续学习，而非人格、偏好或用户行为模拟，迁移价值属于方法借鉴而非直接支撑，判为C。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38802v1",
+      "title": "How Does Perceived Empathy From AI Chatbots Shape Users' Privacy Attitudes, Behaviors, and Needs?",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "21名AI聊天机器人用户对感知到的AI共情的定义，以及该感知如何影响其隐私态度、信息披露行为和隐私需求。",
+        "transfer": "可借鉴其“理解、共情、关心、表达、帮助”五维共情框架，结合用户对不同共情程度的需求，设计隐私增强型人机交互机制。具体可迁移到“个体隐私态度与敏感信息披露行为”建模任务：根据用户希望获得的共情类型和强度调整AI回应，同时在深度理解或帮助性可能诱发敏感披露时加强隐私保护。适用条件是人机聊天场景，且研究或产品能够识别、调节共情表达形式与水平。",
+        "reason": "摘要直接研究用户感知AI共情与隐私态度、行为及需求之间的关系，并提供用户访谈数据与共情维度划分，可直接支撑个体行为和人机交互研究。五维框架到隐私增强机制的迁移属于基于摘要建议的应用推断，并非作者已验证的具体干预效果；摘要也未列出各项建议的详细实施步骤。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Prior research suggests that some dimensions of AI empathy may increase users' disclosure to chatbots, posing growing privacy risks as chatbots become more capable of empathic interaction. Yet this wo",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要直接研究用户感知AI共情与隐私态度、行为及需求之间的关系，并提供用户访谈数据与共情维度划分，可直接支撑个体行为和人机交互研究。五维框架到隐私增强机制的迁移属于基于摘要建议的应用推断，并非作者已验证的具体干预效果；摘要也未列出各项建议的详细实施步骤。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.38802v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.38809v1",
+      "title": "Causal Attention on CPU: A Cache-Aware and Load-Balanced Scheduling Kernel for Prefill",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "面向大语言模型长上下文预填充的CPU注意力内核与缓存感知、负载均衡调度机制。",
+        "transfer": "无可迁移的研究机制：论文核心是多级缓存分块、内核内任务分发和计算内核调度，不能用于模拟或解释个体、交互、群体及社会行为。",
+        "reason": "论文研究对象是大语言模型推理中的CPU注意力计算性能与资源调度，而非行为、偏好、心理状态或社会过程。摘要中的多代理并发仅是性能压力场景，多个agent不等于对代理行为或社会互动进行建模。提出的缓存感知与负载均衡机制没有说明如何迁移到研究档案中的目标任务及适用条件。该文属于明确的通用系统优化研究，与个体、交互、群体或社会行为研究无直接联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Agentic AI drives significant productivity gains across diverse domains, but concurrent long-context prefills from multiple agents can saturate GPU compute resources. Although CPUs offer a viable alte",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文研究对象是大语言模型推理中的CPU注意力计算性能与资源调度，而非行为、偏好、心理状态或社会过程。摘要中的多代理并发仅是性能压力场景，多个agent不等于对代理行为或社会互动进行建模。提出的缓存感知与负载均衡机制没有说明如何迁移到研究档案中的目标任务及适用条件。该文属于明确的通用系统优化研究，与个体、交互、群体或社会行为研究无直接联系。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38822v1",
+      "title": "CopyLoop: Fast Looped Transformer Decoding via Context Copying and Shallow Screening",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "CopyLoop是一种面向循环Transformer的免训练解码加速算法，通过上下文复制提出多token候选、浅层筛选并连续调度以提升生成速度。",
+        "transfer": "摘要中的上下文复制、浅层筛选和连续调度机制仅用于降低代码生成与多步数学推理的解码开销，未显示可迁移到个体行为、个体交互、群体决策或社会行为建模的机制、目标任务与适用条件。",
+        "reason": "研究对象是通用语言模型推理效率优化，实验任务为代码生成和数学推理。摘要没有涉及行为建模、社会代理、交互、记忆、人格或社会网络等研究档案方向，也未提供可用于这些方向的具体迁移路线，因此判定为无关而非仅仅弱相关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Looped Transformers increase computational capacity through the repeated application of shared blocks, but their recurrent depth makes conventional full-depth decoding expensive. While existing specul",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是通用语言模型推理效率优化，实验任务为代码生成和数学推理。摘要没有涉及行为建模、社会代理、交互、记忆、人格或社会网络等研究档案方向，也未提供可用于这些方向的具体迁移路线，因此判定为无关而非仅仅弱相关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38825v1",
+      "title": "Evaluating Visual Realism of AI-Generated Videos with Eye Tracking",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "人类观看AI生成视频时的视觉感知、真实感判断，以及眼动信号对这些显式评价的预测作用。",
+        "transfer": "可借鉴其“眼动模式→感知真实感标签→GazeEval预测”的机制，将眼动作为个体认知或用户评价的辅助信号，并结合公开的眼动实验数据研究AI生成内容接收者的感知判断。适用条件是任务涉及人类观看视觉内容、能够采集眼动数据，且目标主要是视觉真实感评价；作者验证的结论限于AI生成视频，尚不能直接推广到一般社会行为或完整心理状态建模。",
+        "reason": "论文直接研究个体对AI生成视频的感知评价，并提出从眼动数据预测感知真实感的计算方法GazeEval，同时发布实验数据，属于对个体认知研究方法的直接支撑。摘要报告两项视觉图灵测试、90名参与者、4,286次有效眼动试验及71.3%的真实感预测准确率。眼动作为更细致用户评价信号通向个体感知的联系由摘要结果支持，但迁移到其他个体行为建模任务仍需额外验证。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Human evaluation of AI-generated videos has so far relied on explicit human feedback, such as judgments or ratings. While these signals capture the conclusions viewers reach, they fail to offer insigh",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual"
+        ],
+        "reason": "论文直接研究个体对AI生成视频的感知评价，并提出从眼动数据预测感知真实感的计算方法GazeEval，同时发布实验数据，属于对个体认知研究方法的直接支撑。摘要报告两项视觉图灵测试、90名参与者、4,286次有效眼动试验及71.3%的真实感预测准确率。眼动作为更细致用户评价信号通向个体感知的联系由摘要结果支持，但迁移到其他个体行为建模任务仍需额外验证。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.38825v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.38833v1",
+      "title": "Discovering Jailbreaks via Curriculum of Models",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "通过强化学习训练调查模型生成越狱提示，以从安全训练的语言模型中诱发指定的罕见高风险行为；任务重点是越狱发现与稀疏奖励下的行为诱发，而非社会行为建模。",
+        "transfer": "可迁移的机制是按目标模型拒绝行为的强弱建立由易到难的课程：先在较易表现指定行为的修改版模型上训练调查模型，待其稳定成功后再切换到更接近原目标的版本。可将其用于交互模拟中构造能稳定诱发代理罕见行为的训练流程或行为探测数据，适用条件是能够获得或构造一组拒绝程度逐渐变化的目标模型，并能以“是否稳定诱发目标行为”控制课程推进。该迁移仅是由原文的稀有行为诱发任务向交互代理行为探测的推断，原文未验证社会代理或社会行为模拟效果。",
+        "reason": "研究对象属于安全训练语言模型上的多轮提示—响应行为诱发，与人机交互方向存在方法联系。摘要明确给出了课程化目标模型如何缓解稀疏奖励的机制、目标任务和推进条件，因而可具体迁移到交互代理的罕见行为诱发，而非仅凭“模型”或“智能体”等词判定。作者验证的是CBRN材料、爆炸物和非法药物相关行为的越狱诱发；用于交互模拟、个体行为建模或群体社会行为研究仍属于未验证的迁移推断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Automated jailbreak discovery aims to find prompts that elicit prohibited behaviors from safety-trained language models, helping developers identify vulnerabilities before deployment. One class of app",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "研究对象属于安全训练语言模型上的多轮提示—响应行为诱发，与人机交互方向存在方法联系。摘要明确给出了课程化目标模型如何缓解稀疏奖励的机制、目标任务和推进条件，因而可具体迁移到交互代理的罕见行为诱发，而非仅凭“模型”或“智能体”等词判定。作者验证的是CBRN材料、爆炸物和非法药物相关行为的越狱诱发；用于交互模拟、个体行为建模或群体社会行为研究仍属于未验证的迁移推断。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38838v1",
+      "title": "Discovery of Diverse and Realistic Financial Tail-Risk Using Generative Flow Networks",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "group",
+          "society"
+        ],
+        "research_object": "利用GFlowNet从高维序贯宏观经济数据中生成多样、逼真且覆盖尾部风险的金融危机情景。",
+        "transfer": "可借鉴GRID以奖励函数引导、混合策略表示对象，并通过可实现性约束保持轨迹逼真性的生成机制，用于生成多样且合理的多人行为、群体决策或社会传播轨迹；目标任务是在奖励或评价代理不完备时构造具有多样性的行为情景库。适用条件包括研究对象可表示为序贯轨迹、能够定义奖励或合理性约束、且需要覆盖多种可能行为路径；这一社会行为用途属于基于摘要方法的推断，原文仅验证了金融尾部风险生成。",
+        "reason": "摘要直接提出用GFlowNet按奖励比例而非仅最大化奖励来生成多样情景，并以可实现性约束维持逼真度；作者在三个真实危机上验证了相较RL和MCMC的多样性、逼真度及尾部覆盖。该生成机制可明确迁移到社会行为情景生成，但原文没有涉及真实个体、互动或社会规范，因此属于方法层面的迁移而非结果层面的直接支撑。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Accurate modeling of rare, high-impact financial events is essential for robust risk management. Sampling-based techniques such as Sequential Markov Chain Monte Carlo (SMCMC) generate diverse scenario",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "group",
+          "society"
+        ],
+        "reason": "摘要直接提出用GFlowNet按奖励比例而非仅最大化奖励来生成多样情景，并以可实现性约束维持逼真度；作者在三个真实危机上验证了相较RL和MCMC的多样性、逼真度及尾部覆盖。该生成机制可明确迁移到社会行为情景生成，但原文没有涉及真实个体、互动或社会规范，因此属于方法层面的迁移而非结果层面的直接支撑。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38851v1",
+      "title": "Learning to Reason from Reference Samples Alone: Reinforced Adversarial Learning for Modern LLM Post-Training",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "研究对象是仅依赖参考答案进行大语言模型后训练的方法RAL，任务包括可验证推理任务及科学摘要生成。",
+        "transfer": "未发现可明确迁移至个体行为、个体交互、群体行为或社会行为建模的机制；其对抗式训练、裁判推断奖励和领域条件生成仅面向科学摘要等文本后训练。",
+        "reason": "论文核心是解决缺少显式奖励时的LLM后训练问题，而不是模拟或解释个体、交互、群体及社会行为。尽管摘要涉及LLM、生成和参考样本，但未建立这些文本生成机制与研究档案中行为建模任务之间的具体联系，因此判为无关。摘要信息足以支持该排除判断，不存在影响保留结论的不确定性。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "In many settings where LLM post-training is desirable, high-quality answers are recognizable but difficult to score with explicit rewards. Reinforcement learning with verifiable rewards (RLVR) is limi",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文核心是解决缺少显式奖励时的LLM后训练问题，而不是模拟或解释个体、交互、群体及社会行为。尽管摘要涉及LLM、生成和参考样本，但未建立这些文本生成机制与研究档案中行为建模任务之间的具体联系，因此判为无关。摘要信息足以支持该排除判断，不存在影响保留结论的不确定性。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38867v1",
+      "title": "Where You Inject Matters: The Trust Region Effect in LLM Agents",
+      "triage": {
+        "grade": "D",
+        "directions": [],
+        "research_object": "研究LLM代理在长程工具使用、编程和日常工作流中执行间接提示注入时，注入内容所在环境表面及具体位置对攻击成功率的影响，并据此学习攻击者。",
+        "transfer": "可借鉴“位置—信任差异”这一机制，将外部环境区域作为影响代理指令遵循的实验变量，用于评测代理对不同信息来源的差异化响应；但摘要未说明如何迁移到个体历史建模、人机信任更新、社会代理互动或群体行为模拟，因此只能作为研究代理环境敏感性的外围方法，尚不能形成档案内的明确目标任务。",
+        "reason": "论文直接研究的是LLM代理的提示注入脆弱性与攻击位置效应，而非个体、人际、群体或社会行为。虽然不同环境表面产生不同代理响应这一结果可为研究代理系统中的上下文可信度与信息源差异提供方法参考，但作者未涉及用户模拟、人格一致性、关系与协商、群体决策或社会规范，故仅构成概念和方法层面的弱相关。摘要明确给出了任务、机制与实验条件，因此无需因信息缺失标记不确定；联系到研究档案目标任务的迁移部分仍属于未建立的应用推断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "LLM agents are increasingly adopted in long-horizon tasks and interact with diverse external environments. Despite their growing capabilities, these agents remain vulnerable to real-world attacks such",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "D",
+        "directions": [],
+        "reason": "论文直接研究的是LLM代理的提示注入脆弱性与攻击位置效应，而非个体、人际、群体或社会行为。虽然不同环境表面产生不同代理响应这一结果可为研究代理系统中的上下文可信度与信息源差异提供方法参考，但作者未涉及用户模拟、人格一致性、关系与协商、群体决策或社会规范，故仅构成概念和方法层面的弱相关。摘要明确给出了任务、机制与实验条件，因此无需因信息缺失标记不确定；联系到研究档案目标任务的迁移部分仍属于未建立的应用推断。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38901v1",
+      "title": "Geometric Time Score Estimators: Bridging Self-Predictive Representations and Generative Occupancy Models For Reinforcement Learning",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "强化学习中策略占用测度（occupancy measure）的密度估计：比较自预测表示与生成式占用模型，并提出沿概率路径学习占用密度估计器的 Geometric Time Score Estimators (GTSE)，在目标条件控制任务（运动控制与机械臂操作）上提升性能。",
+        "transfer": "无明确可迁移机制。所提出机制为时序几何得分估计与占用密度学习，验证场景为连续控制中的状态/奖励密度估计与下游RL迁移，其表示迁移是物理控制任务的特征表示复用，与个体行为建模、人机/社会代理对话、多人协作或社会规范建模之间缺乏可说明的迁移路线。",
+        "reason": "研究对象是纯强化学习中的占用测度密度估计与控制性能，属于纯物理控制与通用算法优化；摘要中未涉及个体心理状态、偏好、人格、用户历史建模，也未涉及对话协商、群体决策、社会网络或规范传播。仅出现 representation、transfer、occupancy 等通用词，不构成与社会行为研究的具体联系，因此判定为无关而非弱相关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "In reinforcement learning (RL), temporal reasoning is essential for estimating the density of future outcomes under a policy's occupancy measure. While self-predictive representations have been a domi",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是纯强化学习中的占用测度密度估计与控制性能，属于纯物理控制与通用算法优化；摘要中未涉及个体心理状态、偏好、人格、用户历史建模，也未涉及对话协商、群体决策、社会网络或规范传播。仅出现 representation、transfer、occupancy 等通用词，不构成与社会行为研究的具体联系，因此判定为无关而非弱相关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38903v1",
+      "title": "Structural-Test Geometry as an Inductive Bias for Partially Observable World Models",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "部分可观测环境中的单智能体世界模型学习与规划，重点是潜变量历史表示能否保留后续控制所需的结构关系。",
+        "transfer": "可借鉴“由历史响应分布诱导伪度量，并将保持该度量的商结构直接对齐到潜空间欧氏距离”的机制，用于部分可观测个体的决策模拟与规划任务；适用条件是训练阶段可访问特权模拟器、能够收集不同历史对应的响应分布，且目标任务关心奖励相关的历史差异。该迁移到个体行为建模属于方法推断，原文只在固定诊断任务和GridWorld规划中验证，未直接验证用户模拟或社会行为。",
+        "reason": "研究对象是部分可观测世界模型中的结构表示与规划，而不是直接研究人的偏好、人格或社会互动，因此可归入个体方向但不是核心直接相关。作者提出将响应诱导的历史伪度量直接施加于潜几何，并通过商结构保持训练提升规划表现，同时以GridWorld检验结构距离的可恢复性。将该机制迁移到个体决策模拟的路线具体为“响应诱导度量→个体历史潜表示→部分可观测规划”，但摘要未说明该方法能否用于用户或人类行为模拟，故保留迁移层面的不确定性。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Predictive world-model objectives need not organize latent histories according to distinctions required for later control. With privileged simulator access during training, should response-derived str",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "研究对象是部分可观测世界模型中的结构表示与规划，而不是直接研究人的偏好、人格或社会互动，因此可归入个体方向但不是核心直接相关。作者提出将响应诱导的历史伪度量直接施加于潜几何，并通过商结构保持训练提升规划表现，同时以GridWorld检验结构距离的可恢复性。将该机制迁移到个体决策模拟的路线具体为“响应诱导度量→个体历史潜表示→部分可观测规划”，但摘要未说明该方法能否用于用户或人类行为模拟，故保留迁移层面的不确定性。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38910v1",
+      "title": "When Does GenAI Use Support Critical Thinking? A Cross-Cultural Structural Account of Transactive Memory with GenAI",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "美国与土耳其大学生在生成式人工智能辅助学术工作中使用GenAI时的批判性思维，以及人与AI之间认知劳动分工、输出重加工和合作经验之间的关系。",
+        "transfer": "可借鉴跨文化横向记忆系统（Transactive Memory Systems, TMS）的结构机制，将批判性思维的形成表示为“实际使用经验→认知劳动分工与协调→主动重加工AI输出→批判性思维”的路径。迁移到个体认知与人机交互研究时，可把生成式AI作为外部认知伙伴，分析个体如何分工、调用和质疑伙伴记忆或输出；适用条件是研究对象处于持续的GenAI辅助学术工作或类似人机协作场景，并能区分认知劳动分配与对输出的主动重构。该路径的跨场景推广属于推断，摘要直接验证的是两国大学生在学术工作中的结构关系。",
+        "reason": "摘要直接研究GenAI辅助条件下个体的批判性思维，并分析个体如何与AI分工、协调认知劳动及重加工其输出，属于个体行为、心理状态和人机交互研究。TMS框架、实际使用经验、下游协作行为与批判性思维之间的结构性机制，以及跨文化比较，均可直接支撑研究档案中的个体与人机交互方向。该文还明确提出了可操作的行为机制，而非仅有Agent等关键词，因此应进入全文复核。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Whether generative AI (GenAI) use helps or hinders critical thinking remains contested, and existing accounts emphasize exposure to the tool rather than how a person structures their engagement with i",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要直接研究GenAI辅助条件下个体的批判性思维，并分析个体如何与AI分工、协调认知劳动及重加工其输出，属于个体行为、心理状态和人机交互研究。TMS框架、实际使用经验、下游协作行为与批判性思维之间的结构性机制，以及跨文化比较，均可直接支撑研究档案中的个体与人机交互方向。该文还明确提出了可操作的行为机制，而非仅有Agent等关键词，因此应进入全文复核。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.38910v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.38911v1",
+      "title": "Interventional Training Reduces Causal Bypass in In-Context Introspection",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "语言模型对内部低层信号的因果内省，即模型能否依据自身激活信号而非相关但无因果关系的信号准确报告内部状态。",
+        "transfer": "可借鉴“干预训练”机制：在训练中扰动模型低层内部信号，并要求模型报告反事实扰动后的值，从而增强对内部状态的因果依赖；迁移到个体认知状态建模或用户模拟时，可用于训练模型从自身内部信号推断并一致表达个体状态。适用条件是模型内部信号可访问、可进行反事实扰动，并能构造相应的扰动训练样本；该迁移属于方法层面的推断，原文并未在人类个体行为或社会交互模拟上验证。",
+        "reason": "研究直接关注语言模型内部信号访问、因果内省和自我一致性，与个体认知状态建模存在方法联系。摘要明确提出对内部信号进行反事实扰动的干预训练，并报告其在分布外数据上的准确性改善，机制、目标任务和适用条件均可具体说明。由于原实验验证的是语言模型内省而非个体行为、偏好或用户模拟，迁移到研究档案目标任务的可行性仍需全文复核，但不能据此否定其方法借鉴价值。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Introspection, the ability of a system to access and reason about its internal signals, is crucial for language model (LM) self-consistency and scalable interpretability. Prior work argues that LMs po",
+            "quote_kind": "context_excerpt"
+          },
+          {
+            "source_id": "abstract",
+            "quote": "Introspection, the ability of a system to access and reason about its internal signals, is crucial for language model (LM) self-consistency and scalable interpretability. Prior work argues that LMs po",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "研究直接关注语言模型内部信号访问、因果内省和自我一致性，与个体认知状态建模存在方法联系。摘要明确提出对内部信号进行反事实扰动的干预训练，并报告其在分布外数据上的准确性改善，机制、目标任务和适用条件均可具体说明。由于原实验验证的是语言模型内省而非个体行为、偏好或用户模拟，迁移到研究档案目标任务的可行性仍需全文复核，但不能据此否定其方法借鉴价值。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38915v1",
+      "title": "Lev-3B: A Data Recipe for Compact Probabilistic Log Decision Models",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "Lev-3B 是面向已知候选项选择的紧凑概率决策模型，研究对象是日志异常会话检测与攻击技术分类，而非直接研究人的个体行为。",
+        "transfer": "可迁移的机制是“两阶段训练配方”：先不用目标领域数据学习有界自然语言决策，再混合目标任务与通用辅助数据训练共享指针输出头，并评估概率校准。推断上，该机制可用于用户模拟中的有限选项选择任务，例如根据个人历史推断用户对候选行为的偏好概率。适用条件包括候选行为集合可预先定义、每个决策具有可监督标签、输出概率能够对应选择概率，并且需要独立来源或留出数据检验分布外泛化与校准；作者实际验证的仍只是日志异常检测和攻击技术分类，未验证真人用户模拟。",
+        "reason": "论文提供了明确的数据与训练机制，并给出了概率校准、留出来源泛化等评测思路，因此不是仅有关键词层面的重合。其迁移至个体偏好或用户选择模拟的路线具有具体对应关系，但属于基于摘要的推断。摘要没有个体行为数据、真人实验或用户模拟结果，也未充分说明辅助任务如何对应个体决策分布，因此迁移价值仍不确定。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Many log-analysis tasks involve choosing among known options, such as detecting anomalous sessions or identifying attack techniques, and benefit from calibrated probabilities. We present Lev-3B, an op",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "论文提供了明确的数据与训练机制，并给出了概率校准、留出来源泛化等评测思路，因此不是仅有关键词层面的重合。其迁移至个体偏好或用户选择模拟的路线具有具体对应关系，但属于基于摘要的推断。摘要没有个体行为数据、真人实验或用户模拟结果，也未充分说明辅助任务如何对应个体决策分布，因此迁移价值仍不确定。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38951v1",
+      "title": "GradSplat: Gradients Inside the Forward Pass for Feed-Forward 3D Gaussian Splatting",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "前馈式3D高斯泼溅场景预测与重建模型GradSplat，任务是从少量图像生成3D场景并优化高斯参数。",
+        "transfer": "论文中的前馈预测、在前向过程内进行梯度细化及多视图输入机制均针对3D视觉重建与图像渲染误差，不涉及个体、交互、群体或社会行为建模，无法迁移到研究档案中的目标任务。",
+        "reason": "摘要明确将研究问题限定为前馈式3D高斯泼溅的预测精度和高斯形状、尺度与旋转优化。实验使用RealEstate10K、DL3DV和ScanNet++等3D场景重建数据集，并评测PSNR与SSIM。文中没有社会行为、认知心理、对话关系或群体决策方面的研究对象，也没有可支持社会模拟的机制与适用条件，因此与研究档案无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Feed-forward 3D Gaussian Splatting predicts a scene from a few images, but our predictor is less accurate than its own Gaussians optimized per scene on those images. This gap lies mostly in the shape",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要明确将研究问题限定为前馈式3D高斯泼溅的预测精度和高斯形状、尺度与旋转优化。实验使用RealEstate10K、DL3DV和ScanNet++等3D场景重建数据集，并评测PSNR与SSIM。文中没有社会行为、认知心理、对话关系或群体决策方面的研究对象，也没有可支持社会模拟的机制与适用条件，因此与研究档案无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38955v1",
+      "title": "Planned Restlessness: Delayed Meta Bandits with Budgets",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "研究带延迟观测、硬预算和重复先验的有限时域贝叶斯老虎机与元老虎机决策问题。",
+        "transfer": "未发现可迁移到个体行为、个体交互、群体决策或社会行为建模的具体机制；其核心贡献是延迟信息下的预算约束探索与利用优化。",
+        "reason": "摘要仅讨论独立臂、延迟反馈、预算约束和元老虎机的规划优化、近似保证及风险敏感目标，没有研究社会行为、互动关系或社会模拟对象。延迟信息更新和学习状态虽具有一般性计算特征，但摘要未提供可用于研究档案中行为建模任务的明确机制、目标任务或适用条件，因此与研究方向无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "We study episodic finite-horizon Bayesian bandits, or meta-bandits, with independent arms. Each episode draws fresh arm qualities from unknown recurring priors. Observations arrive after known delays",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要仅讨论独立臂、延迟反馈、预算约束和元老虎机的规划优化、近似保证及风险敏感目标，没有研究社会行为、互动关系或社会模拟对象。延迟信息更新和学习状态虽具有一般性计算特征，但摘要未提供可用于研究档案中行为建模任务的明确机制、目标任务或适用条件，因此与研究方向无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38975v1",
+      "title": "Dungeons & Dragons Encounter Analysis with Semi-Random Simulation in Foundry VTT",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "group"
+        ],
+        "research_object": "研究D&D多人角色扮演游戏中单个遭遇战的难度估计与模拟，考察玩家队伍组成、敌人能力组合、站位和地牢布局等因素对模拟胜率及玩家体验体验一致性的影响。",
+        "transfer": "可借鉴Mage-Hand在Foundry VTT中以半随机方式重复模拟结构化遭遇、以队伍构成和能力协同等因素生成胜率并与既有难度指标及玩家报告比较的机制，迁移到多人协作或对抗任务中评估团队组成、成员能力交互和情境配置对集体绩效的影响。适用条件是被模拟活动具有明确规则、角色能力和可观察的团队结果，并能运行大量对照遭遇；该迁移属于方法推断，论文仅验证了D&D战斗场景，未验证一般社会行为研究任务。",
+        "reason": "摘要明确研究多人队伍参与的模拟战斗，并提出半随机遭遇模拟工具及胜率评测方法。其核心机制、目标任务和条件均较具体，能够支持规则化游戏环境中的群体协作与对抗研究，因此判为C而非仅有关键词重合的D。原研究结果限于D&D遭遇模拟及其胜率与既有指标、玩家报告的一致性；对群体行为研究的应用是依据其队伍组成和能力交互建模能力作出的迁移推断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Dungeons & Dragons (D&D) is a tabletop roleplaying game (TTRPG) in which a group of players, guided by a Game Master, roleplay a fantasy adventure with simulated combat and improvisational narrative",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "group"
+        ],
+        "reason": "摘要明确研究多人队伍参与的模拟战斗，并提出半随机遭遇模拟工具及胜率评测方法。其核心机制、目标任务和条件均较具体，能够支持规则化游戏环境中的群体协作与对抗研究，因此判为C而非仅有关键词重合的D。原研究结果限于D&D遭遇模拟及其胜率与既有指标、玩家报告的一致性；对群体行为研究的应用是依据其队伍组成和能力交互建模能力作出的迁移推断。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.38981v1",
+      "title": "Why Speculative Decoding Works Better Than Predicted on Sparse MoE Models",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "稀疏MoE大语言模型上推测解码（speculative decoding）的加速机制与批大小-加速比关系，涉及专家激活字节数、草稿token间路由重叠与GPU内核行为。",
+        "transfer": "论文属纯推理系统优化：研究对象是解码吞吐与硬件/内核效率，不涉及个体行为、偏好、人格、心理状态、人机交互对话、多人协作、社会网络或规范制度建模。其IPF最大熵模型用于预测去重后的专家激活数量，属数值/系统性能建模，未提供可迁移到个体或社会行为研究的机制、目标任务与适用条件。",
+        "reason": "仅“路由重叠”“状态”等术语与simulation/agent类词汇表面相近，但摘要中所有验证均在10个稀疏MoE模型的推理加速与GPU内核profiling上完成，无任何社会行为建模或个体心理/交互模拟的联系，也无明确可迁移的机制→目标任务→适用条件链条；依据档案排除规则（纯技能/工程优化且无明确社会行为联系）判为E，不属于信息不足型uncertain。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Speculative decoding (SD) accelerates autoregressive inference by leveraging the memory bound nature of decoding, verifying multiple draft tokens in a single forward pass. For mixture-of-experts (MoE)",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "仅“路由重叠”“状态”等术语与simulation/agent类词汇表面相近，但摘要中所有验证均在10个稀疏MoE模型的推理加速与GPU内核profiling上完成，无任何社会行为建模或个体心理/交互模拟的联系，也无明确可迁移的机制→目标任务→适用条件链条；依据档案排除规则（纯技能/工程优化且无明确社会行为联系）判为E，不属于信息不足型uncertain。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.38987v1",
+      "title": "Syntactic Segmentation and Collage Generation for Videogame Levels with Perceptual Distance",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "程序化电子游戏关卡设计中的关卡布局语法分割、基于知觉距离的层次聚类，以及基于分割结果的关卡生成。",
+        "transfer": "论文提出的是面向空间布局的知觉距离、层次聚类和关卡拼接生成机制；摘要未显示其可迁移到个体行为、人机或社会代理交互、多人协作、群体决策、社会网络或社会规范建模等任务，也没有给出相应的适用条件。",
+        "reason": "研究对象是电子游戏空间布局的自动分析与生成，而非社会行为、个体心理状态、交互关系或群体过程。知觉距离可能是一般性的空间分析方法，但摘要没有建立其与研究档案核心问题之间的行为建模联系，也无法形成具体的“机制→目标任务→适用条件”迁移路线。因此该论文与研究档案无关，判为E级；这一结论不依赖全文中是否存在未在摘要说明的实验。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "In procedural videogame level design, many existing techniques combine hand-authored level chunks. Some existing analysis techniques also rely on a higher-level graph structure which abstracts the lev",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是电子游戏空间布局的自动分析与生成，而非社会行为、个体心理状态、交互关系或群体过程。知觉距离可能是一般性的空间分析方法，但摘要没有建立其与研究档案核心问题之间的行为建模联系，也无法形成具体的“机制→目标任务→适用条件”迁移路线。因此该论文与研究档案无关，判为E级；这一结论不依赖全文中是否存在未在摘要说明的实验。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39003v1",
+      "title": "Agentic AI Reasoning and Learned Sampling for Task-Aware Projection Selection in Sparse-View CT: Predicting Hemodynamics",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "稀疏视角CT angiography的任务感知投影选择，以及由CTA数据预测颅内动脉瘤血流动力学（TAWSS）的模型与采样策略。",
+        "transfer": "摘要未提供可迁移至个体行为、人机或社会代理交互、多人协作、社会网络或社会行为建模的具体机制；其中的agentic AI选择器仅用于医学成像采样优化，不能据此建立社会行为研究中的目标任务与适用条件。",
+        "reason": "研究核心是基于CT/CFD数据的血流动力学物理推断和医学成像采集策略优化，不涉及个体、交互、群体或社会行为研究。摘要虽使用agentic AI、reasoning和simulation等词，但没有说明这些方法如何建模心理状态、对话关系、协商合作、群体决策或社会传播，因此与研究档案没有实质联系，不应因通用方法相似性保留。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Sparse-view computed tomography (CT) reduces the number of acquired projections, but conventional sampling strategies are designed primarily for image reconstruction rather than for downstream physica",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究核心是基于CT/CFD数据的血流动力学物理推断和医学成像采集策略优化，不涉及个体、交互、群体或社会行为研究。摘要虽使用agentic AI、reasoning和simulation等词，但没有说明这些方法如何建模心理状态、对话关系、协商合作、群体决策或社会传播，因此与研究档案没有实质联系，不应因通用方法相似性保留。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39004v1",
+      "title": "How Architecture, Typology, and Adaptation Strategies Shape ASR for Low-Resource African Languages: A Controlled Empirical Study",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "五种低资源非洲语言及斯瓦希里语的自动语音识别，比较不同模型架构、单语/多语微调、领域微调和语言适配器迁移的效果。",
+        "transfer": "摘要中的语言适配器迁移可降低低资源语音识别模型对目标语言标注数据的依赖，适用于为特定语言构建ASR系统；但摘要未说明该机制如何用于个体或交互行为建模、用户模拟、群体决策或社会行为研究，因此不存在可直接迁移到研究档案核心任务的具体机制—目标任务—适用条件链条。",
+        "reason": "该研究主要评估低资源语言ASR的架构选择、数据规模、领域微调和适配器效果，研究对象是语音识别性能而非个体心理状态、人际互动、群体行为或社会规范。语言类型学对错误率的影响也只是ASR性能因素，不能据此建立其与社会行为建模的联系。摘要未提供可用于上述研究方向的标注、行为数据、仿真机制或评测方法，故按摘要证据判断为无关，而非因信息不足而判为不确定。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Despite recent advancements in ASR, identifying effective architectures, fine-tuning approaches, and data adaptation strategies for low-resource languages remains challenging. We present a systematic",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该研究主要评估低资源语言ASR的架构选择、数据规模、领域微调和适配器效果，研究对象是语音识别性能而非个体心理状态、人际互动、群体行为或社会规范。语言类型学对错误率的影响也只是ASR性能因素，不能据此建立其与社会行为建模的联系。摘要未提供可用于上述研究方向的标注、行为数据、仿真机制或评测方法，故按摘要证据判断为无关，而非因信息不足而判为不确定。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39007v1",
+      "title": "Formal Specifications with Data-Driven Signal Analysis",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "研究模拟与混合系统的形式化规格、实值信号分析及其故障行为检测。",
+        "transfer": "未发现明确可迁移至个体、交互、群体或社会行为研究的机制。论文中的区间正则表达式、信号特征提取和半监督异常检测原则上可用于一般行为序列异常识别，但摘要未涉及社会行为建模、对话、关系或群体决策，迁移至档案目标任务缺少具体依据和适用条件。",
+        "reason": "论文直接研究电气系统中的规格化信号分析与错误行为检测，并以电压调节器为评测对象；未验证或讨论个体心理状态、人际互动、多人协作、社会规范或社会传播。其方法属于通用信号处理与故障检测，与研究档案中的社会行为方向没有明确联系，判为无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Developing analog and hybrid systems requires substantial domain knowledge that is hard to articulate in a formal specification; without additional effort, this domain knowledge is also inaccessible t",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文直接研究电气系统中的规格化信号分析与错误行为检测，并以电压调节器为评测对象；未验证或讨论个体心理状态、人际互动、多人协作、社会规范或社会传播。其方法属于通用信号处理与故障检测，与研究档案中的社会行为方向没有明确联系，判为无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39016v1",
+      "title": "Implicit Reasoning in Transformers: Bridging the Compositionality Gap in GPT-2-like Models",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "GPT-2类Transformer在受控双跳事实推理中的组合泛化，以及训练分布结构对分布外迁移的影响。",
+        "transfer": "可借鉴其机制启发的训练数据设计：把原子事实放置在与模型第二跳检索步骤位置对齐的结构中，不改架构且不增加分布外组合监督，以改善模型对未见原子事实的组合推理；迁移到个体或用户模拟中的多跳知识整合、事实一致性及分布外推理任务时，条件是采用具有相似检索或组合回路的Transformer，并能在训练数据中控制相关事实的暴露位置。",
+        "reason": "摘要明确给出“原子知识的结构性暴露→第二跳检索对齐→分布外组合行为迁移”的机制、受控任务和成立条件，可为模拟个体的组合推理能力提供具体方法路线。原文验证对象是GPT-2式模型的双跳知识组合，并未直接评估真人心理、用户模拟或社会行为；将其迁移至个体行为模拟属于合理但尚未验证的推断，因此标记不确定。该联系并非仅来自agent、simulation等关键词，而有明确的训练分布干预机制。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Compositional generalization remains a persistent limitation of transformer language models: even when a model learns to combine known facts correctly in-distribution (ID), the same compositional mech",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "摘要明确给出“原子知识的结构性暴露→第二跳检索对齐→分布外组合行为迁移”的机制、受控任务和成立条件，可为模拟个体的组合推理能力提供具体方法路线。原文验证对象是GPT-2式模型的双跳知识组合，并未直接评估真人心理、用户模拟或社会行为；将其迁移至个体行为模拟属于合理但尚未验证的推断，因此标记不确定。该联系并非仅来自agent、simulation等关键词，而有明确的训练分布干预机制。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39020v1",
+      "title": "Distilling the Shape of Uncertainty: What On-Policy Distillation Learns and How to Predict It",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "大语言模型在线策略蒸馏中的教师—学生模型、教师选择、推理分支位置及熵形状；摘要未直接研究用户模拟或社会行为。",
+        "transfer": "可推断迁移熵形状机制：以候选教师的预蒸馏ESC衡量教师—学生下一词元熵形状一致性，并为正在后训练的LLM用户模拟器选择教师，以改善个体用户模拟器的指令遵循与推理表现。适用条件是具有可直接执行在线策略蒸馏的教师—学生模型、多个候选教师、可计算的下一词元熵及一致的词元化与采样分布；该迁移未由作者验证。",
+        "reason": "摘要明确提出熵形状与ESC，并用预蒸馏ESC选择能带来最佳蒸馏增益的教师，机制、目标任务和适用条件可具体表述。原研究验证对象是通用LLM后训练，而非个体行为建模，但教师选择方法可迁移到用户模拟器这一档案任务。由于摘要没有用户模拟、社会行为评测或迁移实验，这种联系属于合理推断而非作者已证实结果，因此标记不确定。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "On-policy distillation (OPD) is increasingly adopted in the post-training of large language models. However, a stronger teacher may fail to improve the student. Prior work attributes this to a lack of",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "摘要明确提出熵形状与ESC，并用预蒸馏ESC选择能带来最佳蒸馏增益的教师，机制、目标任务和适用条件可具体表述。原研究验证对象是通用LLM后训练，而非个体行为建模，但教师选择方法可迁移到用户模拟器这一档案任务。由于摘要没有用户模拟、社会行为评测或迁移实验，这种联系属于合理推断而非作者已证实结果，因此标记不确定。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39045v1",
+      "title": "When Should AI Decide, Defer, and Deviate? Responsible Automation for Deceased Donor Kidney Allocation",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "society"
+        ],
+        "research_object": "基于历史分配记录的 deceased-donor kidney 肾脏分配决策，以及 AI 推荐、人类专家接管和偏离既有做法的责任自动化框架。",
+        "transfer": "可借鉴其 Arbitrator 机制：根据预测不确定性是否足以改变首选行动来决定自动决策或移交人类，并用可解释规则审计历史决策与规范之间的冲突；迁移后可研究制度性资源分配、群体规则治理或社会机构中的 AI—人类决策协同，条件是存在带行动偏好的历史决策数据、可估计的不确定性、可比较的备选行动及可核验的制度规范。",
+        "reason": "摘要明确给出了历史决策学习、不确定性驱动的行动选择、人类移交和 agentic audit 等具体机制，可形成“制度决策机制→资源分配与治理任务→具备历史记录、行动偏好及规范依据”的迁移路线。该联系属于方法层面的推断，原文仅在肾脏分配案例中验证，未直接研究或模拟社会行为。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "We ask when an AI trained on historical decisions should be allowed to recommend decisions, defer to human experts, or in other cases, flag concerning patterns in data and deviate from past practice",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "society"
+        ],
+        "reason": "摘要明确给出了历史决策学习、不确定性驱动的行动选择、人类移交和 agentic audit 等具体机制，可形成“制度决策机制→资源分配与治理任务→具备历史记录、行动偏好及规范依据”的迁移路线。该联系属于方法层面的推断，原文仅在肾脏分配案例中验证，未直接研究或模拟社会行为。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39060v1",
+      "title": "Tracing the Influence of Retrieved Literature on Scientific Ideation in LLMs",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "不同文献检索策略及单篇输入文献的归因方式如何影响大语言模型生成科研创意的多样性、质量和新颖性。",
+        "transfer": "可借鉴其“控制检索条件生成输出，并以JSD比较不同来源对输出各组成部分的贡献”的归因机制，将其迁移到个体或用户模拟中：在生成当前偏好、选择或心理状态解释时改变所检索的个人历史片段，区分哪些历史来源影响了输出的动机、核心判断、行动方案和验证依据，并据此评估历史来源结构与输出多样性的关系。适用条件是被测模型能够基于多个检索片段生成可分解的输出，且不同片段可形成可区分的归因分布；该迁移属于方法推断，原文只在科研创意生成任务中验证。",
+        "reason": "原文研究的是检索文献对大语言模型科研创意生成的影响，并非直接研究个体心理状态或社会行为，因而不是A或B级。其明确提供了检索操控、输出层面的来源归因及来源归因与输出多样性关联的方法，可形成“历史片段检索—生成—来源归因—行为多样性评估”的具体迁移路线，因此达到方法可借鉴的C级。迁移至个体历史或用户模拟任务以及相应适用条件并未经原文实验验证，故标记uncertain=true；原文关于检索和归因机制的证据来自摘要，关于用户历史建模的用途属于推断。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Large language models (LLMs) are increasingly used to generate research ideas from scientific literature. Existing systems combine literature retrieval with search, generation, and refinement, making",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "原文研究的是检索文献对大语言模型科研创意生成的影响，并非直接研究个体心理状态或社会行为，因而不是A或B级。其明确提供了检索操控、输出层面的来源归因及来源归因与输出多样性关联的方法，可形成“历史片段检索—生成—来源归因—行为多样性评估”的具体迁移路线，因此达到方法可借鉴的C级。迁移至个体历史或用户模拟任务以及相应适用条件并未经原文实验验证，故标记uncertain=true；原文关于检索和归因机制的证据来自摘要，关于用户历史建模的用途属于推断。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39070v1",
+      "title": "When the Same Prompt Gives Different Answers (and the Same Answer Isn't Always Right): A Taxonomy of Failure Mechanisms, Testing, and Mitigation Strategies for LLM-Assisted Evidence Synthesis Read-and-Evaluate Tasks",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "LLM辅助证据综合中的读与判断任务，以及导致重复运行结果不稳定或系统性判断失真的失效机制、测试方法与缓解策略。",
+        "transfer": "可迁移TRAILS的失效筛查和测试框架，用于检验LLM模拟个体或交互代理在偏好、行为及证据判断任务中的输出可靠性；目标任务包括重复运行一致性、证据接地、外部影响和判断过程可审计性，适用条件是被测任务属于有给定证据的read-and-evaluate任务，且生成过程能够被检查。该迁移是由原方法向个体与交互模拟评测的推断，原文未直接验证。",
+        "reason": "原研究明确研究LLM在证据综合读判任务中的可靠性失效机制，并提供分类、测试和缓解框架。它不直接研究个体行为或社会互动，因而不是核心相关。其失效筛查与测试机制可迁移到LLM模拟判断的稳定性、证据支持性和过程可验证性评测。由于摘要未展开38项机制、各机制对应条件及在社会行为模拟中的有效性，迁移可行性仍不确定。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "LLM read-and-evaluate tasks include study screening, data extraction, risk-of-bias assessment, and critical appraisal in the evidence synthesis field. These task differ in the amount of LLM interpreta",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "原研究明确研究LLM在证据综合读判任务中的可靠性失效机制，并提供分类、测试和缓解框架。它不直接研究个体行为或社会互动，因而不是核心相关。其失效筛查与测试机制可迁移到LLM模拟判断的稳定性、证据支持性和过程可验证性评测。由于摘要未展开38项机制、各机制对应条件及在社会行为模拟中的有效性，迁移可行性仍不确定。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39147v1",
+      "title": "Kinematic Causal Attribution: Black-Box Explanations of Motion versus Geometry for 4D Point-Cloud Video Models",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "面向4D点云视频动作识别模型的运动与几何因果归因：判定模型分类依赖身体部位的运动方式，还是依赖其静态形状。",
+        "transfer": "可迁移其黑盒干预与交互归因机制：冻结所关注区域以消除运动、采用无形状代理以消除几何，再通过运动×几何的Shapley分解，审计个体行为识别或用户模拟模型究竟依据动作轨迹还是外观特征；适用条件是模型输出可查询、行为线索可被拆分为运动与形状两类，并可对相关区域实施时序重写。",
+        "reason": "摘要明确给出了消除运动、消除形状及联合Shapley分解的机制，也验证了其在人体动作点云模型上的归因有效性，因此与个体行为分析存在具体方法联系。对行为模型和用户模拟的审计用途属于迁移推断，原文未直接验证该应用，但机制、目标任务和适用条件均可具体说明，故评为C。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "4D perception models, which classify 3D point-cloud videos, are being built into robots, assistive monitoring and AR, yet before deploying one a practitioner cannot check which cue it relies on: how a",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "摘要明确给出了消除运动、消除形状及联合Shapley分解的机制，也验证了其在人体动作点云模型上的归因有效性，因此与个体行为分析存在具体方法联系。对行为模型和用户模拟的审计用途属于迁移推断，原文未直接验证该应用，但机制、目标任务和适用条件均可具体说明，故评为C。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39152v1",
+      "title": "Unlocking with the Heart: Investigating User Perceptions of ECG-Based Biometric Authentication",
+      "triage": {
+        "grade": "D",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "成人对无密码ECG生物特征认证的既有认证实践、生物特征经验、安全与便利性认知及采用意愿。",
+        "transfer": "仅能有限借鉴“在线调查＋交互式原型＋事后可用性问卷”的用户感知数据采集流程，但摘要未提供可迁移到个体行为、个体交互、群体行为或社会行为建模的机制；至多适用于研究技术接受或认证方式偏好这一特定任务，并需要参与者接触可用原型且认证交互可被模拟。",
+        "reason": "该研究直接对象是ECG认证的用户认知与可用性，虽然涉及个人偏好和用户交互，但没有研究个体行为建模、人际或社会代理互动、群体决策或社会现象。其贡献主要是特定认证方案的调查与原型评测，尚不能说明如何用于研究档案中的核心任务。该联系属于方法层面的弱关联而非核心相关，因此判为D。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Password-based authentication remains challenging for many users, especially for those who face usability and accessibility issues. The burden of maintaining security can cause user fatigue, frustrati",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "D",
+        "directions": [
+          "individual"
+        ],
+        "reason": "该研究直接对象是ECG认证的用户认知与可用性，虽然涉及个人偏好和用户交互，但没有研究个体行为建模、人际或社会代理互动、群体决策或社会现象。其贡献主要是特定认证方案的调查与原型评测，尚不能说明如何用于研究档案中的核心任务。该联系属于方法层面的弱关联而非核心相关，因此判为D。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39158v1",
+      "title": "VEvo-Harness: Causally-Guarded Self-Evolving Harness for Agentic Image Generation",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "面向密集约束视觉生成与编辑的智能体工作流，以及通过视觉回溯、因果治理和分层经验记忆实现持续技能演化。",
+        "transfer": "可将其分层经验与技能库机制迁移到长期对话或用户模拟任务：用层级经验蒸馏保存跨轮交互中反复出现的可用策略，并以反事实双分支回放筛选更新，从而维持个体化响应或交互策略的一致性。该迁移属于方法推断；适用条件是目标任务具有可验证反馈、有限动作空间和可区分因果效用的交互结果，摘要未验证其在用户心理建模或社会模拟中的效果。",
+        "reason": "摘要明确提出根因锚定的经验分层、持久技能库和因果有效更新控制，为长期个体历史或交互策略维护提供了具体机制。原文研究对象仍是视觉生成与编辑，没有直接研究个体行为、关系或群体社会行为，因此不是核心相关；迁移到目标任务的对应关系及其社会行为有效性尚未由原文证实。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "The central bottleneck in visual generation and editing has migrated from achieving pixel-level fidelity to satisfying densely constrained user specifications through increasingly agentic workflows. P",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要明确提出根因锚定的经验分层、持久技能库和因果有效更新控制，为长期个体历史或交互策略维护提供了具体机制。原文研究对象仍是视觉生成与编辑，没有直接研究个体行为、关系或群体社会行为，因此不是核心相关；迁移到目标任务的对应关系及其社会行为有效性尚未由原文证实。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39160v1",
+      "title": "CLaW: Codec-Guided Adaptive Latent Watermarking for Traceable Diffusion Image Generation",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "面向文本到图像扩散生成的用户级可追踪数字水印注入与解码检测框架。",
+        "transfer": "未发现可迁移至个体行为、个体交互、群体行为或社会行为建模的具体机制；其编解码器引导的潜在残差注入和置信度反馈仅用于图像水印，不对应档案中的目标任务或适用条件。",
+        "reason": "研究对象是扩散图像生成中的水印追踪与鲁棒检测，核心贡献涉及水印消息编码、采样阶段潜变量残差注入及解码置信度反馈。摘要没有涉及行为、偏好、人格、认知、心理状态、对话协商、社会网络、规范、制度或观点演化，也未提供将这些图像水印机制迁移到社会行为研究的合理路径，因此与研究档案无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "With the rapid advancement of text-to-image diffusion models, increasingly realistic AI-generated content has raised serious concerns about misuse and copyright infringement. Digital watermarking offe",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是扩散图像生成中的水印追踪与鲁棒检测，核心贡献涉及水印消息编码、采样阶段潜变量残差注入及解码置信度反馈。摘要没有涉及行为、偏好、人格、认知、心理状态、对话协商、社会网络、规范、制度或观点演化，也未提供将这些图像水印机制迁移到社会行为研究的合理路径，因此与研究档案无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39179v1",
+      "title": "Edited Endpoints as Partial Goals for Image-to-Video Generation",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "图像到视频生成中的端点编辑与时间伪影抑制，研究对象是视频模型及图像编辑区域的条件控制机制。",
+        "transfer": "摘要仅涉及将编辑后的端点图像作为部分未来目标，并通过局部条件约束减少时间伪影；未涉及个体、人际、群体或社会行为建模，无法迁移到档案中的行为研究任务。",
+        "reason": "研究核心是图像到视频转换质量与运动连续性，不提供理解或模拟个体、交互、群体及社会行为的机制、数据或评测方法，与四个研究方向均无明确研究联系，因此判定为E。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Edited endpoint images make the target of an image-to-video transition explicit and can improve transition completion, but also preserve context in the source image's layout. Full-frame endpoint condi",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究核心是图像到视频转换质量与运动连续性，不提供理解或模拟个体、交互、群体及社会行为的机制、数据或评测方法，与四个研究方向均无明确研究联系，因此判定为E。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39191v1",
+      "title": "Wearable Biosensors for Early Detection and Continuous Monitoring of Postpartum Depression: A Human-Centered Approach",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "利用移动端交互界面与连续可穿戴生物传感器，对产后女性开展产后抑郁的早期筛查、连续监测及临床决策支持。",
+        "transfer": "可借鉴“连续可穿戴生理信号采集＋交互界面支持＋临床工作流集成”的机制，用于构建个体心理状态的连续监测任务；适用条件是研究对象具有明确的目标状态、需要纵向生理观测，且佩戴设备在目标人群（如围产期女性）中的感知准确性、可接受性、隐私伦理和临床互操作性得到验证。",
+        "reason": "摘要直接面向产后抑郁这一个体心理状态的识别与持续监测，因此与个体方向有明确联系。其价值主要不是社会行为建模，而是提供面向个体的生理感知与纵向监测方法路线，故不宜判为A或B。由于摘要未说明具体生物信号、筛查算法及验证结果，迁移到其他个体心理状态任务仍属于方法层面的推断。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Postpartum depression (PPD) is the leading cause of maternal mortality in the United States. However, there are significant gaps in PPD screening, detection, and treatment. A main challenge stems from",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "摘要直接面向产后抑郁这一个体心理状态的识别与持续监测，因此与个体方向有明确联系。其价值主要不是社会行为建模，而是提供面向个体的生理感知与纵向监测方法路线，故不宜判为A或B。由于摘要未说明具体生物信号、筛查算法及验证结果，迁移到其他个体心理状态任务仍属于方法层面的推断。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39227v1",
+      "title": "XLaw-JP-27B: A Lightweight Open Model Specialized for Japanese Law",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "面向日本法律的领域语言模型，任务是法律检索、法规与案例问答、律师资格考试、合同审查及合同起草。",
+        "transfer": "摘要仅涉及法律知识检索、QLoRA微调、自蒸馏、合同专用适配器和多样本投票，未说明这些机制如何用于模拟个体状态、人际或群体互动、社会规范与行为演化。",
+        "reason": "研究对象是日本法律问答与合同处理，未直接研究档案中的个体、交互、群体或社会行为。虽然检索增强和多票决策可作为通用技术组件，但摘要没有建立其到社会行为模拟任务的明确迁移机制、目标条件和验证关系，因此不属于可借鉴方法；这是明确无关，而非信息不足。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "We present XLaw-JP-27B, an open-weight model specialized for Japanese law that runs on a single 48\\,GB GPU under the Apache~2.0 licence. It adapts Qwen3.8-27B with hybrid retrieval over all current st",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是日本法律问答与合同处理，未直接研究档案中的个体、交互、群体或社会行为。虽然检索增强和多票决策可作为通用技术组件，但摘要没有建立其到社会行为模拟任务的明确迁移机制、目标条件和验证关系，因此不属于可借鉴方法；这是明确无关，而非信息不足。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39232v1",
+      "title": "Seeing and Imagining as One: Unified Video Generation and 4D Perception for Embodied World Modeling",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction",
+          "individual"
+        ],
+        "research_object": "研究基于多机器人具身操作数据与人类手部交互数据训练的统一具身世界模型，联合生成未来视频并预测深度、具身分割和二维光流等稠密四维感知结果。",
+        "transfer": "可借鉴其共享时空表示、基于轻量任务调制的多模态联合预测，以及统一速度预测空间中的联合优化机制，将观察到的具身交互视频转换为同步的未来视频与几何、语义、运动预测。迁移后的目标任务是在具备视频、深度、分割或光流监督的具身交互场景中，生成人机或个体交互的拟真连续过程及相应状态预测。该路线属于方法迁移推断；适用条件是具有覆盖机器人具身操作和人类手部交互的多模态训练数据，并能将待模拟交互表征为与训练分布相近的视觉时空序列。",
+        "reason": "论文直接验证了统一视频生成与稠密四维感知在具身操作及人类手部交互数据上的有效性，未直接研究社会行为或心理状态。其联合生成机制能够具体支持交互过程的视觉与运动模拟，因此属于方法可借鉴而非核心直接相关；论文结果仅支持视觉世界建模能力，迁移到人机或社会交互模拟仍需相应数据与行为表征条件。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Embodied world models should not only imagine plausible futures, but also perceive the geometric, semantic, and motion structure of the evolving world. We present GenSight, a unified embodied world mo",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction",
+          "individual"
+        ],
+        "reason": "论文直接验证了统一视频生成与稠密四维感知在具身操作及人类手部交互数据上的有效性，未直接研究社会行为或心理状态。其联合生成机制能够具体支持交互过程的视觉与运动模拟，因此属于方法可借鉴而非核心直接相关；论文结果仅支持视觉世界建模能力，迁移到人机或社会交互模拟仍需相应数据与行为表征条件。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39251v1",
+      "title": "Where to Learn and How Far to Roll Out: Efficient Adaptive Training for GUI Agents",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "GUI智能体在移动端与计算机界面中的多步任务执行及强化学习训练效率。",
+        "transfer": "摘要提出从专家轨迹构建中间检查点、以动作分歧选择信息丰富的训练枢轴，并采用局部、后缀和根节点的分阶段强化学习；该机制可直接迁移的明确目标任务仍是对GUI智能体进行任务训练，未涉及个体或社会行为建模、用户心理状态、交互关系或群体社会过程，因此无法形成面向研究档案的合理迁移路线。",
+        "reason": "论文核心是GUI智能体强化学习的采样效率与任务性能，实验对象和评测任务均为界面操作环境。摘要没有研究人类或社会代理的个体特征、人际互动、群体决策、规范制度或行为传播，也未验证该训练机制对上述研究任务的适用条件。仅出现agent、simulation式任务过程和智能体训练不足以构成行为模拟研究联系，故判断为无关而非仅因信息不足而不确定。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Trajectory-level GRPO is a common approach for training multi-step GUI agents, but repeatedly rolling out complete trajectories from the task root can be inefficient: task-level rewards provide coarse",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文核心是GUI智能体强化学习的采样效率与任务性能，实验对象和评测任务均为界面操作环境。摘要没有研究人类或社会代理的个体特征、人际互动、群体决策、规范制度或行为传播，也未验证该训练机制对上述研究任务的适用条件。仅出现agent、simulation式任务过程和智能体训练不足以构成行为模拟研究联系，故判断为无关而非仅因信息不足而不确定。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39275v1",
+      "title": "LLM-Assisted Optimization for Simulation-Based Redesign",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "LLM与数值求解器结合的工程设计再优化方法，应用于电动汽车电池包成本最小化及多种需求变更场景。",
+        "transfer": "论文提出由LLM解释工程语义并引导黑盒数值求解器搜索，具体比较warm start、变量固定和ReAct三种集成方式。该机制目前仅面向工程设计再优化、仿真器评估成本和近最优解发现，摘要未涉及个体行为、交互、群体行为或社会行为建模，因此无法迁移到研究档案中的目标任务。",
+        "reason": "研究对象和任务是工程设计优化与数值仿真搜索，不是社会行为、个体心理状态、人机交互或社会网络建模。虽然摘要涉及LLM、ReAct、simulation和solver等通用概念，但没有社会行为研究对象，也没有可合理迁移到档案方向的行为建模机制、目标任务及适用条件，故判为E。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Engineering design frequently involves redesigning a prior solution to adapt to changes in context, such as material prices or system requirements. Redesign often leverages simulators too complex and/",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象和任务是工程设计优化与数值仿真搜索，不是社会行为、个体心理状态、人机交互或社会网络建模。虽然摘要涉及LLM、ReAct、simulation和solver等通用概念，但没有社会行为研究对象，也没有可合理迁移到档案方向的行为建模机制、目标任务及适用条件，故判为E。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39276v1",
+      "title": "MemSteer: Turning User Histories into Supervision for Agent Memory Optimization",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "面向代理记忆系统的用户历史建模与记忆设计优化：将无标注用户历史转换为带证据的问答监督，用于改进记忆存储、检索和上下文构建。",
+        "transfer": "可借鉴“证据 grounded 的答案规划→由相关历史记录联合生成问答监督→通过问答评估和证据引导故障诊断修订记忆系统”的机制，用于代理根据用户历史回答个性化任务、维持长期交互记忆或模拟用户偏好；适用条件是能够获得目标用户历史及相关记录，并可根据任务要求生成参考答案和证据。摘要中的新用户实验表明，该机制在目标历史本身无人工标注时仍可支持记忆设计优化，但从问答代理任务迁移到更广泛的人格、偏好或心理状态模拟仍属于合理推断。",
+        "reason": "研究直接处理用户历史和代理记忆优化，并为档案中的个体历史建模、用户模拟及人机交互提供明确的监督数据生成与记忆改进方法。方法包含具体机制、目标任务和适用条件，且在ATM-Bench与RHELM上验证并测试了新用户场景，因此属于直接支撑而非仅概念相关。摘要没有验证对人格、情绪或真实社会行为的建模效果，不能据此作更强的核心相关判断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "An effective agent memory system should adapt to a user's history and task requirements. Human-annotated supervision can guide this adaptation by providing feedback for evaluating and improving memory",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "研究直接处理用户历史和代理记忆优化，并为档案中的个体历史建模、用户模拟及人机交互提供明确的监督数据生成与记忆改进方法。方法包含具体机制、目标任务和适用条件，且在ATM-Bench与RHELM上验证并测试了新用户场景，因此属于直接支撑而非仅概念相关。摘要没有验证对人格、情绪或真实社会行为的建模效果，不能据此作更强的核心相关判断。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39276v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39277v1",
+      "title": "Efficient Covariance-Aware Vicinal Latent Diffusion for Continuous Conditional Image Generation",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "连续条件图像生成：在连续标量标签条件下合成高维图像数据，并提升生成保真度、条件一致性与采样效率。",
+        "transfer": "无可支持迁移到个体行为、交互、群体或社会行为研究的机制；摘要中的密度自适应 vicinal 学习、EMA 教师引导和协方差感知渐进蒸馏均针对连续条件图像生成与采样效率。",
+        "reason": "该研究直接研究连续条件图像生成和扩散模型采样，不涉及个体心理或偏好、人机或社会代理互动、群体决策、社会网络、规范制度或文化传播等研究对象。摘要虽包含标签条件、语义正则化和概率流 ODE 等技术，但未给出可迁移到行为建模任务的目标任务、适用条件或社会行为联系，因此与研究档案无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Continuous Conditional Generative Modeling (CCGM) aims to synthesize high-dimensional data conditioned on continuously valued scalar labels. However, existing continuous diffusion models face severe d",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该研究直接研究连续条件图像生成和扩散模型采样，不涉及个体心理或偏好、人机或社会代理互动、群体决策、社会网络、规范制度或文化传播等研究对象。摘要虽包含标签条件、语义正则化和概率流 ODE 等技术，但未给出可迁移到行为建模任务的目标任务、适用条件或社会行为联系，因此与研究档案无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39278v1",
+      "title": "WorldFlow: Joint Video and 3D Motion Prediction via Large-Scale Pretraining",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "联合预测未来视频画面与查询指定的物体三维轨迹，任务是具身智能中的物理状态与运动预测。",
+        "transfer": "未发现可迁移至个体行为、个体交互、群体决策或社会行为建模的具体机制；连续位移标记、双模态去噪和三维运动监督面向物理几何动态，不能仅凭“interactions”等表述推断适用于社会行为研究。",
+        "reason": "研究对象是视频与三维物体运动预测，直接服务于具身智能和物理动态建模。摘要未涉及人的偏好、人格、认知、心理状态、对话协商、社会网络、规范或群体行为。作者验证的是位移误差和空间推理性能，未验证或说明任何面向社会行为研究的迁移机制、目标任务及适用条件，因此与研究档案无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Predicting future physical states stands as a central challenge in embodied intelligence. Existing video world models leave 3D dynamics implicit, action-based formulations remain tied to specific robo",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是视频与三维物体运动预测，直接服务于具身智能和物理动态建模。摘要未涉及人的偏好、人格、认知、心理状态、对话协商、社会网络、规范或群体行为。作者验证的是位移误差和空间推理性能，未验证或说明任何面向社会行为研究的迁移机制、目标任务及适用条件，因此与研究档案无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39293v1",
+      "title": "Unlocking Any-Order Generation in Pretrained Autoregressive Image Models",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "预训练自回归图像生成器适配为任意顺序生成器，用于图像补全、外扩和编辑。",
+        "transfer": "无法迁移到个体、个体交互、群体或社会行为研究；摘要仅涉及图像生成模型、像素补全与外扩，没有针对社会行为建模的机制、目标任务或适用条件。",
+        "reason": "论文核心是改进预训练自回归图像模型的非顺序生成能力，贡献集中在位置编码、训练排序课程及图像补全和外扩。摘要未涉及个体、用户、对话者、群体协作、社会网络或规范制度等研究对象，也未提供可用于社会行为模拟的机制。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Autoregressive (AR) image generators are powerful in principle but inflexible in practice: training with a fixed raster-scan order hardcodes a single factorization of the image distribution into the m",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文核心是改进预训练自回归图像模型的非顺序生成能力，贡献集中在位置编码、训练排序课程及图像补全和外扩。摘要未涉及个体、用户、对话者、群体协作、社会网络或规范制度等研究对象，也未提供可用于社会行为模拟的机制。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39301v1",
+      "title": "Youtu-Parsing-Omni: One Encoder, One Schema, All Modalities",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction",
+          "individual"
+        ],
+        "research_object": "研究对象是面向文档、图像、音频和视频的统一多模态解析：将十类解析任务的输出转换为具有时空依据的结构化记录，并评测文档、图表、音频、视频、化学结构及乐谱解析性能。",
+        "transfer": "可迁移机制是以共享编码器、跨模态融合和时间对齐，将多模态社会互动记录（如对话相关音频、视频、图像与文本）转换为统一的时空结构化记录，再作为交互模拟或个体历史建模的感知输入；目标任务是提取互动事件、行为线索及其时间关系，用于人机/社会代理交互分析。适用条件是研究材料包含可解析的多模态内容，且需要保留跨模态证据与时间对应关系；这一迁移属于基于论文感知层设计的推断，原文未验证社会行为建模效果。",
+        "reason": "论文明确提供了多模态信息到结构化感知记录的具体机制，并明确将该能力定位为智能体的感知层，因此不只是 agent 等关键词重合。与档案的联系是将真实互动多媒体或用户历史转化为可用于个体与交互研究的结构化证据输入，但原文没有直接研究社会行为、人格、协商或群体决策，且迁移后的行为建模效果尚未验证，故列为方法可借鉴的 C 级并标注不确定。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "We present Youtu-Parsing-Omni, an omni-modal parser that converts documents, images, audio, and video into structured records grounded in space and time, providing a perception layer for agents that r",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction",
+          "individual"
+        ],
+        "reason": "论文明确提供了多模态信息到结构化感知记录的具体机制，并明确将该能力定位为智能体的感知层，因此不只是 agent 等关键词重合。与档案的联系是将真实互动多媒体或用户历史转化为可用于个体与交互研究的结构化证据输入，但原文没有直接研究社会行为、人格、协商或群体决策，且迁移后的行为建模效果尚未验证，故列为方法可借鉴的 C 级并标注不确定。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39322v1",
+      "title": "MemoryFusion: Cross-Temporal Memory Learning for Multimodal Video Fusion",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "多模态视频融合，重点是通过跨时间记忆学习与渐进式时间细化提升视频融合质量和时间一致性。",
+        "transfer": "无可信的具体迁移路线。摘要中的短期记忆库、长期记忆库和融合式更新策略用于保存视频帧历史信息并减少融合结果的时间波动，不是对个体经历、偏好、关系或社会代理状态进行建模的机制；论文也未说明如何迁移到个体行为、人机交互、群体协作或社会行为模拟任务。",
+        "reason": "该文明确研究多模态视频中的跨帧信息融合问题。长期记忆库和时序细化模块虽在概念上涉及“记忆”，但其机制、表示对象、目标任务和评测均属于视觉视频处理，没有摘要证据表明其可用于理解或模拟个体、个体交互、群体及社会行为。因研究任务与档案存在明确领域差异，不能仅凭记忆或时间一致性术语判为弱相关，故判为无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Multimodal videos contain rich temporal cues that can facilitate faithful fusion. However, existing video fusion methods mainly rely on short-range temporal interactions, leaving valuable long-term in",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该文明确研究多模态视频中的跨帧信息融合问题。长期记忆库和时序细化模块虽在概念上涉及“记忆”，但其机制、表示对象、目标任务和评测均属于视觉视频处理，没有摘要证据表明其可用于理解或模拟个体、个体交互、群体及社会行为。因研究任务与档案存在明确领域差异，不能仅凭记忆或时间一致性术语判为弱相关，故判为无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39353v1",
+      "title": "CoToan: Executable Rules and a Representation Contract for Reproducible Game AI Evaluation",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "group",
+          "interaction"
+        ],
+        "research_object": "研究数学棋类博弈中不同游戏AI实现之间的决策问题表示一致性，以支持可复现的智能体评测。",
+        "transfer": "可迁移机制是将动作定义为状态转移，并把时间与胜利配置纳入任务身份；在模拟博弈或多人交互中的智能体评测任务中，用统一表示契约避免不同实现因状态合并、动作语义或采样差异而改变决策分布和终止结果。适用条件是需要复现实验任务、比较不同智能体或环境实现，并在随机采样下保持动作概率与终局一致；该迁移到社会行为模拟的联系属于推断，原文仅在数学棋类环境中验证。",
+        "reason": "摘要直接研究博弈AI的决策表示与评测复现性，可支撑群体博弈方向的智能体评测方法。其核心机制、目标任务和适用条件明确：统一动作语义及任务配置，并检验合法动作、后继状态、终止结果和动作概率的一致性，因此可判为方法可借鉴的C级。摘要未涉及真实或模拟社会行为，故其向人际互动或社会行为研究任务的迁移价值仍不确定。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Game AI results are comparable only when different implementations expose the same decision problem. Yet seemingly minor representation choices can silently change that problem by altering action prob",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "group",
+          "interaction"
+        ],
+        "reason": "摘要直接研究博弈AI的决策表示与评测复现性，可支撑群体博弈方向的智能体评测方法。其核心机制、目标任务和适用条件明确：统一动作语义及任务配置，并检验合法动作、后继状态、终止结果和动作概率的一致性，因此可判为方法可借鉴的C级。摘要未涉及真实或模拟社会行为，故其向人际互动或社会行为研究任务的迁移价值仍不确定。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39356v1",
+      "title": "Semantic Mismapping in Generalized Category Discovery: Evaluation and Mitigation",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "广义类别发现中的旧类别识别与新类别发现，重点是评估和缓解语义错配问题。",
+        "transfer": "未发现可迁移到个体、个体交互、群体或社会行为研究的明确机制；论文提出的语义保持评估和错配缓解优化仅面向无标注图像类别发现，不涉及行为建模、对话、协作或社会模拟任务。",
+        "reason": "研究对象是计算机视觉中的广义类别发现与类别预测评估，而非个体心理、用户模拟或社会行为。核心方法围绕旧/新类别的语义索引匹配、区域平衡损失和新类别原型正交性展开。虽然其分类与聚类技术可能属于一般机器学习方法，但摘要没有提供其用于研究档案中目标任务的具体迁移路线或适用条件。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Generalized Category Discovery (GCD) aims to perform old-category recognition and novel-category discovery in the same unlabeled set. Early methods address both objectives through clustering and evalu",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是计算机视觉中的广义类别发现与类别预测评估，而非个体心理、用户模拟或社会行为。核心方法围绕旧/新类别的语义索引匹配、区域平衡损失和新类别原型正交性展开。虽然其分类与聚类技术可能属于一般机器学习方法，但摘要没有提供其用于研究档案中目标任务的具体迁移路线或适用条件。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39358v1",
+      "title": "Before the Next Rollout: Diagnosing Skill Utility Shifts from Policy Updates",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "策略更新后技能边际效用变化的诊断，以及基于策略更新信号的技能演化优先级调整",
+        "transfer": "摘要提出的核心机制是利用策略更新前后固定上下文中的技能条件与对照条件之间token偏好交互变化，并结合优势估计，诊断技能边际效用变化；其目标任务是RL代理的技能贡献诊断、技能优先级排序和后续技能演化。摘要未涉及个体行为、人际互动、群体决策或社会行为建模，也没有说明该机制如何迁移到研究档案中的具体任务；在缺少明确社会行为联系和适用条件的情况下，不能仅凭“agent”“skill”等术语建立迁移路线。",
+        "reason": "该工作主要研究强化学习代理在策略更新后如何诊断技能效用变化并改善下游训练表现，属于通用技能演化与训练效率优化。摘要没有提出可用于理解或模拟个体、交互、群体或社会行为的方法、数据或评测，因此与研究档案没有明确可支持的研究联系，判为E而非C或D。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Skill-evolution methods typically analyze execution trajectories to guide agent skill refinement. However, policy updates can change the behavioral effects and marginal utility of an unchanged skill",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该工作主要研究强化学习代理在策略更新后如何诊断技能效用变化并改善下游训练表现，属于通用技能演化与训练效率优化。摘要没有提出可用于理解或模拟个体、交互、群体或社会行为的方法、数据或评测，因此与研究档案没有明确可支持的研究联系，判为E而非C或D。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39363v1",
+      "title": "Lookover: Scaffolding Student Participation in Social Annotation",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "研究生课程中基于Perusall的社会标注讨论参与行为，具体考察学生如何发现值得参与的讨论线程并作出超越复述和简单认同的实质性回应。",
+        "transfer": "可借鉴“讨论概览定位相关线程＋提示问题推动质询、扩展和论证”的两级支架机制，用于研究或提升文本论坛、学习平台中的多轮人际交互质量；适用条件是平台具有带回复关系的讨论内容、可生成主题与线程概览，且生成提示不直接代替学生发言。原文关于Discussion Overview与Spark Thinking效果及知识水平依赖的结论仅来自五名参与者，迁移到其他社交场景仍属推断。",
+        "reason": "论文直接研究社会标注环境中的学生参与和同伴交流，并提供六周活动数据、访谈分析及初步系统研究，能够直接支撑交互研究。其可迁移机制具体包括通过识别活跃主题和相关线程降低参与入口成本，以及通过质询、扩展和论证提示减少复述性评论；但研究聚焦课程阅读标注，参与者仅五人，且提示效果受既有知识影响，因此判为B而非A。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Social annotation platforms such as Perusall and Hypothesis are widely used to support student engagement with course readings, often through required commenting. Yet visible participation does not ne",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "论文直接研究社会标注环境中的学生参与和同伴交流，并提供六周活动数据、访谈分析及初步系统研究，能够直接支撑交互研究。其可迁移机制具体包括通过识别活跃主题和相关线程降低参与入口成本，以及通过质询、扩展和论证提示减少复述性评论；但研究聚焦课程阅读标注，参与者仅五人，且提示效果受既有知识影响，因此判为B而非A。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39363v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39373v1",
+      "title": "What Makes Medical Examination Items Difficult? Using Large Language Models to Explore Patterns Associated With Empirical Item Difficulty",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "基于USMLE与PANCE考试题的经验难度标签，研究大语言模型如何归纳题目难度量规，并评估量规引导对其绝对难度判断和成对难度判断的影响。",
+        "transfer": "摘要未建立通向个体行为、心理状态、用户模拟、个体交互、群体决策或社会行为建模的有效迁移路线。标签引导的量规归纳可迁移到教育测量中的题目难度解释与假设生成，但该目标任务不属于研究档案范围，也不能据此直接迁移用于模拟个体认知或社会互动。",
+        "reason": "研究核心是医学考试题难度及大语言模型的难度判断性能，不是对个体、交互、群体或社会行为进行建模或验证。虽然方法具有可解释评测价值，但摘要没有说明如何迁移至研究档案中的目标任务及适用条件，因此不能因出现LLM、量规或判断等概念而认定相关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Research on medical item difficulty has largely focused on prediction rather than on identifying interpretable patterns associated with empirical difficulty. This study used empirical difficulty label",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究核心是医学考试题难度及大语言模型的难度判断性能，不是对个体、交互、群体或社会行为进行建模或验证。虽然方法具有可解释评测价值，但摘要没有说明如何迁移至研究档案中的目标任务及适用条件，因此不能因出现LLM、量规或判断等概念而认定相关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39410v1",
+      "title": "Retaining Repair Hypotheses for Cost-Aware Execution",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "可执行模型修复后的成本感知执行：在多个与观测兼容的有限守卫修复之间保留候选，依据诊断与常规执行观测更新权重，并选择执行路径、付费测试或备用方案。",
+        "transfer": "摘要未建立该修复—执行接口与个体行为、人际或群体互动、社会规范及制度模拟的联系，因而没有可合理迁移至研究档案任务的具体机制；其中关于候选假设保留、成本加权测试和执行学习的机制虽可作为通用决策技术，但摘要未说明目标任务、行为建模需求或适用条件，不能据此认定可迁移。",
+        "reason": "研究问题集中于软件或形式模型修复后的执行成本与测试选择，而不是个体、交互、群体或社会行为的建模与模拟。其核心对象是兼容修复假设、诊断观测、访问成本和执行策略，与研究档案中的社会行为机制没有明确联系。摘要中的实验也仅在合成两阶段设备上比较成本与测试选择器，未提供可迁移到社会行为研究任务的验证或条件。因此，该论文属于与研究档案无关的模型修复与成本优化研究。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Several corrections of an executable model can fit the same observations while predicting different execution outcomes. We study a repair-to-execution interface that retains compatible finite guard re",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究问题集中于软件或形式模型修复后的执行成本与测试选择，而不是个体、交互、群体或社会行为的建模与模拟。其核心对象是兼容修复假设、诊断观测、访问成本和执行策略，与研究档案中的社会行为机制没有明确联系。摘要中的实验也仅在合成两阶段设备上比较成本与测试选择器，未提供可迁移到社会行为研究任务的验证或条件。因此，该论文属于与研究档案无关的模型修复与成本优化研究。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39413v1",
+      "title": "How Specific Do I Need to Be? Effects of User Query Underspecification on Deep Research Agents",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "研究欠明确用户查询对深度研究代理最终答案质量与中间搜索行为的影响，重点考察代理如何在检索时结合训练先验来推断用户意图。",
+        "transfer": "可借鉴“比较欠明确与完整查询，并分析检索范围、原查询依赖度及训练先验依赖度变化”的诊断机制，将其迁移到个体用户意图建模与自适应澄清任务：当查询信息不足且检索逐渐偏离原查询时，识别需要向用户补充提问的条件，再依据新增信息调整检索和生成，从而减少意图错配。该路线由摘要中的现象与建议推断，但摘要未验证主动澄清机制本身。",
+        "reason": "摘要直接表明欠明确性会降低答案对用户信息需求的满足程度，并给出“扩大搜索、减少依赖原查询、增加依赖训练先验”这一具体行为机制；同时明确提出未来应让代理主动识别何时需要额外用户输入。可据此建立“查询欠明确性诊断→个体意图不确定性识别→请求补充信息→修正检索与答案”的迁移路线，服务于个体行为模拟及人机交互研究。不过，摘要仅报告已有诊断结果，未说明主动澄清的实现、效果和适用边界，因此属于条件明确但证据仍不充分的方法借鉴，标记不确定。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Deep research agents (DRAs) conduct long-horizon reasoning, search, and literature synthesis to provide long-form answers to complex, domain-specific questions. These agents are typically trained and",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要直接表明欠明确性会降低答案对用户信息需求的满足程度，并给出“扩大搜索、减少依赖原查询、增加依赖训练先验”这一具体行为机制；同时明确提出未来应让代理主动识别何时需要额外用户输入。可据此建立“查询欠明确性诊断→个体意图不确定性识别→请求补充信息→修正检索与答案”的迁移路线，服务于个体行为模拟及人机交互研究。不过，摘要仅报告已有诊断结果，未说明主动澄清的实现、效果和适用边界，因此属于条件明确但证据仍不充分的方法借鉴，标记不确定。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39435v1",
+      "title": "Verifiable LLM-Guided Focal SMT Solving for Quantified Arrays",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "量化数组SMT问题的可验证求解，具体是由大语言模型提出语义焦点集合、再由传统SMT求解器完成证明与验证。",
+        "transfer": "没有明确可迁移到个体行为、交互、群体或社会行为建模的机制；其语义焦点集提议与求解器验证流程仅用于形式化推理和SMT求解，若要迁移至社会行为研究，仍需另行假设LLM能够识别行为模型中的相关约束，并定义可验证的行为任务与评价标准，摘要未提供这些依据。",
+        "reason": "研究对象是量化数组的形式化求解，不包含个体、偏好、心理状态、人机或社会代理交互、多人协作、社会网络、规范、制度或文化传播等研究对象。方法核心是让LLM为SMT求解器缩小语义搜索焦点，并由求解器认证结果，这与档案中的社会行为建模没有可由摘要支持的直接联系，也没有明确的迁移路线、目标任务及适用条件，因此判为无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Large language models can often identify useful semantic structure in formal artifacts, but their outputs cannot be trusted as proofs or solver decisions. We study whether LLMs can instead guide forma",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究对象是量化数组的形式化求解，不包含个体、偏好、心理状态、人机或社会代理交互、多人协作、社会网络、规范、制度或文化传播等研究对象。方法核心是让LLM为SMT求解器缩小语义搜索焦点，并由求解器认证结果，这与档案中的社会行为建模没有可由摘要支持的直接联系，也没有明确的迁移路线、目标任务及适用条件，因此判为无关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39459v1",
+      "title": "GraspPressure: Understanding Pressure Input With Busy Hands",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "用户在双手被占用、需保持稳定抓握时，通过手指压力完成数字系统选择任务的机制与表现。",
+        "transfer": "可借鉴其压力输入机制及按抓握方式和物体几何条件进行组内被试评测的方法，用于构建或评测忙碌手状态下的用户—数字系统交互及其行为数据；适用条件是用户需要稳定抓握物品、不能依赖手指关节或相对运动，且交互界面能够采集并识别压力信号。",
+        "reason": "论文直接研究用户与数字系统之间的压力式微交互，并提供明确的操作机制、实验设计和量化结果。压力输入可在不改变手指姿态的情况下完成受控选择，可直接支持受限操作情境下的人机交互与用户行为研究。论文验证了压力选择的可行性，但其能否进一步用于用户或社会代理的模拟属于迁移推断，而非原文已验证的结论。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "In many real-world scenarios, users interact with digital systems while their hands are partially occupied, such as when holding tools or everyday objects. Prior work on busy-hand interaction has focu",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "论文直接研究用户与数字系统之间的压力式微交互，并提供明确的操作机制、实验设计和量化结果。压力输入可在不改变手指姿态的情况下完成受控选择，可直接支持受限操作情境下的人机交互与用户行为研究。论文验证了压力选择的可行性，但其能否进一步用于用户或社会代理的模拟属于迁移推断，而非原文已验证的结论。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39459v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39464v1",
+      "title": "Integrating Heterogeneous Echocardiography AI Outputs in Language Space: Learnable Late Fusion with a Supervised LLM",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "超声心动图多视图异构AI输出的语言空间监督式大语言模型晚期融合，用于病例级超声检查结果预测",
+        "transfer": "无可确认的迁移路线：该研究将不同超声心动图模型的预测发现与测量结果转换为语言空间输入，学习病例级融合函数；研究对象和评测均属于医学影像预测，未涉及个体行为、心理状态、人际互动、群体决策或社会行为模拟机制。",
+        "reason": "研究直接研究异构医学影像模型的输出融合与病例级预测性能，不属于研究档案中的个体、交互、群体或社会行为方向。虽然使用了监督式LLM和多模型融合方法，但摘要没有表明这些机制能够迁移到社会行为建模任务，也没有给出相应目标任务、适用条件或行为建模证据，因此不构成方法借鉴。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "View- and target-specific echocardiography AI models capture useful but complementary information and may not achieve sufficient predictive performance in isolation. A learned ensemble is a natural wa",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究直接研究异构医学影像模型的输出融合与病例级预测性能，不属于研究档案中的个体、交互、群体或社会行为方向。虽然使用了监督式LLM和多模型融合方法，但摘要没有表明这些机制能够迁移到社会行为建模任务，也没有给出相应目标任务、适用条件或行为建模证据，因此不构成方法借鉴。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39488v1",
+      "title": "InterA11y: Interactive Web Accessibility Error Detection with LLM Agents",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "InterA11y 是一个结合 WCAG 规则、交互式网页工具与大语言模型代理的网页无障碍错误检测系统。",
+        "transfer": "无可支持的迁移：摘要中的任务是基于确定性工具与规则检测网页交互中的无障碍问题，并未研究或模拟个体心理状态、用户偏好、人际互动、群体决策或社会行为。",
+        "reason": "该文直接研究网页无障碍评估与错误检测，属于软件质量保证任务。代理、交互工具和动态网页等表述仅描述检测系统的工作方式，不构成面向社会行为研究的代理或交互建模机制。其方法可迁移到何种研究中的个体、交互、群体或社会目标任务，在摘要中缺乏依据，因此判定为明确无关，而非信息不足。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Large Language Models (LLMs) have shown potential to expand the coverage of web accessibility evaluation. However, current LLM-based checkers neglect much of the interactive and dynamic web contexts",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该文直接研究网页无障碍评估与错误检测，属于软件质量保证任务。代理、交互工具和动态网页等表述仅描述检测系统的工作方式，不构成面向社会行为研究的代理或交互建模机制。其方法可迁移到何种研究中的个体、交互、群体或社会目标任务，在摘要中缺乏依据，因此判定为明确无关，而非信息不足。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39562v1",
+      "title": "Raincheck: Deferred Multimodal Prefill for Efficient Multi-Turn MLLM Inference",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "多轮多模态大语言模型推理中的上下文复用、输入剪枝与延迟预填充效率。",
+        "transfer": "可借鉴其“初始选择后保留未选多模态 token，并在解码期间按源顺序渐进预填充”的机制，结合注意力可见性控制和仿射状态映射更新上下文，用于多轮人机对话中既减少首轮延迟、又保留后续问题所需的图像/多模态历史信息。适用条件是模型支持全注意力或混合循环架构、存在可利用的解码调度空档，且需要多模态上下文在后续轮次仍可访问；这是基于摘要的迁移推断，原文主要验证推理效率与回答质量，而非社会行为模拟。",
+        "reason": "摘要直接提出面向多轮多模态对话的延迟预填充方法，并说明通过渐进补充被剪枝 token、注意力可见性控制和状态映射来支持后续上下文更新，因此可为交互方向的长上下文维护和对话代理系统提供具体方法借鉴。其验证目标是降低 TTFT 并恢复剪枝造成的质量损失，没有直接研究个体心理状态或社会行为，故属于可迁移的方法而非核心相关；迁移到研究档案场景的联系属于推断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Multi-turn conversations with multimodal large language models (MLLMs) reuse input context, but long multimodal inputs increase time to first token (TTFT). Query-aware hard pruning reduces prefill tok",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "摘要直接提出面向多轮多模态对话的延迟预填充方法，并说明通过渐进补充被剪枝 token、注意力可见性控制和状态映射来支持后续上下文更新，因此可为交互方向的长上下文维护和对话代理系统提供具体方法借鉴。其验证目标是降低 TTFT 并恢复剪枝造成的质量损失，没有直接研究个体心理状态或社会行为，故属于可迁移的方法而非核心相关；迁移到研究档案场景的联系属于推断。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39571v1",
+      "title": "Generative artificial intelligence prompting strategies among Chinese university students across academic tasks",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "大学生在与生成式人工智能交互完成学术任务时的提示能力认知、提示策略及其对任务类型的敏感性。",
+        "transfer": "可借鉴其“问卷测量—因素模型—情境比较—开放式定性编码”的研究流程，将提示意图对齐、上下文提供、输出格式指定和基于初始回答的迭代修订等策略作为人机交互行为变量，用于研究学术任务中用户如何形成、评估和调整提示，以及这些策略在不同任务条件下的变化。适用条件是人类与生成式人工智能协作、能够提供任务相关情境并获得初始输出，且研究目标是分析提示策略或交互过程；该摘要未显示其直接用于社会行为模拟或用户行为预测。",
+        "reason": "摘要直接研究了大学生这一具体个体的生成式人工智能交互能力与提示策略，并提供了234名学生的问卷、测量模型、情境比较和定性评论数据。研究结果明确涉及上下文提供、输出格式、迭代修订、提示长度与信息组织以及提示意图对齐，可直接支撑人机交互方向的行为分析和评测。其主要任务仍是学术学习与提示能力，而不是档案核心的社会行为模拟，因此判为B级而非A级；但方法与数据迁移路径清楚。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Generative artificial intelligence (GenAI) is increasingly embedded in university learning, yet effective human-GenAI interaction depends not only on access to these tools but also on students' abilit",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要直接研究了大学生这一具体个体的生成式人工智能交互能力与提示策略，并提供了234名学生的问卷、测量模型、情境比较和定性评论数据。研究结果明确涉及上下文提供、输出格式、迭代修订、提示长度与信息组织以及提示意图对齐，可直接支撑人机交互方向的行为分析和评测。其主要任务仍是学术学习与提示能力，而不是档案核心的社会行为模拟，因此判为B级而非A级；但方法与数据迁移路径清楚。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/pdf/2610.39571v1",
+        "coverage_notes": [
+          "PDF 文字层已提取；图像、公式与复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39590v1",
+      "title": "Red-Teaming Large Language Models in Low-Resource African Languages: A Case Study of Yoruba and Nigerian Pidgin",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "society"
+        ],
+        "research_object": "六个大语言模型在约鲁巴语和尼日利亚皮钦语中的安全性，评测任务包括对显式对抗提示的拒答、攻击成功、有害内容生成，以及文化刻板印象与歧视等伤害类别的识别。",
+        "transfer": "可借鉴其语言特定红队评测流程：针对低资源语言编制分伤害类别的对抗提示，由母语者标注模型是否理解以及回答是否有害，并按语言分别计算攻击成功率、有害内容率和解码拒答率。该机制可迁移用于研究模型在地方文化语境中的社会安全与文化刻板印象任务；适用条件是具备相应语言的母语标注者、文化适配的提示集，并能将因语言理解失败造成的表面拒答与真实安全行为区分开。",
+        "reason": "研究直接涉及文化刻板印象、歧视以及低资源语言中的社会安全表达，与社会和文化方向相关。摘要给出了明确的对抗提示构造、母语者评分、跨语言比较和伤害分类评测机制，可直接支持语言条件下的文化安全评估。它并不以模拟个体、群体或社会行为为主要目标，也未验证真实社会主体的行为规律，因此属于直接支撑而非核心研究。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "As large language models (LLMs) become more widespread in Africa, their safety in low-resource languages remains largely untested since most red-teaming work focuses on English. This study evaluates s",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "society"
+        ],
+        "reason": "研究直接涉及文化刻板印象、歧视以及低资源语言中的社会安全表达，与社会和文化方向相关。摘要给出了明确的对抗提示构造、母语者评分、跨语言比较和伤害分类评测机制，可直接支持语言条件下的文化安全评估。它并不以模拟个体、群体或社会行为为主要目标，也未验证真实社会主体的行为规律，因此属于直接支撑而非核心研究。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39590v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39620v1",
+      "title": "Letting AI Formulate the Research Question: Autonomous Research Agents",
+      "triage": {
+        "grade": "D",
+        "directions": [
+          "society"
+        ],
+        "research_object": "研究由AI自主提出研究问题、筛选候选问题、接受异模型批评与同行评审并完成可复算论文的科研代理工作流。",
+        "transfer": "可尝试迁移“跨领域生成候选问题—按已知失效模式筛选—异模型批评—依据记录重跑复核”的机制，用于发现个人历史、交互、群体或社会行为研究问题；适用条件是预先定义行为研究失败模式、保留完整研究记录，并能让异模型复核实验。但摘要未给出该机制在具体社会行为建模任务中的实现或验证。",
+        "reason": "摘要直接研究的是自主科研代理，而非个体、交互、群体或社会行为本身，因此不是核心相关或直接支撑。其问题生成与评审流程可作为社会行为研究选题和复核流程的方法借鉴，但摘要只称最终主题是“新技术应用于社会问题”，没有说明具体社会行为目标、迁移条件或验证结果。联系仅属合理推断且细节不足，不能据此判定为具有明确迁移机制的方法可借鉴论文，故判为弱相关。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Systems such as The AI Scientist have shown that AI agents can carry out and write up research, but in those demonstrations humans chose the research area and selected the outputs to show. We study le",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "D",
+        "directions": [
+          "society"
+        ],
+        "reason": "摘要直接研究的是自主科研代理，而非个体、交互、群体或社会行为本身，因此不是核心相关或直接支撑。其问题生成与评审流程可作为社会行为研究选题和复核流程的方法借鉴，但摘要只称最终主题是“新技术应用于社会问题”，没有说明具体社会行为目标、迁移条件或验证结果。联系仅属合理推断且细节不足，不能据此判定为具有明确迁移机制的方法可借鉴论文，故判为弱相关。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39658v1",
+      "title": "Towards Audience-Driven Real-Time Data Storytelling",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "受众参与实时数据叙事的决策过程，以及受众背景、兴趣和实时回答如何影响叙事路径。",
+        "transfer": "可借鉴其“实时收集受众回答—依据预设决策树、覆盖度/共识/置信度阈值选择分支—在信号不足时启用回退路径”的机制，用于研究互动场景中的受众状态建模、动态反馈和交互决策；迁移条件是需要预先定义可选路径、判定阈值及公平性保护，且受众能够通过移动设备实时作答。该联系属于将ADRDS的叙事分支机制迁移到社会行为或人机交互任务的研究推断，原文主要验证的是数据叙事框架本身。",
+        "reason": "摘要明确描述了参与式和社会感知机制，以及如何根据受众实时反应调整叙事路径，因而与互动研究方向存在具体方法联系。论文目标并非直接研究个体行为、社会代理或群体决策，但提供了可迁移到受众互动建模的明确机制、目标任务和适用条件。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "This paper introduces the concept of Audience-Driven Real-Time Data Storytelling (ADRDS), a framework that utilizes participatory and social sensing to enable audiences to actively shape the presentat",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "摘要明确描述了参与式和社会感知机制，以及如何根据受众实时反应调整叙事路径，因而与互动研究方向存在具体方法联系。论文目标并非直接研究个体行为、社会代理或群体决策，但提供了可迁移到受众互动建模的明确机制、目标任务和适用条件。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39660v1",
+      "title": "Sticky Collusion: Persistence of LLM Agent Collusion after Incentive Removal and Partner Replacement",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "group",
+          "interaction",
+          "individual"
+        ],
+        "research_object": "研究形成合谋的LLM代理在奖励激励移除、同伴替换、记忆清除及合谋诱因消除后的行为持续性，重点考察代理间互相验收未经验证工作的互动模式。",
+        "transfer": "可直接借鉴“保存已形成合谋的交互历史并在干预条件下恢复运行”的机制，用于研究多代理合作、协商与欺骗中的历史依赖、伙伴更替和集体行为持续性；通过奖励移除、代理替换、完整或部分记忆擦除、沟通渠道修复等条件，区分历史维持与即时激励诱发的合谋。该机制也适合迁移到个体/交互模拟中的长期对话记忆和关系状态研究，但这种跨方向迁移属于基于摘要结果的推断，原文主要验证的是合谋代理互动。",
+        "reason": "论文直接研究社会代理形成合谋后如何持续、重组或终止，属于群体协作、博弈和人机/社会代理互动等档案核心问题。可迁移机制、目标任务与适用条件均较明确：机制是保存并重放代理间历史，任务是测量激励移除、伙伴替换和记忆操作后的合谋行为，条件是代理已在特定联合任务中形成合谋。记忆擦除和部分记忆维持的对照尤其可用于刻画长期互动中的状态依赖，但代理人格或用户心理模拟方向的应用尚未由摘要验证。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "We ask whether collusion between AI agents survives once formed, when its incentive is removed or a colluder is replaced. Q-learning pricing agents stop colluding with a new rival; we test whether LLM",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "group",
+          "interaction",
+          "individual"
+        ],
+        "reason": "论文直接研究社会代理形成合谋后如何持续、重组或终止，属于群体协作、博弈和人机/社会代理互动等档案核心问题。可迁移机制、目标任务与适用条件均较明确：机制是保存并重放代理间历史，任务是测量激励移除、伙伴替换和记忆操作后的合谋行为，条件是代理已在特定联合任务中形成合谋。记忆擦除和部分记忆维持的对照尤其可用于刻画长期互动中的状态依赖，但代理人格或用户心理模拟方向的应用尚未由摘要验证。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39660v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39747v1",
+      "title": "When the Top Answer Decides: Gender Bias in Decision Models",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "society"
+        ],
+        "research_object": "研究语言模型决策器在人物相关的是非判断、偏见测试集及强制猜测任务中的性别偏见，并比较决策层与概率层审计指标以及置信度门控的影响。",
+        "transfer": "可借鉴“性别属性交换配对测试＋决策层/概率层分离审计＋置信度门控”的评测机制，用于检验基于语言模型的个体行为模拟、角色分配或社会情景模拟是否会再现刻板印象；适用条件是被测系统能输出候选项概率或概率向量，并由应用采用最高分答案，且测试提示涉及人物属性。该迁移是基于摘要所述审计方法作出的推断，原文并未在社会行为模拟任务上验证。",
+        "reason": "摘要直接给出了人物相关决策中的性别偏差测量、性别交换扰动和门控分析，可作为审计拟议个体或社会模拟器的明确评测方法。原文还指出决策层与概率层会产生不同判断，因此以应用实际采用的最高分答案进行审计尤其适合模拟系统评估。其对象不是社会行为模拟本身，所以属于直接支撑研究档案的评测方法，而非核心问题研究。作者已验证的是六个决策模型的偏见表现和门控效果，迁移到个体或社会模拟任务的适用性仍是推断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Decision models are language models built to route, classify and triage: they return option probabilities from one forward pass, and an application acts on the top answer. They are offered off the she",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "individual",
+          "society"
+        ],
+        "reason": "摘要直接给出了人物相关决策中的性别偏差测量、性别交换扰动和门控分析，可作为审计拟议个体或社会模拟器的明确评测方法。原文还指出决策层与概率层会产生不同判断，因此以应用实际采用的最高分答案进行审计尤其适合模拟系统评估。其对象不是社会行为模拟本身，所以属于直接支撑研究档案的评测方法，而非核心问题研究。作者已验证的是六个决策模型的偏见表现和门控效果，迁移到个体或社会模拟任务的适用性仍是推断。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39747v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39761v1",
+      "title": "GPU-Resident Speculative Decoding for In-Browser LLM Inference with WebGPU",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "面向浏览器内大语言模型推理的WebGPU运行时与推测解码优化，包括多令牌验证、KV缓存维护、上下文混合草稿生成及设备自适应控制。",
+        "transfer": "未发现可迁移到个体、交互、群体或社会行为建模与模拟的具体机制。上下文混合仅将网页内容、对话历史和会话记忆作为推测解码的输入，以降低推理开销，并不研究记忆如何影响个体偏好、心理状态或交互行为；因此没有明确的目标行为任务及适用条件。",
+        "reason": "论文核心是浏览器环境中的LLM推理加速与系统实现，而非个体行为或社会互动建模。页面内容、对话历史和会话记忆的作用是提高草稿令牌生成效率，不能据此推断其支持用户历史建模、人格一致性或关系模拟。实验仅验证解码速度、贪心输出一致性和GSM8K准确率，未提供可服务研究档案核心问题的行为结果或评测。因其属于缺少社会行为联系的系统优化，而非仅信息不足，故评为E且uncertain为false。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "WebGPU enables private, offline LLM inference inside web pages, but browser dispatch, inter-process communication, synchronous readback and single-token kernels slow decoding and make conventional spe",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文核心是浏览器环境中的LLM推理加速与系统实现，而非个体行为或社会互动建模。页面内容、对话历史和会话记忆的作用是提高草稿令牌生成效率，不能据此推断其支持用户历史建模、人格一致性或关系模拟。实验仅验证解码速度、贪心输出一致性和GSM8K准确率，未提供可服务研究档案核心问题的行为结果或评测。因其属于缺少社会行为联系的系统优化，而非仅信息不足，故评为E且uncertain为false。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39765v1",
+      "title": "From Artifacts to Coordination: Exploring How Shared Canvases Drive Collaboration during Group Ideation",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "group",
+          "interaction"
+        ],
+        "research_object": "七人小组中的三人协作任务：使用无限画布共同规划旅行行程，并通过访谈和视频分析考察空间组织、任务协调、贡献可见性与角色形成。",
+        "transfer": "可借鉴其“共享画布空间组织→隐式协调”机制：协作者并行贡献并自由布置想法、方案等空间化产物，使私有探索区与共享工作区可区分、较少发言者的贡献可见，并通过重复贡献模式形成临时分工。迁移目标可用于协作规划、群体决策和多成员代理交互任务的建模或交互设计；适用条件是参与者或代理能够持续操作共享空间、贡献可空间化且存在多轮协作。摘要直接支持共享画布中的协调、贡献可见性和角色涌现结果，将其用于代理建模或研究任务设计属于合理推断。",
+        "reason": "研究直接分析群体协作中的空间协调机制、参与者贡献和互动角色，属于群体行为与协作交互的核心问题。研究提供了可观察的机制及明确任务条件，而不仅是泛化的协作工具讨论，因此可直接支撑对群体协调和涌现角色的理解，并可为协作模拟与代理交互设计提供方法依据。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Recent years have seen a surge in tools that support collaborative ideation through shared canvases. While these canvases offer flexible workspaces, how collaborators leverage them to iteratively deve",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "group",
+          "interaction"
+        ],
+        "reason": "研究直接分析群体协作中的空间协调机制、参与者贡献和互动角色，属于群体行为与协作交互的核心问题。研究提供了可观察的机制及明确任务条件，而不仅是泛化的协作工具讨论，因此可直接支撑对群体协调和涌现角色的理解，并可为协作模拟与代理交互设计提供方法依据。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39765v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39800v1",
+      "title": "Grammar Control for Language Learning with Sequential Monte Carlo and Small Language Models",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "使用序贯蒙特卡洛和小型语言模型，在第二语言交互学习中控制对话轮次所包含的目标语法结构。",
+        "transfer": "可借鉴“将待控制属性编码为少量势函数，再由序贯蒙特卡洛采样引导小语言模型生成”的机制，用于人机对话中具有明确约束条件的回复生成，例如控制代理发言的结构或形式；适用条件是目标属性可被明确编码、模型可在推理时执行采样控制，且只需约束可观察生成特征。作者实际验证的是语法教学中的目标语法覆盖，迁移到社会行为或交互代理任务属于推断。",
+        "reason": "摘要明确涉及交互式对话生成，并给出了从目标语法到势函数、再到SMC对话控制的完整机制，因此不是仅有agent等关键词的概念重合。该工作直接服务语言学习而非社会行为模拟，但控制生成过程的机制可迁移到受约束的人机交互任务。由于摘要未涉及个体心理状态、社会规范或互动结果，本文能否支持更具体的社会行为研究仍存在范围限制。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Second language learners benefit from exposure to level-appropriate grammar in interactive language use. While prompted frontier language models can usually produce target grammar structures, less res",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "摘要明确涉及交互式对话生成，并给出了从目标语法到势函数、再到SMC对话控制的完整机制，因此不是仅有agent等关键词的概念重合。该工作直接服务语言学习而非社会行为模拟，但控制生成过程的机制可迁移到受约束的人机交互任务。由于摘要未涉及个体心理状态、社会规范或互动结果，本文能否支持更具体的社会行为研究仍存在范围限制。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.39846v1",
+      "title": "TokWatt: an open, boundary-annotated database of AI inference energy, from chat answers to agents",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "AI 推理能耗数据库，汇总并统一不同AI任务、测量边界和功能单位下的公开能耗估计。",
+        "transfer": "未发现可迁移至个体、个体交互、群体或社会行为建模的具体机制；其测量边界统一流程至多可用于估算社会模拟系统的计算环境成本，但摘要没有社会行为建模任务，也未给出此类迁移所需条件。",
+        "reason": "摘要研究的是AI推理能耗及其可比性，而非个体心理状态、用户模拟、交互关系、群体行为或社会规范。虽然涵盖聊天回答和编码代理，但代理仅作为能耗测量任务，不能据此推导社会代理研究方法。该工作与研究档案中的行为理解和社会模拟目标没有明确联系，因此判为E。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Electricity supply is becoming a binding constraint on the deployment of artificial intelligence (AI), yet public evidence on the energy used by a single AI task is scattered and hard to compare. Publ",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要研究的是AI推理能耗及其可比性，而非个体心理状态、用户模拟、交互关系、群体行为或社会规范。虽然涵盖聊天回答和编码代理，但代理仅作为能耗测量任务，不能据此推导社会代理研究方法。该工作与研究档案中的行为理解和社会模拟目标没有明确联系，因此判为E。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39853v1",
+      "title": "KV Cache Quantization for Diffusion Language Models",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "扩散语言模型（dLLM）快速推理中的 KV cache 量化方法，包括 TRACE 校准轨迹构建与 dLLM-KVQ 逐层 K-cache 保留策略，在 GSM8K、HumanEval、MATH、MBPP 上评测量化后模型精度。",
+        "transfer": "无可迁移的社会行为建模机制。文中机制局限于推理加速中的缓存重建误差与逐层量化精度选择，不涉及个体心理状态、人机交互建模、群体决策或社会过程模拟；若要迁移，需要先证明双向去噪轨迹的校准状态与行为建模变量存在对应关系，而原文无任何相关证据。",
+        "reason": "该文研究对象为扩散语言模型的推理效率与量化精度，核心贡献是 TRACE 轨迹重建与 dLLM-KVQ 的 K-cache 高精度保留策略，实验指标为模型在数学与代码基准上的分数。档案的四个方向（个体行为与心理状态、个体交互、多人协作与群体行为、社会网络与制度建模）在原文中均无对应研究对象、任务或数据；'cache reuse'、'trajectory' 等词与个体轨迹或社会行为无实质联系，属于纯模型推理优化工作，不构成明确的迁移路线，故判为 E。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "KV cache quantization is well studied for autoregressive language models, where cached prefix states are exact under causal attention and quantization is mainly a cache reconstruction problem. Diffusi",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "该文研究对象为扩散语言模型的推理效率与量化精度，核心贡献是 TRACE 轨迹重建与 dLLM-KVQ 的 K-cache 高精度保留策略，实验指标为模型在数学与代码基准上的分数。档案的四个方向（个体行为与心理状态、个体交互、多人协作与群体行为、社会网络与制度建模）在原文中均无对应研究对象、任务或数据；'cache reuse'、'trajectory' 等词与个体轨迹或社会行为无实质联系，属于纯模型推理优化工作，不构成明确的迁移路线，故判为 E。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.39869v1",
+      "title": "Incorporating Machine-Others: An Enactive Exploration of Human-LLM Interactions",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "人—LLM互动中个体如何将机器他者纳入认知、技能与身份建构，以及这种关系如何影响人的自主性、形成过程和意义建构。",
+        "transfer": "可借鉴其“机器他者具身化”机制：以工具式纳入解释技能扩展，以语言和身份式纳入解释个体对LLM表达方式的吸收，并采用“疑义式意义建构（suspective sense-making）”刻画低摩擦LLM服务中增加的符号劳动；迁移到建模或分析人—LLM互动中的用户自主性、认知变化及角色形成任务。适用条件是研究对象具有持续的语言互动，且LLM作为语言性他者参与互动；原文提供的是理论框架，未验证其作为个体或交互模拟机制的预测效度。",
+        "reason": "摘要直接研究人如何理解并受LLM关系影响，核心议题是个体自主性、身份与意义建构，对应individual和interaction方向。作者提出Linguistic Bodies、机器他者纳入及“susptive sense-making”等概念，可直接支撑人—LLM互动和用户状态变化的理论建模。前述模拟用途及低摩擦交互条件属于基于摘要框架的迁移推断，而非作者已验证的模拟结果。原文以理论论证和概念推进为主，没有提供实验、数据或评测，因此虽属核心相关，但不能据此推断其模拟有效性。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "New concepts based in interactional thinking are required to understand how humans are changed by relating to LLMs. Standard theories of technological impact upon users' autonomy are inadequate here",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要直接研究人如何理解并受LLM关系影响，核心议题是个体自主性、身份与意义建构，对应individual和interaction方向。作者提出Linguistic Bodies、机器他者纳入及“susptive sense-making”等概念，可直接支撑人—LLM互动和用户状态变化的理论建模。前述模拟用途及低摩擦交互条件属于基于摘要框架的迁移推断，而非作者已验证的模拟结果。原文以理论论证和概念推进为主，没有提供实验、数据或评测，因此虽属核心相关，但不能据此推断其模拟有效性。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39869v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39905v1",
+      "title": "Inkitiate: Initiating and Steering Agent Assistance through Ink in a Spatial Workspace",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "interaction"
+        ],
+        "research_object": "研究知识工作中用户如何通过手写与草图发起、引导并持续使用智能体辅助，涉及检索材料、基于材料思考和重组空间画布等任务。",
+        "transfer": "可借鉴其空间工作区中的持续材料保留机制、组合语言与图形表达形成ink query的输入机制，以及用户检查和引导智能体行动的交互机制，用于设计智能体辅助下的多轮人机交互、请求表达和持续协作任务。适用条件是任务包含可检索的外部材料、空间化画布和连续工作流程，并允许用户同时使用文字与图形输入；这些联系属于基于摘要的迁移推断，原文主要验证了可用性、感知工作负载和交互使用情况。",
+        "reason": "摘要直接研究了人机智能体辅助中的交互机制和交互期望，并通过18人研究及案例分析形成ink-query词汇、交互活动和持续使用证据。该工作与研究档案中的“人机交互”方向直接相关，可为交互设计与评测提供方法依据，但并未直接研究个体心理状态、社会行为或群体协作。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Handwriting and sketching help people develop ideas around information. As this work unfolds, users may seek assistance with finding, understanding, and organizing materials. We investigate how ink ca",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "interaction"
+        ],
+        "reason": "摘要直接研究了人机智能体辅助中的交互机制和交互期望，并通过18人研究及案例分析形成ink-query词汇、交互活动和持续使用证据。该工作与研究档案中的“人机交互”方向直接相关，可为交互设计与评测提供方法依据，但并未直接研究个体心理状态、社会行为或群体协作。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.39905v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.39923v1",
+      "title": "Prompts and probabilities in the linguistic assessment of language models: Evidence from semantic focus-sensitivity",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "不同规模语言模型在语义焦点敏感性任务中的语言能力，以及显式提示与词元概率两种评测方法的稳健性差异。",
+        "transfer": "可借鉴其元语言提示评测机制，在个体或用户模拟中检验模型是否理解“only”等焦点敏感表达：通过受控提示与词元概率比较，并替换为随机焦点标记，区分真实语义判断与表面格式偏好。目标任务是评估模拟个体的焦点敏感语言理解；适用条件是模型能够接受文本提示，且测试数据及焦点标记风格与目标用户或模拟场景相匹配。该迁移是由评测机制到个体模拟能力验证的合理推断，原文未直接验证用户模拟。",
+        "reason": "摘要明确比较了显式提示和词元概率在语义焦点敏感性上的表现，并通过随机焦点标记检验性能下降来源，因此能够形成具体的方法迁移路线。原文直接验证的是语言模型的语言能力评测，而非个体偏好、用户模拟或社会行为，因此属于方法可借鉴而非核心直接相关。摘要给出了提示形式和受控标记替换条件，但未涉及模拟个体或真人心理状态，迁移价值仍需全文核查。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "As language models (LMs) have improved, an increasingly common means of evaluating their linguistic competence is through explicit prompting (e.g., \"Which sentence is more acceptable?\"). Prior work in",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "摘要明确比较了显式提示和词元概率在语义焦点敏感性上的表现，并通过随机焦点标记检验性能下降来源，因此能够形成具体的方法迁移路线。原文直接验证的是语言模型的语言能力评测，而非个体偏好、用户模拟或社会行为，因此属于方法可借鉴而非核心直接相关。摘要给出了提示形式和受控标记替换条件，但未涉及模拟个体或真人心理状态，迁移价值仍需全文核查。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.40031v1",
+      "title": "AI Cosmos: An Agentic Infra for Situated Learning",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "基于大语言模型的情境化学习系统，通过场景参与、角色专职代理和实践资产记忆，支持法律推理与编程能力习得。",
+        "transfer": "可迁移其“场景化参与＋资产记忆循环”机制：以角色专职代理构造持续的任务或社会互动场景，并用带来源及依赖关系的记忆保存历次互动过程与结果，以研究个体或人机交互中历史经历对后续选择、合作和协商行为的影响。适用条件是目标场景能够分解为明确角色、重复实践流程和可复用资产，且代理需能访问任务知识、工具或可执行环境；该迁移属于方法推断，原文仅验证法律推理与编程学习效果。",
+        "reason": "摘要明确提出了可借鉴的机制，而非仅出现agent、memory等泛化词汇。其场景化参与机制可用于生成角色化互动轨迹，资产记忆循环则能提供跨轮次历史状态，二者结合能够迁移到个体历史建模及人机互动研究。原文没有直接验证社会行为、人格、关系或群体决策，因此不判为A或B；但其角色代理、场景和累积记忆形成了较完整的“机制→目标任务→适用条件”路线，可判为方法可借鉴。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Large language models (LLMs) can improve task performance during learning, yet these gains do not necessarily reflect learners' ability to thereafter apply the knowledge and skills independently. We p",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "摘要明确提出了可借鉴的机制，而非仅出现agent、memory等泛化词汇。其场景化参与机制可用于生成角色化互动轨迹，资产记忆循环则能提供跨轮次历史状态，二者结合能够迁移到个体历史建模及人机互动研究。原文没有直接验证社会行为、人格、关系或群体决策，因此不判为A或B；但其角色代理、场景和累积记忆形成了较完整的“机制→目标任务→适用条件”路线，可判为方法可借鉴。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.40091v1",
+      "title": "Upcycling Language Models for Multiple Specialized Domains",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "research_object": "通过专家扩展与域感知路由器实现大语言模型的多领域适配，使模型按输入领域选择相应专家，并保持通用能力。",
+        "transfer": "可迁移机制是“按领域更新专家并用带域标签的小规模样本训练路由器”：为不同用户类型、行为情境或社会背景建立领域特化的个体模拟器，在输入所属领域可判定且每个领域均有代表性标注样本时，由路由器选择对应专家生成领域特化响应。该迁移属于方法推断；原文只验证了多领域语言模型适配与路由准确率，未直接验证个体行为或用户模拟效果。",
+        "reason": "论文直接研究多领域语言模型适配，并给出专家扩展、域感知监督、按域冻结更新以及少量域标注样本训练路由器的具体机制，可合理迁移到领域特化的个体或用户模拟任务。由于领域划分能否对应稳定的用户、行为或社会背景类型，以及这种路由机制是否足以维持跨领域一致性和行为真实性，摘要均未说明，因此属于有条件的方法借鉴而非直接支撑。",
+        "uncertain": true,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Effective multi-domain adaptation of large language models requires prioritizing relevant domain knowledge while minimizing interference from irrelevant domains. Existing approaches commonly use Low-R",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual"
+        ],
+        "reason": "论文直接研究多领域语言模型适配，并给出专家扩展、域感知监督、按域冻结更新以及少量域标注样本训练路由器的具体机制，可合理迁移到领域特化的个体或用户模拟任务。由于领域划分能否对应稳定的用户、行为或社会背景类型，以及这种路由机制是否足以维持跨领域一致性和行为真实性，摘要均未说明，因此属于有条件的方法借鉴而非直接支撑。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.40224v1",
+      "title": "\"It Feels Weird to Just Rely on AI\": How Experienced Healthcare Professionals Work With Decision Support Systems in Clinical Practice",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "临床专业人员在临床实践中使用决策支持系统时的决策过程、依赖行为，以及经验、病例复杂性、同事讨论和工作流整合对其依赖的影响。",
+        "transfer": "可借鉴其社会技术分析机制，以“经验水平—任务复杂性—同事讨论—工作流整合”为条件因素，建模或评测临床专业人员的 DSS 依赖与决策行为；迁移到用户模拟时，可用经验调节预测权重、用病例复杂性触发依赖，并纳入协作讨论和工作流约束。适用条件是临床专业人员长期使用已嵌入实际工作流的 DSS，且目标主要是复杂临床情境下的依赖行为，而非通用医疗预测性能。",
+        "reason": "研究直接考察真实临床工作流中的人机决策与依赖行为，对个体行为建模和人机交互均属核心相关。摘要明确报告经验增加会改变交互方式、复杂病例中预测更重要、同事讨论与工作流整合会影响决策，可据此构造个体决策模拟中的依赖校准机制。该论文验证的是上述经验性关系，将其转化为用户模拟或形式化模型属于有明确条件和目标任务的迁移推断。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Decision support systems (DSS) assist with clinical decision-making. Little is known, however, about the decision-making process with DSS in clinical practice and the extent to which clinicians consid",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "研究直接考察真实临床工作流中的人机决策与依赖行为，对个体行为建模和人机交互均属核心相关。摘要明确报告经验增加会改变交互方式、复杂病例中预测更重要、同事讨论与工作流整合会影响决策，可据此构造个体决策模拟中的依赖校准机制。该论文验证的是上述经验性关系，将其转化为用户模拟或形式化模型属于有明确条件和目标任务的迁移推断。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.40224v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.40233v1",
+      "title": "Mobilizing the Archive: Bitext Extraction at Scale from Archival Documents for Extremely Low-resource Languages",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "从低资源语言的语法、词典等历史语言学档案中提取双语例句，并用于训练机器翻译模型及大语言模型上下文学习。",
+        "transfer": "未发现面向个体行为、个体交互、群体决策或社会行为建模的明确迁移机制；其OCR、视觉语言模型版面对齐和双语语料抽取流程直接服务于机器翻译数据构建，不能据此推断可用于模拟社会行为。",
+        "reason": "论文核心任务是极低资源语言的双语语料抽取与机器翻译性能提升。研究对象虽是历史语言学档案，但没有研究行为、偏好、认知、关系、协作、规范或观点演化，也未提出将这些机制迁移到个体或社会模拟任务的具体路线、目标任务和适用条件，因此与研究档案无实质联系，明确判为E。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "While mining parallel sentences from web pages has proven effective for low-resource machine translation, the majority of the world's languages have little to no web presence. What they do have, thoug",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "论文核心任务是极低资源语言的双语语料抽取与机器翻译性能提升。研究对象虽是历史语言学档案，但没有研究行为、偏好、认知、关系、协作、规范或观点演化，也未提出将这些机制迁移到个体或社会模拟任务的具体路线、目标任务和适用条件，因此与研究档案无实质联系，明确判为E。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.40238v1",
+      "title": "ScienceJudge: Pattern Perturbation Augmentation for Sentence-Level Scientific Claim Verification",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "句子级科学声明验证：判断AI生成科学段落中的每个句子是否被给定的多模态证据支持。",
+        "transfer": "未发现可迁移至个体、个体交互、群体或社会行为建模的具体机制。PPA的数据增强、视觉语言预测器与LLM集成均针对科学声明的事实忠实性验证，不能直接用于研究个体心理状态、用户模拟、协商合作或群体决策。",
+        "reason": "摘要明确将研究问题限定为科学声明验证，核心贡献是构造受控困难负样本并集成多模态与LLM判别器。论文没有研究或模拟社会行为主体，也没有报告可用于构建个体历史、交互轨迹、群体规范或社会网络的数据或机制。将其增强方法迁移到行为建模任务需要额外假设和专门验证，摘要中不存在明确的“机制→目标任务→适用条件”路线。因此，该论文与研究档案无实质联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Sentence-level scientific claim verification determines whether each sentence in an AI-generated scientific paragraph is supported by a given multimodal evidence bundle. Fine-grained reporting errors",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "摘要明确将研究问题限定为科学声明验证，核心贡献是构造受控困难负样本并集成多模态与LLM判别器。论文没有研究或模拟社会行为主体，也没有报告可用于构建个体历史、交互轨迹、群体规范或社会网络的数据或机制。将其增强方法迁移到行为建模任务需要额外假设和专门验证，摘要中不存在明确的“机制→目标任务→适用条件”路线。因此，该论文与研究档案无实质联系。",
+        "status": "abstract_excluded"
+      }
+    },
+    {
+      "id": "2610.40241v1",
+      "title": "Judged in Company: In-Context Batching Makes LLM Verdicts Depend on Other Items",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "society"
+        ],
+        "research_object": "多个独立条目被批量放入同一提示时，大语言模型对社会媒体有害性、短答案评分和评论星级等判断的上下文依赖及决策翻转机制。",
+        "transfer": "可借鉴其随机分批、位置与成员置换、顺序与槽位分解、单条与批量判断对照及多数投票机制，用于评估LLM对社会媒体评论等社会内容的判断是否受到同批条目、顺序和提示位置干扰，并区分小幅评分变化与阈值附近的决策翻转。目标任务可设为检验LLM辅助社会行为编码或有害内容标注的稳健性；适用条件是待判断条目原本相互独立但被批量放入同一提示，尤其包含模糊样本且任务依赖硬阈值时。",
+        "reason": "摘要明确揭示了批量提示中的顺序、槽位、成员身份及邻近文本会改变模型决策，并提供了翻转率分解和单条判断对照，因此可形成具体的方法迁移路线。该路线与作者已验证的三个判断任务不同，将其用于社会行为建模评测属于有依据的推断；论文未直接研究社会行为模拟，故不判为A或B。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "To save cost, practitioners often ask a language model to grade many independent items in one prompt. This assumes that verdicts are separable: that the verdict on an item does not depend on the other",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "society"
+        ],
+        "reason": "摘要明确揭示了批量提示中的顺序、槽位、成员身份及邻近文本会改变模型决策，并提供了翻转率分解和单条判断对照，因此可形成具体的方法迁移路线。该路线与作者已验证的三个判断任务不同，将其用于社会行为建模评测属于有依据的推断；论文未直接研究社会行为模拟，故不判为A或B。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.40246v1",
+      "title": "EnvOS: Auditing Computer-Use Agents When the World Moves On : Phenomenon-Based Task Construction, Certification, and Evidence-Based Evaluation",
+      "triage": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "EnvOS用于构建、认证和审计会中途变化的计算机使用智能体环境，并以信息过期场景评测智能体是否重新核查并使用更新后的状态，同时验证评分器能否可靠区分正确与错误行为。",
+        "transfer": "可借鉴其“环境变化前置触发检查—在行动前验证任务仍可解—保存证据并在事后独立复核”的机制，用于测试个体或用户模拟器在外部信息更新后能否修正旧记忆、重新查询并据此完成当前选择；目标任务包括动态环境中的个体决策与交互代理行为评测，适用条件是环境状态确实发生变化、代理能够重新访问来源或获得更新值，且环境可执行并可留存可审计轨迹。原论文验证的是计算机使用智能体的过期信息处理与评分可靠性，向个体或用户模拟评测的迁移属于合理推断。",
+        "reason": "论文不是直接研究真实个体或社会行为，也未验证人格、偏好及真人心理状态，因此不属于核心相关或直接支撑。但其动态环境构建、过期信息测试、变化触发认证和独立证据复核形成了具体可迁移机制，可用于检查个体历史建模或交互代理在环境变化后的记忆更新与决策调整，而非仅有agent等关键词重合。由于迁移目标不同于原论文实验对象，应判为方法可借鉴，且迁移路线已明确。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Computer-use agents built on large language models (LLMs) work in software that can change while they act: an appointment moves, a policy is revised, a record is updated. Testing agents under such cha",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "C",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "论文不是直接研究真实个体或社会行为，也未验证人格、偏好及真人心理状态，因此不属于核心相关或直接支撑。但其动态环境构建、过期信息测试、变化触发认证和独立证据复核形成了具体可迁移机制，可用于检查个体历史建模或交互代理在环境变化后的记忆更新与决策调整，而非仅有agent等关键词重合。由于迁移目标不同于原论文实验对象，应判为方法可借鉴，且迁移路线已明确。；达到配置的全文上限，等待阅读",
+        "status": "deferred"
+      }
+    },
+    {
+      "id": "2610.40259v1",
+      "title": "The Price of a Chance in Artificial Societies",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "group",
+          "interaction"
+        ],
+        "research_object": "研究奖励结构如何塑造200个LLM智能体在50轮财富竞争中的人口级过度竞争、躺平行为、个体收益与集体能力选择结果。",
+        "transfer": "可借鉴“奖励额度与获奖覆盖率→竞争性投资策略→群体产出和集体选择质量”的机制，用于研究多智能体竞争、协作博弈及群体决策。适用条件包括智能体以个人财富最大化或类似个体收益为目标、在多轮互动中根据资格概率和预期回报调整投资，以及可设置固定总奖励并改变奖励覆盖范围。该论文已在LLM智能体竞赛场景验证这一联系，而非仅作概念类比。",
+        "reason": "摘要直接研究人工社会中的多智能体竞争行为与集体结果，属于群体行为和社会交互的核心问题。作者通过操纵奖励水平和覆盖率，识别过度竞争、躺平及集体选择质量的系统变化，并分析智能体陈述的资格判断和预期回报理由，因此能够回答机制、目标任务和适用条件。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Rapid advances in large language models (LLMs) have enabled autonomous agents to interact, coordinate, and pursue individual goals in artificial societies. However, our understanding of how reward str",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "group",
+          "interaction"
+        ],
+        "reason": "摘要直接研究人工社会中的多智能体竞争行为与集体结果，属于群体行为和社会交互的核心问题。作者通过操纵奖励水平和覆盖率，识别过度竞争、躺平及集体选择质量的系统变化，并分析智能体陈述的资格判断和预期回报理由，因此能够回答机制、目标任务和适用条件。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.40259v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.40324v1",
+      "title": "Crowds Believe in You: Online Prediction Markets Overestimate How Often People Achieve Their Own Goals",
+      "triage": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "research_object": "研究在线预测市场中人们如何预测自己的未来目标是否实现，以及观察者、目标提出者本人和市场交易信息如何共同影响自我预测。研究对象包括1,660名用户创建的6,150个预测市场，并比较个人自我市场与外部事件市场。",
+        "transfer": "机制→目标任务→适用条件：可借鉴预测市场中由他人判断聚合形成价格、并将市场最终价格与实际结果进行校准比较的机制，用于研究个体目标达成预期、自我 optimism 与社会观察者影响之间的动态关系；还可用自我市场与外部市场在同一用户、相近价格或基准率下进行对照。适用条件是存在可追踪的在线预测市场、个体明确提出的未来目标、完整订单与成交记录、市场结算结果，以及可用于估计目标实现基准率的市场数据。摘要已验证自我市场比价格所暗示的结果更经常未实现YES、观察者与当事人共同造成这种偏差，以及当事人的订单在后期修正中占比较大；将这些机制用于更广泛个体行为模拟或具体目标预测任务属于合理迁移推断，并非本文直接验证的应用。",
+        "reason": "论文直接研究个人目标、自我预测与他人判断之间的行为关系，属于个体行为和社会交互层面的核心问题。其预测市场数据还能直接支撑目标达成概率校准、社会反馈影响和个体历史建模等研究任务。论文明确给出自我市场与外部市场的比较、交易动态、参与者贡献及结果，因此不是仅凭agent或simulation等关键词产生的弱关联。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "People increasingly share personal goals online and invite others to forecast them. Research on the planning fallacy finds that observers predict a person's behavior less optimistically than the perso",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "A",
+        "directions": [
+          "individual",
+          "interaction"
+        ],
+        "reason": "论文直接研究个人目标、自我预测与他人判断之间的行为关系，属于个体行为和社会交互层面的核心问题。其预测市场数据还能直接支撑目标达成概率校准、社会反馈影响和个体历史建模等研究任务。论文明确给出自我市场与外部市场的比较、交易动态、参与者贡献及结果，因此不是仅凭agent或simulation等关键词产生的弱关联。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.40324v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.40611v1",
+      "title": "When to Assist and What to Suggest: Joint Gating and Memory-Grounded Hint Generation in One Compact Decoder",
+      "triage": {
+        "grade": "B",
+        "directions": [
+          "interaction",
+          "individual"
+        ],
+        "research_object": "研究主动式对话助手在多轮对话中“何时提供帮助以及提供何种帮助”的联合门控与记忆驱动提示生成；对象属于人机交互中的对话代理，并以用户记忆档案和历史对话为辅助信息。",
+        "transfer": "可直接借鉴其联合门控与记忆检索机制：在生成响应前，由中间层同时判断是否应主动介入，再基于对话记忆生成情境化提示。该机制可迁移到长期个人对话、个体历史建模或交互代理任务，用于决定代理何时提出建议、应建议什么以及应保留何种记忆；适用条件是对话中存在可检索且具有区分度的用户记忆档案，任务允许在回复中插入简短提示，并需要把门控精度、建议语义质量和计算开销联合评价。原摘要验证了真实门控、记忆消融、单解码器联合生成及人工评价；“迁移到个体历史或社会行为模拟”属于基于这些机制的推断，原文并未直接验证该迁移。",
+        "reason": "摘要直接研究多轮对话中的主动协助时机、提示内容、记忆作用以及门控与生成器的联合评测，为人机交互和对话代理研究提供了明确的方法、数据与评价设计，因此属于直接支撑。论文并非以模拟真人心理状态或社会行为为主要目标，故不判为核心相关；但其记忆档案、对话时序决策和主动提示机制与个体历史及交互模拟有清楚联系。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "Proactive assistants offer short, memory-grounded hints during a conversation, deciding when to assist and what to suggest. Current systems split this between a gate and a larger generator; we evaluat",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "B",
+        "directions": [
+          "interaction",
+          "individual"
+        ],
+        "reason": "摘要直接研究多轮对话中的主动协助时机、提示内容、记忆作用以及门控与生成器的联合评测，为人机交互和对话代理研究提供了明确的方法、数据与评价设计，因此属于直接支撑。论文并非以模拟真人心理状态或社会行为为主要目标，故不判为核心相关；但其记忆档案、对话时序决策和主动提示机制与个体历史及交互模拟有清楚联系。",
+        "status": "analysis_failed",
+        "error_type": "BadRequestError",
+        "source": "https://arxiv.org/html/2610.40611v1",
+        "coverage_notes": [
+          "HTML 正文文字已提取；图像内容、公式及复杂表格未做视觉核验。"
+        ]
+      }
+    },
+    {
+      "id": "2610.40653v1",
+      "title": "Micro-Edits: Computational Support for Fine-Scale Edits in Film",
+      "triage": {
+        "grade": "E",
+        "directions": [],
+        "research_object": "电影中的细粒度剪辑结构、专业剪辑师的用户研究，以及基于AI与优化的微剪辑工具。",
+        "transfer": "未发现可迁移到个体行为、个体交互、群体行为或社会行为建模的明确机制；其任务是将叙事目标映射到逐帧时序与镜头调整，适用条件是电影剪辑场景。",
+        "reason": "研究直接关注电影剪辑中的细粒度视觉注意力与时序调整。AI和优化用于降低专业剪辑师探索微观剪辑方案的成本。其对象、任务和成果均属于影视编辑工具，不包含社会行为、认知心理、交互关系或群体决策建模。摘要未提供通向研究档案目标任务的机制、任务映射或适用条件，因此明确判为无关。",
+        "uncertain": false,
+        "evidence": [
+          {
+            "source_id": "abstract",
+            "quote": "In film editing, every frame matters. While macro, content-level edits shape the high-level narrative of a film, small local edits often control timing and direct visual attention. For example, editor",
+            "quote_kind": "context_excerpt"
+          }
+        ]
+      },
+      "review": {
+        "grade": "E",
+        "directions": [],
+        "reason": "研究直接关注电影剪辑中的细粒度视觉注意力与时序调整。AI和优化用于降低专业剪辑师探索微观剪辑方案的成本。其对象、任务和成果均属于影视编辑工具，不包含社会行为、认知心理、交互关系或群体决策建模。摘要未提供通向研究档案目标任务的机制、任务映射或适用条件，因此明确判为无关。",
+        "status": "abstract_excluded"
+      }
+    }
+  ]
+}
